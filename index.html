@@ -1,0 +1,875 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Siwakorn Chansomboon — Full-Stack Software Engineer. .NET 8 microservices, Vue 3, warehouse robotics, IoT and central identity for manufacturing.">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Siwakorn Chansomboon — Full-Stack Software Engineer">
+<meta property="og:description" content=".NET 8 microservices, Vue 3, warehouse robotics, IoT and central identity for manufacturing.">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://siwakornix-icx.github.io/img/og-cover.png">
+<meta property="og:url" content="https://siwakornix-icx.github.io/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>%F0%9F%9B%A0%EF%B8%8F</text></svg>">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Siwakorn Chansomboon Résumé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --bg:#F5F5F2;
+    --surface:#FFFFFF;
+    --ink:#15181B;
+    --ink-2:#4A525A;
+    --ink-3:#7C858E;
+    --rule:#DCDDD7;
+    --rule-soft:#E9EAE5;
+    --accent:#0E5F55;
+    --accent-soft:#E2EDE9;
+    --chip:#EFF0EB;
+
+    --sans:"Sarabun","Segoe UI",system-ui,-apple-system,sans-serif;
+    --mono:"IBM Plex Mono","Sarabun","SFMono-Regular",Consolas,monospace;
+
+    --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:24px; --s6:32px; --s7:48px; --s8:72px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#121416;
+      --surface:#191C1F;
+      --ink:#E9EBE7;
+      --ink-2:#A5ADB3;
+      --ink-3:#79838A;
+      --rule:#2B3034;
+      --rule-soft:#22262A;
+      --accent:#62C1AB;
+      --accent-soft:#17302B;
+      --chip:#22262A;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#121416;
+    --surface:#191C1F;
+    --ink:#E9EBE7;
+    --ink-2:#A5ADB3;
+    --ink-3:#79838A;
+    --rule:#2B3034;
+    --rule-soft:#22262A;
+    --accent:#62C1AB;
+    --accent-soft:#17302B;
+    --chip:#22262A;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:15px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{
+    max-width:1060px;
+    margin:0 auto;
+    padding-inline:24px;
+    padding-block:40px 72px;
+  }
+
+  /* ---- language switching ---- */
+  [data-lang="en"] .th{display:none}
+  [data-lang="th"] .en{display:none}
+
+  /* ---- masthead ---- */
+  .masthead{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:var(--s5);
+    padding-bottom:var(--s5);
+    border-bottom:2px solid var(--ink);
+  }
+  .name{
+    font-size:clamp(30px,5.2vw,46px);
+    font-weight:700;
+    letter-spacing:-0.022em;
+    line-height:1.08;
+    margin:0;
+    text-wrap:balance;
+  }
+  .name-alt{
+    font-size:16px;
+    font-weight:500;
+    letter-spacing:0.02em;
+    color:var(--ink-2);
+    margin:var(--s1) 0 0;
+  }
+  .role{
+    font-family:var(--mono);
+    font-size:12px;
+    font-weight:500;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--accent);
+    margin:var(--s3) 0 0;
+  }
+  .role .sep{color:var(--ink-3);padding:0 6px}
+  .contact{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--ink-2);
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+    text-align:right;
+  }
+  .contact a{color:inherit;text-decoration:none}
+  .contact a:hover{color:var(--accent)}
+  .contact a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  @media (max-width:640px){ .contact{text-align:left} }
+
+  .mh-id{
+    display:flex;
+    align-items:center;
+    gap:var(--s5);
+    flex-wrap:wrap;
+  }
+  .photo{
+    width:114px;
+    aspect-ratio:3/4;
+    flex:none;
+    border:1px solid var(--rule);
+    border-radius:4px;
+    background:var(--surface);
+    overflow:hidden;
+  }
+  .photo img{width:100%;height:100%;object-fit:cover;display:block}
+
+  .photo:has(img) span{display:none !important}
+  .photo:has(img){border-style:solid}
+  .dir{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.09em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+    border:1px solid var(--rule);
+    border-radius:2px;
+    padding:1px 7px;
+    white-space:nowrap;
+  }
+
+  .langbar{
+    display:flex;
+    gap:var(--s2);
+    align-items:center;
+    margin-bottom:var(--s5);
+  }
+  .langbar button{
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:5px 11px;
+    border:1px solid var(--rule);
+    background:transparent;
+    color:var(--ink-3);
+    border-radius:2px;
+    cursor:pointer;
+    transition:color .15s, border-color .15s, background .15s;
+  }
+  .langbar button:hover{color:var(--ink);border-color:var(--ink-3)}
+  .langbar button[aria-pressed="true"]{
+    color:var(--accent);
+    border-color:var(--accent);
+    background:var(--accent-soft);
+  }
+  .langbar button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .langbar .hint{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ink-3);
+    letter-spacing:0.03em;
+  }
+  .langbar .dl{
+    margin-left:auto;
+    font-family:var(--mono);
+    font-size:11.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    text-decoration:none;
+    padding:5px 11px;
+    border:1px solid var(--accent);
+    color:var(--accent);
+    border-radius:2px;
+    transition:background .15s;
+  }
+  .langbar .dl:hover{background:var(--accent-soft)}
+  .langbar .dl:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  /* ---- figures strip ---- */
+  .figures{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:0;
+    margin-top:var(--s5);
+    border-bottom:1px solid var(--rule);
+  }
+  .fig{
+    padding:var(--s4) var(--s4) var(--s5) 0;
+    border-left:1px solid var(--rule-soft);
+    padding-left:var(--s4);
+  }
+  .fig:first-child{border-left:0;padding-left:0}
+  .fig b{
+    display:block;
+    font-family:var(--mono);
+    font-size:clamp(20px,2.6vw,27px);
+    font-weight:600;
+    letter-spacing:-0.02em;
+    font-variant-numeric:tabular-nums;
+    color:var(--ink);
+    line-height:1.15;
+  }
+  .fig span{
+    display:block;
+    margin-top:6px;
+    font-size:12.5px;
+    line-height:1.45;
+    color:var(--ink-2);
+  }
+  @media (max-width:720px){
+    .figures{grid-template-columns:repeat(2,1fr)}
+    .fig:nth-child(3){border-left:0;padding-left:0}
+  }
+  @media (max-width:380px){
+    .figures{grid-template-columns:1fr}
+    .fig{border-left:0;padding-left:0}
+  }
+
+  /* ---- layout ---- */
+  .body-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 296px;
+    gap:var(--s8);
+    margin-top:var(--s7);
+    align-items:start;
+  }
+  @media (max-width:900px){
+    .body-grid{grid-template-columns:1fr;gap:var(--s7)}
+  }
+
+  section{margin-bottom:var(--s7)}
+  section:last-child{margin-bottom:0}
+  .sechead{
+    display:flex;
+    align-items:baseline;
+    gap:var(--s3);
+    margin:0 0 var(--s5);
+    padding-bottom:var(--s2);
+    border-bottom:1px solid var(--rule);
+  }
+  .sechead h2{
+    font-family:var(--mono);
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.13em;
+    text-transform:uppercase;
+    color:var(--ink);
+    margin:0;
+  }
+  .sechead .count{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ink-3);
+    margin-left:auto;
+    font-variant-numeric:tabular-nums;
+  }
+
+  .lede{
+    font-size:16.5px;
+    line-height:1.7;
+    color:var(--ink);
+    margin:0;
+    max-width:68ch;
+  }
+  .lede + .lede{margin-top:var(--s4)}
+  .lede .hi{
+    color:var(--accent);
+    font-weight:600;
+  }
+  .motto{
+    margin:var(--s5) 0 0;
+    padding:var(--s3) var(--s4);
+    max-width:68ch;
+    border-left:3px solid var(--accent);
+    border-radius:0 6px 6px 0;
+    background:var(--accent-soft);
+    font-size:16px;
+    font-weight:500;
+    line-height:1.7;
+  }
+
+  /* ---- project entries ---- */
+  .proj{
+    padding-block:var(--s5);
+    border-top:1px solid var(--rule-soft);
+  }
+  .proj:first-of-type{border-top:0;padding-top:0}
+  .proj-top{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:baseline;
+    gap:var(--s3);
+    margin-bottom:var(--s1);
+  }
+  .proj h3{
+    font-size:18px;
+    font-weight:600;
+    letter-spacing:-0.012em;
+    margin:0;
+    line-height:1.35;
+  }
+  .domain{
+    font-family:var(--mono);
+    font-size:10.5px;
+    letter-spacing:0.09em;
+    text-transform:uppercase;
+    color:var(--accent);
+    border:1px solid var(--accent);
+    border-radius:2px;
+    padding:1px 7px;
+    white-space:nowrap;
+  }
+  .years{
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:var(--ink-3);
+    margin-left:auto;
+    font-variant-numeric:tabular-nums;
+    white-space:nowrap;
+  }
+  @media (max-width:560px){ .years{margin-left:0} }
+  .ctx{
+    color:var(--ink-2);
+    font-size:14px;
+    margin:0 0 var(--s3);
+    max-width:70ch;
+  }
+  .proj ul{
+    margin:0;
+    padding:0;
+    list-style:none;
+    display:flex;
+    flex-direction:column;
+    gap:var(--s2);
+    max-width:72ch;
+  }
+  .proj li{
+    position:relative;
+    padding-left:18px;
+    font-size:14.5px;
+  }
+  .proj li::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0.72em;
+    width:7px;
+    height:1px;
+    background:var(--accent);
+  }
+  .proj li code{
+    font-family:var(--mono);
+    font-size:0.87em;
+    background:var(--chip);
+    color:var(--ink-2);
+    padding:1px 5px;
+    border-radius:2px;
+    white-space:nowrap;
+  }
+  .stack{
+    margin-top:var(--s3);
+    font-family:var(--mono);
+    font-size:11.5px;
+    line-height:1.7;
+    color:var(--ink-3);
+    letter-spacing:0.01em;
+    max-width:72ch;
+  }
+  .stack b{
+    color:var(--ink-2);
+    font-weight:500;
+  }
+
+  /* ---- rail ---- */
+  .rail .block{margin-bottom:var(--s6)}
+  .rail .block:last-child{margin-bottom:0}
+  .rail h3{
+    font-family:var(--mono);
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--ink-3);
+    margin:0 0 var(--s3);
+    padding-bottom:var(--s2);
+    border-bottom:1px solid var(--rule-soft);
+  }
+  .chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+  }
+  .chips span{
+    font-family:var(--mono);
+    font-size:11.5px;
+    background:var(--chip);
+    color:var(--ink-2);
+    padding:3px 8px;
+    border-radius:2px;
+    white-space:nowrap;
+  }
+  .rail ul{
+    margin:0;padding:0;list-style:none;
+    display:flex;flex-direction:column;gap:var(--s3);
+  }
+  .rail ul li{font-size:14px;color:var(--ink-2)}
+  .rail ul li b{display:block;color:var(--ink);font-weight:600;font-size:14px}
+  .rail .note{margin:0;font-size:14px;line-height:1.65;color:var(--ink-2)}
+  .sechead h2.th,.rail h3.th{font-family:var(--sans);font-size:14px;letter-spacing:0.02em}
+
+  /* ---- timeline ---- */
+  .tl{display:flex;flex-direction:column;gap:var(--s5)}
+  .tl-row{
+    display:grid;
+    grid-template-columns:112px minmax(0,1fr);
+    gap:var(--s4);
+  }
+  @media (max-width:560px){ .tl-row{grid-template-columns:1fr;gap:var(--s1)} }
+  .tl-when{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--ink-3);
+    font-variant-numeric:tabular-nums;
+    padding-top:2px;
+  }
+  .tl-what b{display:block;font-weight:600;font-size:15.5px}
+  .tl-what span{display:block;color:var(--ink-2);font-size:14px;margin-top:2px;max-width:64ch}
+
+  .foot{
+    margin-top:var(--s8);
+    padding-top:var(--s4);
+    border-top:1px solid var(--rule);
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--ink-3);
+    letter-spacing:0.03em;
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important;animation:none !important}
+  }
+  /* ---- project screenshots ---- */
+  .shots{margin-top:var(--s4);max-width:72ch}
+  .shots-2{display:grid;grid-template-columns:1.45fr 1fr;gap:var(--s3);align-items:start}
+  .shots-3{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3);align-items:start}
+  .shots-3 .wide{grid-column:1/-1}
+  .shots-3 .shot:not(.wide) img{aspect-ratio:4/3;object-fit:cover}
+  @media (max-width:560px){ .shots-2,.shots-3{grid-template-columns:1fr} }
+  .shot{margin:0;border:1px solid var(--rule);border-radius:6px;overflow:hidden;background:var(--surface)}
+  .shot a{display:block}
+  .shot img{display:block;width:100%;height:auto}
+  .shot a:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+  .shot figcaption{font-size:12.5px;color:var(--ink-3);padding:6px 10px;border-top:1px solid var(--rule-soft)}
+
+  @media print{
+    :root{--s5:16px;--s6:20px;--s7:26px;--s8:30px}
+    @page{size:A4;margin:12mm 11mm}
+    body{background:#fff;font-size:9.6pt;line-height:1.5}
+    .langbar{display:none}
+    .page{padding:0;max-width:none}
+    .figures{margin-top:16px}
+    .fig{padding-bottom:14px}
+    .body-grid{grid-template-columns:minmax(0,1fr) 244px;gap:26px;margin-top:24px}
+    section{margin-bottom:24px}
+    .sechead{margin-bottom:14px}
+    .lede{font-size:10.2pt}
+    .motto{font-size:10pt;break-inside:avoid}
+    .proj{padding-block:13px}
+    .proj h3,.proj .proj-top{break-after:avoid}
+    .proj li{font-size:9.3pt}
+    .shot{break-inside:avoid}
+    .shot figcaption{font-size:8.5pt;padding:3px 8px}
+    .body-grid{grid-template-columns:1fr}
+    .lede,.ctx,.proj ul,.stack,.shots{max-width:none}
+    .shot img{max-height:92mm;object-fit:contain;background:#fff}
+    .rail{display:grid;grid-template-columns:1fr 1fr;gap:0 26px;padding-top:16px;border-top:2px solid var(--ink)}
+    .rail .block{margin-bottom:16px}
+    .photo{border-style:solid}
+    .rail .block{break-inside:avoid;margin-bottom:20px}
+    .tl-row{break-inside:avoid}
+    .foot{margin-top:22px}
+  }
+</style>
+
+<div class="page" id="cv" data-lang="th">
+
+  <div class="langbar">
+    <button id="btn-th" type="button" aria-pressed="true" onclick="setLang('th')">ไทย</button>
+    <button id="btn-en" type="button" aria-pressed="false" onclick="setLang('en')">English</button>
+    <a class="dl" href="Siwakorn-C-Resume.pdf" download>
+      <span class="th">↓ ดาวน์โหลด PDF</span>
+      <span class="en">↓ Download PDF</span>
+    </a>
+  </div>
+
+  <header class="masthead">
+    <div class="mh-id">
+      <div class="photo" id="profile-photo">
+        <img src="img/photo.jpg" alt="Siwakorn Chansomboon" onerror="this.closest('.photo').remove()">
+      </div>
+      <div>
+      <h1 class="name"><span class="th">ศิวกร จันทร์สมบูรณ์</span><span class="en">Siwakorn Chansomboon</span></h1>
+      <p class="name-alt th">Siwakorn Chansomboon</p>
+      <p class="role">Full-Stack Software Engineer</p>
+      </div>
+    </div>
+    <div class="contact">
+      <a href="tel:+66926014098">092-601-4098</a>
+      <a href="mailto:siwakorn.ix@gmail.com">siwakorn.ix@gmail.com</a>
+      <a href="https://www.linkedin.com/in/siwakorn-ix" target="_blank" rel="noopener">linkedin.com/in/siwakorn-ix</a>
+    </div>
+  </header>
+
+  <div class="body-grid">
+
+    <main>
+      <section>
+        <div class="sechead"><h2 class="th">ภาพรวม</h2><h2 class="en">Profile</h2></div>
+        <p class="lede th">
+          Full-Stack Engineer ผู้พัฒนา <span class="hi">Web Application สำหรับผู้ใช้งานภายในบริษัท</span> ครอบคลุมหลายหน่วยงาน
+          ทั้งฝ่ายวิจัยและพัฒนา ฝ่ายบุคคล ฝ่ายความปลอดภัย และคลังสินค้า ปัจจุบันร่วมพัฒนาและดูแล
+          <span class="hi">แพลตฟอร์ม microservices (.NET 8 + Vue 3)</span> ขององค์กร มีความถนัดในการวิเคราะห์ปัญหาและออกแบบ
+          data model และ flow ให้ชัดเจนก่อนลงมือพัฒนา พร้อมรวบรวมส่วนที่ใช้ซ้ำไว้ใน
+          <span class="hi">shared layer ให้ทุกโมดูลใช้ร่วมกัน</span> เพื่อลดความซ้ำซ้อนและให้ระบบดูแลรักษาได้ง่าย
+        </p>
+        <p class="lede en">
+          Full-stack engineer developing <span class="hi">web applications for internal users across the company</span> —
+          R&amp;D, HR, safety and the warehouse. I currently help build and maintain the company's
+          <span class="hi">.NET 8 + Vue 3 microservices platform</span>. I analyse each problem and define a clear data model and
+          flow before development, and consolidate shared mechanisms into a
+          <span class="hi">common layer every module reuses</span>, reducing duplication and keeping the systems easy to maintain.
+        </p>
+      </section>
+
+      <section>
+        <div class="sechead"><h2 class="th">หน้าที่และแนวทางการทำงาน</h2><h2 class="en">How I Work</h2></div>
+        <p class="lede th">
+          ผมรับผิดชอบงานพัฒนาระบบ<span class="hi">ตั้งแต่ต้นน้ำจนถึงปลายน้ำ</span> เริ่มจากการลงพื้นที่หน้างานจริงเพื่อรับฟังและเก็บความต้องการจากผู้ใช้งานโดยตรง
+          สังเกตขั้นตอนการทำงานด้วยตัวเอง เพื่อให้เข้าใจปัญหาถึงต้นเหตุ จากนั้นจึงนำมาวิเคราะห์และออกแบบระบบให้เหมาะทั้งกับผู้ใช้งานและสภาพหน้างาน
+          นอกจากการสร้างระบบใหม่ ผมยังต่อยอดและปรับปรุงระบบเดิมให้ทันกับวิธีการทำงานที่เปลี่ยนไป และหลังส่งมอบ ผมยังดูแล ติดตามผล
+          และแก้ปัญหาอย่างใกล้ชิด เพื่อให้<span class="hi">งานหน้างานเดินต่อได้อย่างราบรื่น ไม่สะดุด</span>
+        </p>
+        <p class="lede en">
+          I own system development <span class="hi">end to end</span>. It starts on the actual shop floor — listening to users and gathering
+          their requirements first-hand, and watching how the work is really done so I understand each problem down to its root cause.
+          From there I analyse and design systems that fit both the people using them and the conditions on the floor. Beyond building
+          new systems, I extend and improve existing ones to keep pace with how the work changes, and after hand-over I stay close —
+          supporting, following up and fixing issues so <span class="hi">the floor keeps running smoothly, without interruption</span>.
+        </p>
+        <p class="motto th">ความสามารถของผมไม่ได้ติดตัวมาตั้งแต่แรก แต่เกิดจากการเรียนรู้ ลงมือทำ และขัดเกลาตัวเองอย่างสม่ำเสมอ ผมพร้อมเรียนรู้สิ่งใหม่อยู่เสมอ เพื่อพัฒนาองค์กรให้ดียิ่งขึ้น</p>
+        <p class="motto en">My abilities were not something I started with. They came from learning, doing, and steadily refining myself. I am always ready to learn new things to help the organisation grow.</p>
+      </section>
+
+      <section>
+        <div class="sechead">
+          <h2 class="th">โครงการที่เคยทำ</h2>
+          <h2 class="en">Key Projects</h2>
+          <span class="count th">7 ระบบ</span>
+          <span class="count en">7 systems</span>
+        </div>
+
+        <article class="proj">
+          <div class="proj-top">
+            <h3 class="th">BXI — โปรแกรมควบคุมการใช้ปริมาณกล่อง</h3>
+            <h3 class="en">BXI — Box Usage Control</h3>
+            <span class="domain">Logistics</span>
+            <span class="years">2568 — 2569</span>
+          </div>
+          <ul>
+            <li class="th">พัฒนาระบบติดตามกล่องหมุนเวียนระหว่างคลังสินค้า สายการผลิต และลูกค้า เพื่อให้ยอดคงเหลือในระบบสอดคล้องกับจำนวนจริงหน้างาน</li>
+            <li class="th">พัฒนา <b>LINE LIFF</b> ให้พนักงานและลูกค้าบันทึกรายการผ่านมือถือได้ทันที พร้อมแจ้งเตือนลูกค้าที่มีกล่องค้างคืนโดยอัตโนมัติทุกเดือน</li>
+            <li class="en">Built a system tracking returnable boxes between warehouse, production lines and customers, keeping on-hand counts in line with the floor.</li>
+            <li class="en">Delivered a <b>LINE LIFF</b> app so staff and customers record movements from a phone, with automatic monthly reminders for boxes not yet returned.</li>
+          </ul>
+          <p class="stack"><b>Stack</b> &nbsp;.NET 8 · LINE LIFF · LINE Messaging API · Flex Message · Quartz.NET · Vue 3 · SQL Server</p>
+          <div class="shots">
+            <figure class="shot">
+              <a href="img/projects/bxi.png" target="_blank" rel="noopener"><img src="img/projects/bxi.png" alt="Box stock overview by status"></a>
+              <figcaption><span class="th">หน้าภาพรวมสต็อกกล่องแยกตามสถานะ</span><span class="en">Box stock overview by status</span></figcaption>
+            </figure>
+          </div>
+        </article>        <article class="proj">
+          <div class="proj-top">
+            <h3 class="th">AtlasTMS — โปรแกรมเทรนนิ่งพนักงาน</h3>
+            <h3 class="en">AtlasTMS — Training Management</h3>
+            <span class="domain">HR Platform</span>
+            <span class="years">2569 → ปัจจุบัน</span>
+          </div>
+          <ul>
+            <li class="th">พัฒนาระบบบริหารหลักสูตร รอบอบรม ผู้เข้าอบรม และประวัติการสอบรายบุคคล พร้อม <b>skill matrix</b> ของทั้งองค์กร</li>
+            <li class="th">ออกแบบ<b>การควบคุมรุ่นหลักสูตร</b> (course revision control) ตรวจสอบย้อนหลังได้ว่าพนักงานแต่ละคนอบรมหลักสูตรรุ่นใด</li>
+            <li class="en">Built course, session, participant and per-person exam history management with an organisation-wide <b>skill matrix</b>.</li>
+            <li class="en">Designed <b>course revision control</b> so it stays auditable which course revision each employee was trained on.</li>
+          </ul>
+          <p class="stack"><b>Stack</b> &nbsp;.NET 8 · EF Core 8 · Vue 3 · Pinia · Element Plus · SSRS</p>
+          <div class="shots">
+            <figure class="shot">
+              <a href="img/projects/atlastms.png" target="_blank" rel="noopener"><img src="img/projects/atlastms.png" alt="Assessment templates with revision control"></a>
+              <figcaption><span class="th">รายการชุดข้อสอบและแบบประเมิน พร้อมการควบคุมรุ่น (Rev.)</span><span class="en">Assessment templates with revision control</span></figcaption>
+            </figure>
+          </div>
+        </article>        <article class="proj">
+          <div class="proj-top">
+            <h3 class="th">Safety Patrol — โปรแกรมตรวจถังดับเพลิง</h3>
+            <h3 class="en">Safety Patrol — Fire-Extinguisher Inspection</h3>
+            <span class="domain">EHS</span>
+            <span class="years">2568 — 2569</span>
+          </div>
+          <ul>
+            <li class="th">ออกแบบโครงสร้างข้อมูลแบบ โซน → จุดตรวจ → ถังดับเพลิงรายใบ พร้อมกำหนดชนิดถังและรอบการตรวจ</li>
+            <li class="th">บันทึกผลการตรวจพร้อม<b>ภาพหลักฐานรายจุด</b> ตรวจสอบย้อนหลังได้ว่าถังแต่ละใบได้รับการตรวจเมื่อใด โดยผู้ใด และอยู่ในสภาพใด</li>
+            <li class="en">Designed a zone → inspection point → individual extinguisher data model, with unit types and inspection rounds.</li>
+            <li class="en">Recorded each inspection with <b>per-point photo evidence</b>, so it is traceable when each unit was checked, by whom and in what condition.</li>
+          </ul>
+          <p class="stack"><b>Stack</b> &nbsp;.NET 8 · EF Core 8 · Vue 3 · attachment service · SSRS</p>
+          <div class="shots">
+            <figure class="shot">
+              <a href="img/projects/safety-patrol.jpg" target="_blank" rel="noopener"><img src="img/projects/safety-patrol.jpg" alt="Extinguisher locations on the building floor plan"></a>
+              <figcaption><span class="th">แผนที่ตำแหน่งถังดับเพลิงบนผังอาคาร</span><span class="en">Extinguisher locations on the building floor plan</span></figcaption>
+            </figure>
+          </div>
+        </article>        <article class="proj">
+          <div class="proj-top">
+            <h3 class="th">Moventra — โปรแกรมจัดรถรับ–ส่งพนักงาน</h3>
+            <h3 class="en">Moventra — Employee Shuttle Management</h3>
+            <span class="domain">Operations</span>
+            <span class="years">2569</span>
+          </div>
+          <ul>
+            <li class="th">พัฒนาระบบจองรถและที่นั่งรายรอบ พร้อมยืนยันการขึ้นรถจริงด้วย <b>QR check-in</b> เทียบกับยอดจอง</li>
+            <li class="th">แสดงสถานะที่นั่งแบบเรียลไทม์ทุกอุปกรณ์ผ่าน SignalR ป้องกันการจองซ้อน</li>
+            <li class="en">Built per-round vehicle and seat booking, confirming actual boarding via <b>QR check-in</b> against reservations.</li>
+            <li class="en">Kept seat availability live on every device over SignalR, preventing double bookings.</li>
+          </ul>
+          <p class="stack"><b>Stack</b> &nbsp;.NET 8 · SignalR · Vue 3 · Leaflet · QR (html5-qrcode)</p>
+          <div class="shots">
+            <figure class="shot">
+              <a href="img/projects/moventra.png" target="_blank" rel="noopener"><img src="img/projects/moventra.png" alt="Daily shuttle check-ins and breakdown by route"></a>
+              <figcaption><span class="th">แดชบอร์ดการเช็กอินรถรับ–ส่งรายวันและแยกตามสาย</span><span class="en">Daily shuttle check-ins and breakdown by route</span></figcaption>
+            </figure>
+          </div>
+        </article>        <article class="proj">
+          <div class="proj-top">
+            <h3 class="th">SWMS — โปรแกรมคลังสินค้าที่ใช้หุ่นยนต์ RCS-2000</h3>
+            <h3 class="en">SWMS — Robot-Driven Warehouse</h3>
+            <span class="domain">Robotics / IoT</span>
+            <span class="years">2568 — 2569</span>
+          </div>
+          <ul>
+            <li class="th">พัฒนาระบบบริหารคลังสินค้า ครอบคลุมการเบิก หยิบ และจัดเรียงพาเลท โดย<b>สั่งงานหุ่นยนต์ AMR</b> ผ่านคิวทีละรายการ ป้องกันงานซ้อนและงานค้าง</li>
+            <li class="th">เชื่อมต่ออุปกรณ์หน้างานผ่าน Modbus TCP และ MQTT รวมถึงควบคุมประตูอัตโนมัติให้หุ่นยนต์ผ่าน และแสดงสถานะงานแบบเรียลไทม์</li>
+            <li class="en">Built warehouse management for stock issue, picking and pallet arrangement, <b>dispatching AMR robots</b> through a one-at-a-time queue that prevents double-dispatch and stuck jobs.</li>
+            <li class="en">Integrated floor hardware over Modbus TCP and MQTT, including automatic door control for robots, with live task status.</li>
+          </ul>
+          <p class="stack"><b>Stack</b> &nbsp;.NET 8 · Quartz.NET · SignalR · Modbus TCP · MQTT · RCS-2000 API · Vue 3 + TypeScript</p>
+          <div class="shots shots-3">
+            <figure class="shot wide">
+              <a href="img/projects/swms-picking.png" target="_blank" rel="noopener"><img src="img/projects/swms-picking.png" alt="Location-based picking screen"></a>
+              <figcaption><span class="th">หน้าเบิกสินค้าตามตำแหน่งพาเลท</span><span class="en">Location-based picking screen</span></figcaption>
+            </figure>
+            <figure class="shot">
+              <a href="img/projects/swms-amr.webp" target="_blank" rel="noopener"><img src="img/projects/swms-amr.webp" alt="AMR robot working with the system in the warehouse"></a>
+              <figcaption><span class="th">หุ่นยนต์ AMR ที่ทำงานร่วมกับระบบในคลังสินค้า</span><span class="en">AMR robot working with the system in the warehouse</span></figcaption>
+            </figure>
+            <figure class="shot">
+              <a href="img/projects/swms-amr-2.jpg" target="_blank" rel="noopener"><img src="img/projects/swms-amr-2.jpg" alt="AMR robot moving a pallet through an automatic door"></a>
+              <figcaption><span class="th">หุ่นยนต์ AMR ขนส่งพาเลทผ่านประตูอัตโนมัติ</span><span class="en">AMR robot moving a pallet through an automatic door</span></figcaption>
+            </figure>
+          </div>
+        </article>        <article class="proj">
+          <div class="proj-top">
+            <h3 class="th">OT Kiosk — ระบบบันทึก OT ผ่านเครื่อง Kiosk หน้างาน</h3>
+            <h3 class="en">OT Kiosk — Shop-Floor Overtime Recording</h3>
+            <span class="domain">HR</span>
+            <span class="years">2569</span>
+          </div>
+          <ul>
+            <li class="th">พัฒนาหน้าบันทึก OT สำหรับ<b>เครื่อง Kiosk หน้างาน</b> เลือกวันที่ จำนวนชั่วโมง และเหตุผล แล้วกรอกหรือสแกนรหัสพนักงานได้หลายคนในครั้งเดียว พร้อมรองรับภาษาพม่าสำหรับพนักงานต่างชาติ</li>
+            <li class="th">ส่งรายการเข้าสายอนุมัติโดยอัตโนมัติ ลดขั้นตอนการกรอกเอกสาร และแยกการตั้งค่าเป็นข้อมูลหลักให้ฝ่าย HR ปรับได้เอง โดยไม่ต้องแก้ไขโค้ด</li>
+            <li class="en">Built an overtime-recording screen for <b>shop-floor kiosks</b>: pick the date, hours and reason, then enter or camera-scan employee codes for several people at once, with a Burmese language option for foreign workers.</li>
+            <li class="en">Entries route automatically for approval, replacing paper forms, while HR maintains OT reasons and per-department settings without code changes.</li>
+          </ul>
+          <p class="stack"><b>Stack</b> &nbsp;.NET 8 · n8n · Vue 3 · vee-validate + Yup · FullCalendar</p>
+          <div class="shots">
+            <figure class="shot">
+              <a href="img/projects/ot-kiosk.png" target="_blank" rel="noopener"><img src="img/projects/ot-kiosk.png" alt="OT recording screen on the kiosk"></a>
+              <figcaption><span class="th">หน้าบันทึก OT บนเครื่อง Kiosk</span><span class="en">OT recording screen on the kiosk</span></figcaption>
+            </figure>
+          </div>
+        </article>        <article class="proj">
+          <div class="proj-top">
+            <h3 class="th">OAR — โปรแกรมจัดคนทำงานนอกสถานที่</h3>
+            <h3 class="en">OAR — Out-of-Area Assignment &amp; Expense</h3>
+            <span class="domain">HR / Finance</span>
+            <span class="years">2569 → ปัจจุบัน</span>
+          </div>
+          <ul>
+            <li class="th">พัฒนาระบบจัดคนและรอบเดินทางไปปฏิบัติงานที่ไซต์ลูกค้า แยกข้อมูลแผนและข้อมูลจริงทั้งจำนวนวันและจำนวนคน</li>
+            <li class="th">ออกแบบ<b>ตารางอัตราเบี้ยเลี้ยงแบบอิงวันมีผล</b> คำนวณเบี้ยเลี้ยงรายบุคคลอัตโนมัติ แจ้งเตือนเมื่อเกินวงเงิน และเอกสารเดิมไม่เปลี่ยนแปลงเมื่อปรับอัตรา</li>
+            <li class="en">Built staff and trip planning for on-site customer assignments, separating plan from actual days and headcount.</li>
+            <li class="en">Designed an <b>effective-dated allowance rate table</b> that calculates each person's allowance automatically, flags over-cap lines, and leaves past documents unchanged when rates change.</li>
+          </ul>
+          <p class="stack"><b>Stack</b> &nbsp;.NET 8 · EF Core 8 · SQL Server · Vue 3 + TypeScript · Central Approval Route</p>
+        </article>        <article class="proj">
+          <div class="proj-top">
+            <h3 class="th">ระบบอื่นที่ส่งมอบแล้ว</h3>
+            <h3 class="en">Other systems delivered</h3>
+            <span class="years">2567.08 → 2569</span>
+          </div>
+          <ul>
+            <li class="th"><b>BeNoti &amp; LINE LIFF</b> — ระบบแจ้งเตือนกลางผ่าน LINE ที่ทุกโมดูลใช้ร่วมกัน ออกแบบแบบ outbox ให้งานหลักไม่ต้องรอการส่งข้อความ</li>
+            <li class="th"><b>BeOAuth</b> — ระบบยืนยันตัวตนกลาง ผู้ใช้เข้าสู่ระบบได้หลาย Site ด้วยบัญชีเดียว พร้อมกำหนดสิทธิ์ตามบทบาท เมนู และ service</li>
+            <li class="th"><b>สายอนุมัติกลาง</b> — service กลางสำหรับสายอนุมัติที่อ้างอิงผังองค์กรจริง ใช้ร่วมกันทุกโมดูล</li>
+            <li class="th"><b>PJWSoft Trial Request &amp; PJW Mobile Trial History</b> — ระบบขอทดลองผลิตตัวอย่างของฝ่าย RD และแอปพลิเคชันมือถือสำหรับบันทึกผล</li>
+            <li class="en"><b>BeNoti &amp; LINE LIFF</b> — the shared LINE notification engine every module uses, built as an outbox so core work never waits on message delivery.</li>
+            <li class="en"><b>BeOAuth</b> — central identity where one account signs in across multiple sites, with access set by role, menu and service.</li>
+            <li class="en"><b>Central Approval Route</b> — one shared approval-routing service based on the real org chart, reused by every module.</li>
+            <li class="en"><b>PJWSoft Trial Request &amp; PJW Mobile Trial History</b> — R&amp;D sample-trial requests and the mobile app recording results.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section>
+        <div class="sechead">
+          <h2 class="th">การส่งมอบและดูแลระบบ</h2>
+          <h2 class="en">Delivery &amp; Operations</h2>
+        </div>
+        <p class="ctx th">ไม่ได้จบที่เขียนโค้ด — ดูแลตั้งแต่ CI, การขึ้นเซิร์ฟเวอร์ ไปจนถึงการตั้งค่าแยกตาม environment</p>
+        <p class="ctx en">The work does not stop at code — I own it through CI, onto the server, and across environments.</p>
+        <div class="proj" style="padding-top:0;border-top:0">
+          <ul>
+            <li class="th"><b>Azure DevOps</b> — ดูแล pipeline CI ที่ pin .NET SDK/runtime ให้ตรงกับ production และมี lint gate (<code>dotnet format --verify-no-changes</code>) กันโค้ดผิดสไตล์เข้า repo</li>
+            <li class="th"><b>Git &amp; code review</b> — ทำงานบน Git flow ของทีม (feature / develop / release / master) รีวิว pull request และจัดการ merge conflict บนโมโนเรโปที่มีหลายคนแก้พร้อมกัน ติดตามงานผ่าน Jira ผูกกับ branch และ commit</li>
+            <li class="th"><b>IIS deployment</b> — deploy .NET 8 ขึ้น IIS เอง: สร้าง site และ application pool, ตั้ง identity และรอบ recycle, <b>แยก pool ต่อ microservice</b> ไม่ให้บริการหนึ่งล่มแล้วลากตัวอื่นลงไปด้วย</li>
+            <li class="th"><b>Config แยกตาม environment</b> — จัดการ <code>appsettings.json</code> ทุก service (connection string, JWT, CORS, LINE token) ให้ dev / mirror / production ต่างกันด้วย config ไม่ใช่ด้วยโค้ด และจูน IIS ผ่าน <code>web.config</code> เช่นขยาย <code>requestLimits</code> รองรับไฟล์แนบ ~60MB จาก default ~28.6MB</li>
+            <li class="en"><b>Azure DevOps</b> — maintain the CI pipeline that pins the .NET SDK and runtime to match production and enforces a lint gate (<code>dotnet format --verify-no-changes</code>).</li>
+            <li class="en"><b>Git &amp; code review</b> — work the team's Git flow (feature / develop / release / master), reviewing pull requests and resolving merge conflicts on a monorepo many people edit at once, with work tracked in Jira against branches and commits.</li>
+            <li class="en"><b>IIS deployment</b> — deploy .NET 8 to IIS myself: creating sites and application pools, setting pool identity and recycling, and <b>isolating a pool per microservice</b> so one failing service cannot take the others down.</li>
+            <li class="en"><b>Per-environment configuration</b> — manage every service's <code>appsettings.json</code> (connection strings, JWT, CORS, LINE tokens) so dev, mirror and production differ by config rather than code, plus IIS tuning via <code>web.config</code> such as raising <code>requestLimits</code> to ~60MB for attachments, past the ~28.6MB default.</li>
+          </ul>
+        </div>
+      </section>
+
+    </main>
+
+    <aside class="rail">
+      <div class="block">
+        <h3 class="th">Backend &amp; Architecture</h3><h3 class="en">Backend &amp; Architecture</h3>
+        <div class="chips">
+          <span>C# / .NET 8</span><span>ASP.NET Core Web API</span><span>Microservices</span>
+          <span>Clean Architecture</span><span>REST API design</span><span>EF Core 8</span>
+          <span>Dependency Injection</span><span>OpenAPI / Swagger</span><span>xUnit</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3 class="th">ฐานข้อมูล</h3><h3 class="en">Database</h3>
+        <div class="chips">
+          <span>SQL Server</span><span>T-SQL</span><span>Stored procedures</span>
+          <span>Relational data modeling</span><span>EF Core migrations</span>
+          <span>Effective-dated &amp; audit schema</span><span>Multi-database (legacy ERP + platform)</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3>Frontend</h3>
+        <div class="chips">
+          <span>Vue 3 Composition API</span><span>TypeScript</span><span>Vite</span><span>Pinia</span>
+          <span>SCSS</span><span>Element Plus</span><span>Vue Flow</span>
+          <span>Leaflet</span><span>ApexCharts</span><span>PWA</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3 class="th">Realtime &amp; Integration</h3><h3 class="en">Realtime &amp; Integration</h3>
+        <div class="chips">
+          <span>SignalR</span><span>Quartz.NET</span><span>Outbox pattern</span>
+          <span>Queue-based dispatch</span><span>BackgroundService</span><span>Webhooks</span>
+          <span>OAuth2 / JWT SSO</span><span>ASP.NET Identity</span><span>n8n</span>
+          <span>Modbus TCP</span><span>MQTT</span><span>AMR robot control (RCS-2000)</span>
+          <span>LINE Messaging API</span><span>LINE Flex Message</span><span>LINE LIFF</span>
+          <span>SSRS</span><span>Legacy ERP integration</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3 class="th">DevOps &amp; Server</h3><h3 class="en">DevOps &amp; Server</h3>
+        <div class="chips">
+          <span>Azure DevOps Pipelines</span><span>Azure Repos</span><span>Git flow</span>
+          <span>Jira</span><span>IIS on Windows Server</span><span>Application pool isolation</span>
+          <span>Environment-based config</span><span>Centralized error logging</span>
+        </div>
+      </div>
+
+      <div class="block">
+        <h3 class="th">จุดแข็ง</h3><h3 class="en">Strengths</h3>
+        <ul>
+          <li class="th"><b>คิดเชิงระบบ</b>มองปัญหาเป็น data model และ flow ก่อนเขียนโค้ด และดึงของที่ซ้ำขึ้น shared layer แทนการทำซ้ำต่อโมดูล</li>
+          <li class="th"><b>ใกล้ชิดผู้ใช้งานหน้างาน</b>ลงพื้นที่พูดคุยกับผู้ใช้งานจริงโดยตรง เพื่อเข้าใจความต้องการอย่างถ่องแท้ แล้วถ่ายทอดเป็นระบบที่ตอบโจทย์การทำงาน</li>
+          <li class="th"><b>รับผิดชอบจนจบ</b>ตั้งแต่ออกแบบตาราง ไปจนถึงหน้าจอ การ deploy และการตามแก้เมื่อมีปัญหาหน้างาน</li>
+          <li class="en"><b>Systems thinking</b>I model the problem as data and flow before writing code, and lift what repeats into a shared layer instead of duplicating per module.</li>
+          <li class="en"><b>Close to the people on the floor</b>Talks with real users on site to understand what they truly need, then turns it into systems that fit how they work.</li>
+          <li class="en"><b>Owns it end to end</b>From table design through the screen, the deploy, and the follow-up when something breaks on the floor.</li>
+        </ul>
+      </div>
+
+      <div class="block">
+        <h3 class="th">การใช้ AI ในการทำงาน</h3><h3 class="en">Working with AI</h3>
+        <p class="note th">นำเครื่องมือ AI มาช่วยเสริมประสิทธิภาพในการวิเคราะห์ระบบ ทบทวนแนวทางการออกแบบ และจัดทำเอกสาร โดยยังคงใช้วิจารณญาณของตนเองในการตัดสินใจ และตรวจสอบความถูกต้องกับโค้ดและข้อมูลจริงทุกครั้งก่อนนำไปใช้งาน</p>
+        <p class="note en">I use AI tools to work more efficiently when analysing systems, reviewing design options and preparing documentation, while keeping the decisions my own and checking every result against the real code and data before it is used.</p>
+      </div>
+
+      <div class="block">
+        <h3 class="th">ภาษา</h3><h3 class="en">Languages</h3>
+        <ul>
+          <li class="th"><b>ไทย</b>ภาษาแม่</li>
+          <li class="th"><b>อังกฤษ</b>อ่านเอกสารเทคนิคและสื่อสารเป็นลายลักษณ์อักษรได้ กำลังพัฒนาด้านการพูด</li>
+          <li class="en"><b>Thai</b>Native</li>
+          <li class="en"><b>English</b>Reading technical documentation and written communication; speaking in progress</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<script>
+  function setLang(l){
+    var cv = document.getElementById('cv');
+    cv.setAttribute('data-lang', l);
+    document.getElementById('btn-th').setAttribute('aria-pressed', String(l === 'th'));
+    document.getElementById('btn-en').setAttribute('aria-pressed', String(l === 'en'));
+    try { localStorage.setItem('cv-lang', l); } catch (e) {}
+  }
+  try {
+    var saved = localStorage.getItem('cv-lang');
+    if (saved === 'en' || saved === 'th') setLang(saved);
+  } catch (e) {}
+</script>
+
+</html>
