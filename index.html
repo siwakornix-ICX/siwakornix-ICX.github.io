@@ -318,7 +318,7 @@
 
   /* ---------- print: plain single-column A4, ATS-friendly ---------- */
   @media print{
-    @page{size:A4;margin:10mm 11mm}
+    @page{size:A4;margin:13mm 14mm}
     :root,:root[data-theme="dark"]{--bg:#fff;--surface:#fff;--surface-2:#fff;--ink:#000;--ink-2:#222;--ink-3:#444;--rule:#bbb;--rule-soft:#ddd;--chip:#fff;--chip-ink:#222;--accent:#1A2C4E;--gold-ink:#1A2C4E}
     body{background:#fff;font-size:9.3pt;line-height:1.4}
     .toolbar,.book,.lb,.thumb,.open,.shots,.hero::after{display:none!important}
@@ -365,23 +365,22 @@
     .proj{display:block;border:0;border-radius:0;background:none;padding:3px 0;break-inside:avoid}
     .proj .body{padding:0;gap:1px}
     .proj h4{font-size:9.6pt}
-    .proj h4{display:block}
+    .proj h4{display:block;position:relative;padding-right:140px}
     .proj h4 .abbr{display:inline;font-weight:700}
     .proj h4 .abbr::after{content:" — "}
     .proj h4 .fname{font-size:inherit}
-    .proj h4 .desc{display:inline;font-size:inherit;font-weight:400;color:#222}
-    [data-lang="th"] .proj h4 .desc.th::before,[data-lang="en"] .proj h4 .desc.en::before{content:" · "}
-    .proj h4 .tag{display:inline;font-family:var(--sans);font-size:8.5pt;margin-left:6px}
+    .proj h4 .desc{display:block;font-size:8.8pt;font-weight:400;color:#444}
+    .proj h4 .tag{position:absolute;right:0;top:1px;margin:0;white-space:nowrap;font-family:var(--sans);font-size:8.3pt;font-weight:400;color:#555}
     .cover{display:none!important}
     .js .proj ul.pts{padding-left:16px;list-style:disc}
     .js .proj ul.pts li{display:list-item!important;-webkit-line-clamp:unset;overflow:visible;color:#000}
+    /* keep the language filter: the rule above must not bring back the other language */
+    #cv[data-lang="th"] .en,#cv[data-lang="en"] .th{display:none!important}
     .js .proj .stack{display:block}
     .stack{font-size:8.3pt}
     a{color:inherit;text-decoration:none}
     /* print keeps the two main bullets per project; the book on screen shows all three */
-    .proj ul.pts li:nth-child(3),.proj ul.pts li:nth-child(6){display:none!important}
     .proj .stack{display:none!important}
-    .exp-sum{display:none!important}
     /* one-page edition (?onepage=1) */
     .onepage .proj.extra,.onepage .stack,.onepage .exp-sum,.onepage .subhead{display:none!important}
     .onepage .summary,.onepage ul.pts li{font-size:8.6pt;line-height:1.34}
