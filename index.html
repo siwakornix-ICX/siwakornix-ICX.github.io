@@ -96,6 +96,8 @@
   @media (max-width:560px){ .card{padding:18px} }
   .summary{margin:0;font-size:17.5px;line-height:1.85}
   .summary b{color:var(--accent);font-weight:600}
+  .motto{margin:14px 0 0;padding:12px 0 0 16px;border-top:1px dashed var(--rule);position:relative;font-size:16.5px;line-height:1.8;color:var(--ink-2);font-style:italic}
+  .motto::before{content:"";position:absolute;left:0;top:16px;bottom:4px;width:3px;border-radius:3px;background:var(--gold)}
 
   /* skills */
   .skills{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
@@ -332,6 +334,8 @@
     .sechead::after,.sechead .idx{display:none}
     .sechead h2{font-size:11pt;color:#1A2C4E}
     .card{border:0;box-shadow:none;padding:0;border-radius:0;background:none!important}
+    .motto{font-size:8.8pt;line-height:1.4;margin-top:3px;padding:2px 0 0 8px;border:0}
+    .motto::before{top:4px;width:2px}
     .summary,ul.pts li,.job-sum,.proj ul.pts li,.other ul.pts li{font-size:9pt;line-height:1.42}
     .skills,.skills-soft{display:block}
     .coop{margin:3px 0 0;padding:0;border:0}
@@ -422,15 +426,15 @@
     <div class="sechead"><span class="idx">01</span><h2 class="th">สรุปคุณสมบัติ</h2><h2 class="en">Professional Summary</h2></div>
     <div class="card">
       <p class="summary th">
-        วิศวกรซอฟต์แวร์ Full-Stack ประสบการณ์กว่า 2 ปี ออกแบบและพัฒนาระบบที่ใช้งานจริงในโรงงานอุตสาหกรรมด้วย <b>.NET และ Vue.js</b>
-        บนแพลตฟอร์ม Microservices ขององค์กร (19 บริการ, 12 แอปพลิเคชัน) รับผิดชอบ<b>บริการกลางที่ทุกระบบใช้ร่วมกัน</b>
-        และถ่ายทอดความรู้ทางเทคนิคให้นักพัฒนาในทีม<b>ตั้งแต่ระดับจูเนียร์จนถึงซีเนียร์</b>
+        วิศวกรซอฟต์แวร์ที่มีประสบการณ์กว่า 2 ปี เชี่ยวชาญด้าน <b>Backend Development ด้วย C# / .NET</b> และมีประสบการณ์พัฒนาระบบด้วย Vue.js, ASP.NET MVC และ Windows Forms
+        รวมถึงการพัฒนาและดูแล<b>แพลตฟอร์ม Microservices ระดับองค์กร</b> ตลอดจน<b>ถ่ายทอดความรู้และให้คำแนะนำทางเทคนิค</b>แก่นักพัฒนาในทีม
       </p>
       <p class="summary en">
-        Full-stack software engineer with 2+ years designing and shipping production systems for manufacturing with <b>.NET and Vue.js</b>,
-        across a company platform of 19 microservices and 12 applications. Owns <b>shared platform services</b> used by every module
-        and <b>mentors developers from junior to senior level</b>.
+        Software Engineer with over 2 years of experience, specializing in <b>Backend Development with C# / .NET</b>, with additional experience developing applications using Vue.js, ASP.NET MVC and Windows Forms.
+        Experienced in developing and maintaining <b>enterprise-level Microservices platforms</b>, as well as <b>providing technical guidance and knowledge sharing</b> to fellow developers.
       </p>
+      <p class="motto th">ผมมั่นใจว่าความสามารถเกิดจากการเรียนรู้ การลงมือทำ และการพัฒนาตนเองอย่างต่อเนื่อง พร้อมเปิดรับสิ่งใหม่ ๆ เพื่อเติบโตและสร้างคุณค่าให้กับองค์กร และหวังเป็นอย่างยิ่งว่าจะได้ร่วมงานและเติบโตไปด้วยกัน</p>
+      <p class="motto en">I believe that skills are built through continuous learning, hands-on experience and consistent self-improvement. I remain open to learning new things to grow professionally, contribute to the organization, and hopefully have the opportunity to work and grow together.</p>
     </div>
   </section>
 
@@ -468,7 +472,7 @@
       </div>
       <div class="card skill">
         <h3><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="6" rx="1.5"/><rect x="3" y="14" width="18" height="6" rx="1.5"/><path d="M7 7h.01M7 17h.01"/></svg></i>Backend</h3>
-        <ul class="chips"><li>C#</li><li>.NET</li><li>ASP.NET Core Web API</li><li>Entity Framework Core</li><li>ASP.NET Core Identity</li><li>OAuth 2.0 / JWT / SSO</li><li>SignalR</li><li>Hangfire</li><li>Quartz.NET</li><li>Background Services</li></ul>
+        <ul class="chips"><li>C#</li><li>.NET</li><li>ASP.NET Core Web API</li><li>ASP.NET MVC</li><li>Windows Forms</li><li>Entity Framework Core</li><li>ASP.NET Core Identity</li><li>OAuth 2.0 / JWT / SSO</li><li>SignalR</li><li>Hangfire</li><li>Quartz.NET</li><li>Background Services</li></ul>
       </div>
       <div class="card skill">
         <h3><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg></i>Frontend</h3>
