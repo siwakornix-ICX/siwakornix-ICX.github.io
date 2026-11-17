@@ -106,6 +106,8 @@
   .chips li{font-family:var(--mono);font-size:12.5px;font-weight:500;color:var(--chip-ink);background:var(--chip);border:1px solid var(--rule-soft);padding:3px 9px;border-radius:7px}
   .skill.lead{border-color:rgba(201,164,106,.55);background:linear-gradient(180deg,rgba(201,164,106,.08),transparent 60%),var(--surface)}
   .skill.lead h3 i{background:rgba(201,164,106,.18);color:var(--gold-ink)}
+  /* soft-skill cards share their own full-width row */
+  .skills-soft{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
 
   /* experience */
   .job + .job{margin-top:16px}
@@ -176,7 +178,13 @@
 
   /* education */
   .edu .job-sum{margin-bottom:0}
-  @media screen and (min-width:561px){ .edu .job-sum{margin-left:66px} }
+  @media screen and (min-width:561px){ .edu .job-sum{margin-left:66px} .coop{margin-left:66px} }
+  /* co-op placement sits inside the degree card: it was part of the programme */
+  .coop{margin-top:16px;padding-top:16px;border-top:1px dashed var(--rule)}
+  .coop .job-top .logo{width:64px;height:44px;padding:4px;border-radius:10px}
+  .coop h4{margin:0;font-size:17px;font-weight:700;line-height:1.4}
+  .coop .tagc{display:inline-block;margin-right:8px;padding:1px 10px;border-radius:999px;font-size:12.5px;font-weight:600;color:var(--gold-ink);border:1px solid rgba(201,164,106,.6);vertical-align:2px}
+  .coop ul.pts{margin-top:8px}
 
   /* ---------- book viewer ---------- */
   .book{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:rgba(6,12,24,.72);backdrop-filter:blur(6px);
@@ -302,7 +310,7 @@
 
   /* ---------- print: plain single-column A4, ATS-friendly ---------- */
   @media print{
-    @page{size:A4;margin:10mm 13mm}
+    @page{size:A4;margin:10mm 11mm}
     :root,:root[data-theme="dark"]{--bg:#fff;--surface:#fff;--surface-2:#fff;--ink:#000;--ink-2:#222;--ink-3:#444;--rule:#bbb;--rule-soft:#ddd;--chip:#fff;--chip-ink:#222;--accent:#1A2C4E;--gold-ink:#1A2C4E}
     body{background:#fff;font-size:9.3pt;line-height:1.4}
     .toolbar,.book,.lb,.thumb,.open,.shots,.hero::after{display:none!important}
@@ -325,7 +333,10 @@
     .sechead h2{font-size:11pt;color:#1A2C4E}
     .card{border:0;box-shadow:none;padding:0;border-radius:0;background:none!important}
     .summary,ul.pts li,.job-sum,.proj ul.pts li,.other ul.pts li{font-size:9pt;line-height:1.42}
-    .skills{display:block}
+    .skills,.skills-soft{display:block}
+    .coop{margin:3px 0 0;padding:0;border:0}
+    .coop h4{font-size:9.5pt}
+    .coop .tagc{border:0;padding:0;font-size:9pt}
     .skill{margin:0 0 2px}
     .skill h3{display:inline;font-size:9pt;margin:0}
     .skill h3 i{display:none}
@@ -371,7 +382,7 @@
     .onepage .job h3{font-size:9.8pt}
     .onepage .proj h4{font-size:9pt}
     .onepage .proj ul.pts li.th ~ li.th,.onepage .proj ul.pts li.en ~ li.en{display:none!important}
-    .onepage .job + .job ul.pts{display:none}
+    .onepage .job + .job ul.pts,.onepage .coop ul.pts{display:none}
     .onepage .photo{width:56px}
     .onepage .name{font-size:17pt}
   }
@@ -433,19 +444,19 @@
       </div>
       <p class="job-sum th">มหาวิทยาลัยศิลปากร · เกียรตินิยมอันดับสอง</p>
       <p class="job-sum en">Silpakorn University · Second-Class Honours</p>
-    </article>
-
-    <article class="card job">
-      <div class="job-top">
-        <img class="logo wide" src="img/logos/umeda.webp" alt="Umeda logo" width="54" height="54">
-        <h3 class="ttl"><span class="th">UX/UI Designer (สหกิจศึกษา)</span><span class="en">UX/UI Designer (Cooperative Education)</span> <span class="org">· Umeda Company Limited</span></h3>
-        <span class="when"><span class="th">พ.ย. 2566 – มี.ค. 2567</span><span class="en">Nov 2023 – Mar 2024</span></span>
-      </div>
-      <ul class="pts">
+      <div class="coop">
+        <div class="job-top">
+          <img class="logo wide" src="img/logos/umeda.webp" alt="Umeda logo" width="64" height="44">
+          <h4 class="ttl"><span class="tagc th">สหกิจศึกษา</span><span class="tagc en">Cooperative Education</span> UX/UI Designer <span class="org">· Umeda Company Limited</span></h4>
+          <span class="when"><span class="th">พ.ย. 2566 – มี.ค. 2567</span><span class="en">Nov 2023 – Mar 2024</span></span>
+        </div>
+        <ul class="pts">
         <li class="th">ออกแบบเว็บไซต์ Med4U ซึ่งรวบรวมบทความสุขภาพ ข้อมูลโรงพยาบาลและคลินิก โปรโมชัน และรีวิวผลิตภัณฑ์ โดยจัดวางข้อมูลทางการแพทย์ปริมาณมากให้ค้นหาและอ่านได้ง่าย</li>
         <li class="en">Designed Med4U, a health information website covering articles, hospital and clinic listings, promotions and product reviews, organising dense medical content to be easy to navigate and read.</li>
-      </ul>
+        </ul>
+      </div>
     </article>
+
   </section>
 
   <section>
@@ -475,9 +486,15 @@
         <h3><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="12" r="2.5"/><path d="M6 8.5v7M8.3 7.2l7.4 3.6"/></svg></i><span class="th">DevOps และคุณภาพโค้ด</span><span class="en">DevOps &amp; Quality</span></h3>
         <ul class="chips"><li>Azure DevOps Pipelines</li><li>Git Flow</li><li>Code Review</li><li>IIS / Windows Server</li><li>Environment-based Config</li><li>dotnet format</li><li>ESLint / Prettier</li><li>Swagger / OpenAPI</li><li>Postman</li><li>Jira</li></ul>
       </div>
-      <div class="card skill lead">
-        <h3><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M17 4a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4-6"/></svg></i><span class="th">ภาวะผู้นำและการทำงานร่วมกัน</span><span class="en">Leadership &amp; Collaboration</span></h3>
-        <ul class="chips"><li>Technical Mentoring (Junior–Senior)</li><li>Pull Request Review</li><li>Requirement Gathering</li><li>Stakeholder Communication</li><li>Root Cause Analysis</li><li>Technical Documentation</li><li>AI-assisted Development</li></ul>
+      <div class="skills-soft">
+        <div class="card skill lead">
+          <h3><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M17 4a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4-6"/></svg></i><span class="th">ภาวะผู้นำและการทำงานร่วมกัน</span><span class="en">Leadership &amp; Collaboration</span></h3>
+          <ul class="chips"><li>Problem Solving &amp; Analytical Thinking</li><li>Technical Decision Making</li><li>Technical Mentoring (Junior–Senior)</li><li>Requirement Analysis</li><li>Stakeholder Communication</li><li>Cross-functional Collaboration</li><li>Root Cause Analysis</li><li>Technical Documentation</li><li>AI-assisted Development</li></ul>
+        </div>
+        <div class="card skill lead">
+          <h3><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5 1 1.2 1 2V16h5.2v-.2c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/></svg></i><span class="th">ทักษะการคิดและการแก้ปัญหา</span><span class="en">Thinking &amp; Problem Solving</span></h3>
+          <ul class="chips"><li>Critical Thinking</li><li>Analytical Thinking</li><li>Logical Thinking</li><li>Creative Problem Solving</li><li>Systems Thinking</li></ul>
+        </div>
       </div>
     </div>
   </section>
