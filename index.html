@@ -125,16 +125,36 @@
   .subhead small{font-weight:400;color:var(--ink-3);font-size:14px}
   .projects{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
   .proj{position:relative;display:flex;flex-direction:column;background:var(--surface-2);border:1px solid var(--rule);border-radius:14px;overflow:hidden;transition:transform .2s,box-shadow .2s,border-color .2s}
-  .proj h4{margin:0;font-size:16.5px;font-weight:700;line-height:1.45}
+  .proj h4{margin:0;line-height:1.4;display:flex;flex-direction:column;gap:2px}
+  .proj h4 .abbr{display:none}
+  .proj h4 .fname{font-size:16.5px;font-weight:700}
+  .proj h4 .desc{font-size:14px;font-weight:500;color:var(--ink-2)}
   .proj h4 .tag{display:block;font-family:var(--mono);font-weight:500;color:var(--ink-3);font-size:12px;margin-top:2px}
   .proj .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
   .proj ul.pts li{font-size:15px}
   .stack{margin:0;font-size:13.5px;color:var(--ink-3)}
   .stack b{color:var(--ink-2);font-weight:600}
-  .thumb{display:block;aspect-ratio:16/9;background:linear-gradient(135deg,var(--navy),var(--navy-2));overflow:hidden;position:relative}
-  .thumb img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;transition:transform .5s ease}
-  .thumb .ph{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--mono);font-size:30px;font-weight:600;color:var(--gold);letter-spacing:.08em}
-  .thumb .count{position:absolute;right:10px;bottom:10px;font-family:var(--mono);font-size:11.5px;color:#fff;background:rgba(14,27,51,.75);padding:2px 8px;border-radius:999px}
+  /* project cover: brand gradient, monogram, name, screenshot in a browser frame */
+  .cover{position:relative;aspect-ratio:16/10;overflow:hidden;color:#fff;isolation:isolate;
+      background:radial-gradient(120% 90% at 100% 0%,color-mix(in srgb,var(--c2) 85%,#fff 15%) 0%,transparent 55%),linear-gradient(140deg,var(--c1) 10%,var(--c2) 130%)}
+  .cover::before{content:"";position:absolute;inset:0;z-index:-1;opacity:.12;
+      background-image:linear-gradient(rgba(255,255,255,.7) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.7) 1px,transparent 1px);
+      background-size:22px 22px;mask-image:linear-gradient(120deg,#000 0%,transparent 70%)}
+  .cover::after{content:"";position:absolute;left:18px;bottom:16px;width:34px;height:2px;background:var(--gold)}
+  .cv-head{position:absolute;left:18px;top:16px;right:18px;display:flex;align-items:center;gap:10px}
+  .cv-ico{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(4px)}
+  .cv-ico svg{width:18px;height:18px}
+  .cv-abbr{font-family:var(--mono);font-size:22px;font-weight:600;letter-spacing:.06em}
+  .cv-name{position:absolute;left:18px;top:58px;max-width:48%;font-size:13px;line-height:1.4;color:rgba(255,255,255,.82)}
+  .cv-shot{position:absolute;right:-7%;bottom:-16%;width:64%;border-radius:8px;overflow:hidden;background:#fff;
+      box-shadow:0 18px 40px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.18);transform:perspective(900px) rotateY(-14deg) rotateZ(-3deg);transform-origin:right bottom;
+      transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+  .cv-shot .bar{display:flex;gap:4px;padding:5px 7px;background:#E9EDF3}
+  .cv-shot .bar i{width:6px;height:6px;border-radius:50%;background:#C3CAD5}
+  .cv-shot img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top left}
+  .cv-big{position:absolute;right:-18px;bottom:-26px;width:58%;opacity:.16}
+  .cv-big svg{width:100%;height:auto}
+  .cover .count{position:absolute;right:10px;top:12px;font-family:var(--mono);font-size:11px;color:#fff;background:rgba(0,0,0,.35);padding:2px 8px;border-radius:999px}
   .open{margin-top:auto;align-self:flex-start;font:600 14px var(--sans);color:var(--accent);background:none;border:0;padding:4px 0;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
   .open svg{width:15px;height:15px;transition:transform .2s}
   .js .proj{cursor:pointer}
@@ -142,10 +162,10 @@
   .js .proj ul.pts{padding:0;list-style:none}
   .js .proj ul.pts li{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;color:var(--ink-2)}
   .js .proj .shots{display:none}
-  html:not(.js) .thumb,html:not(.js) .open{display:none}
+  html:not(.js) .cover,html:not(.js) .open{display:none}
   @media (hover:hover){
     .proj:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:rgba(42,91,215,.35)}
-    .proj:hover .thumb img{transform:scale(1.04)}
+    .proj:hover .cv-shot{transform:perspective(900px) rotateY(-4deg) rotateZ(0deg) translateY(-6px)}
     .proj:hover .open svg{transform:translateX(3px)}
   }
   .other{margin-top:14px}
@@ -156,20 +176,35 @@
 
   /* ---------- book viewer ---------- */
   .book{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:rgba(6,12,24,.72);backdrop-filter:blur(6px);
-      opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+      opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s}
   .book.show{opacity:1;visibility:visible}
-  .book-frame{position:relative;width:min(1120px,100%);height:min(680px,calc(100vh - 32px));perspective:2200px}
-  .sheet{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1.25fr;background:var(--surface);border-radius:14px;box-shadow:var(--shadow-lg);overflow:hidden;transform-origin:left center;transition:transform .32s ease,opacity .32s ease}
-  .sheet::before{content:"";position:absolute;top:0;bottom:0;left:44.4%;width:28px;margin-left:-14px;pointer-events:none;z-index:2;
-      background:linear-gradient(90deg,transparent,rgba(16,24,40,.10) 45%,rgba(16,24,40,.16) 50%,rgba(16,24,40,.10) 55%,transparent)}
+  .book-frame{position:relative;width:min(1120px,100%);height:min(680px,calc(100vh - 32px));
+      transform:translateY(14px) scale(.965);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+  .book.show .book-frame{transform:none}
+  /* two equal pages meeting at a centre spine, like an open book */
+  .sheet{--spine:50%;position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;background:var(--surface);border-radius:14px;box-shadow:var(--shadow-lg);overflow:hidden;perspective:2400px}
+  .sheet::before{content:"";position:absolute;top:0;bottom:0;left:var(--spine);width:36px;margin-left:-18px;pointer-events:none;z-index:4;
+      background:linear-gradient(90deg,transparent,rgba(16,24,40,.08) 40%,rgba(16,24,40,.18) 50%,rgba(16,24,40,.08) 60%,transparent)}
   .sheet.single{grid-template-columns:1fr}
   .sheet.single::before{display:none}
-  .sheet.turn-out{transform:rotateY(-80deg);opacity:.2}
-  .sheet.turn-in{transform:rotateY(80deg);opacity:.2;transform-origin:right center}
+  /* the turning leaf (built in JS for each turn) */
+  .leaf{position:absolute;top:0;bottom:0;width:50%;z-index:5;transform-style:preserve-3d;pointer-events:none;will-change:transform}
+  .leaf.fwd{left:50%;transform-origin:left center}
+  .leaf.back{left:0;transform-origin:right center}
+  .leaf .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;display:flex;flex-direction:column}
+  .leaf .face.rear{transform:rotateY(180deg)}
+  .leaf .face::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:var(--shade,0);
+      background:linear-gradient(90deg,rgba(0,0,0,.28),rgba(0,0,0,.05) 40%,transparent)}
+  .leaf.fwd .face.front::after,.leaf.back .face.rear::after{background:linear-gradient(270deg,rgba(0,0,0,.28),rgba(0,0,0,.05) 40%,transparent)}
+  .fade-swap{animation:fadeSwap .38s ease}
+  @keyframes fadeSwap{from{opacity:0;transform:translateX(var(--dx,24px))}to{opacity:1;transform:none}}
   .page-l{padding:34px 34px 28px;overflow:auto;display:flex;flex-direction:column;gap:14px;background:linear-gradient(90deg,var(--surface) 92%,var(--surface-2))}
   .page-r{position:relative;display:flex;flex-direction:column;background:#0B1424;min-height:0}
   .bk-no{font-family:var(--mono);font-size:12.5px;font-weight:600;color:var(--gold-ink);letter-spacing:.1em}
-  .bk-title{margin:0;font-size:24px;font-weight:700;line-height:1.35}
+  .bk-title{margin:0;display:flex;flex-direction:column;gap:4px;line-height:1.3}
+  .bk-title .abbr{align-self:flex-start;font-family:var(--mono);font-size:12.5px;font-weight:600;letter-spacing:.08em;color:var(--gold-ink);border:1px solid rgba(201,164,106,.6);border-radius:999px;padding:2px 10px;margin-bottom:4px}
+  .bk-title .fname{font-size:24px;font-weight:700}
+  .bk-title .desc{font-size:16px;font-weight:500;color:var(--ink-2)}
   .bk-title .tag{display:block;font-family:var(--mono);font-size:13px;font-weight:500;color:var(--ink-3);margin-top:4px}
   .page-l ul.pts li{font-size:16px}
   .page-l .stack{font-size:14px}
@@ -262,7 +297,14 @@
     .proj{display:block;border:0;border-radius:0;background:none;padding:3px 0;break-inside:avoid}
     .proj .body{padding:0;gap:1px}
     .proj h4{font-size:9.6pt}
+    .proj h4{display:block}
+    .proj h4 .abbr{display:inline;font-weight:700}
+    .proj h4 .abbr::after{content:" — "}
+    .proj h4 .fname{font-size:inherit}
+    .proj h4 .desc{display:inline;font-size:inherit;font-weight:400;color:#222}
+    [data-lang="th"] .proj h4 .desc.th::before,[data-lang="en"] .proj h4 .desc.en::before{content:" · "}
     .proj h4 .tag{display:inline;font-family:var(--sans);font-size:8.5pt;margin-left:6px}
+    .cover{display:none!important}
     .js .proj ul.pts{padding-left:16px;list-style:disc}
     .js .proj ul.pts li{display:list-item!important;-webkit-line-clamp:unset;overflow:visible;color:#000}
     .js .proj .stack{display:block}
@@ -389,9 +431,9 @@
       <p class="subhead"><span class="th">โครงการสำคัญ</span><span class="en">Key Projects</span> <small class="th">· กดที่การ์ดเพื่อเปิดดูผลงาน</small><small class="en">· click a card to open</small></p>
       <div class="projects">
 
-      <div class="proj" data-short="SWMS">
+      <div class="proj" data-short="SWMS" data-abbr="SWMS" data-c1="#0B1A33" data-c2="#1E4FB8" data-icon="robot">
         <div class="body">
-          <h4><span class="th">SWMS — ระบบบริหารจัดการคลังสินค้าร่วมกับหุ่นยนต์ AMR</span><span class="en">SWMS — Warehouse Management System with AMR Robot Integration</span><span class="tag"><span class="th">2568 – 2569</span><span class="en">2025 – 2026</span> · Robotics / IoT</span></h4>
+          <h4><span class="abbr">SWMS</span><span class="fname">Smart Warehouse Management System</span><span class="desc th">ระบบบริหารคลังสินค้าอัจฉริยะร่วมกับหุ่นยนต์ AMR</span><span class="desc en">Warehouse automation with AMR robots</span><span class="tag"><span class="th">2568 – 2569</span><span class="en">2025 – 2026</span> · Robotics / IoT</span></h4>
           <ul class="pts">
             <li class="th">พัฒนาระบบเบิก หยิบ และจัดเรียงพาเลท โดย<b>สั่งงานหุ่นยนต์ AMR ผ่านระบบคิว</b>ทีละรายการ ป้องกันการสั่งงานซ้ำและงานค้าง</li>
             <li class="th">เชื่อมต่ออุปกรณ์หน้างานผ่าน Modbus TCP และ MQTT รวมถึงควบคุมประตูอัตโนมัติให้หุ่นยนต์ผ่าน และแสดงสถานะงานแบบเรียลไทม์</li>
@@ -407,9 +449,9 @@
         </div>
       </div>
 
-      <div class="proj" data-short="OAR">
+      <div class="proj" data-short="OAR" data-abbr="OAR" data-c1="#2A1F12" data-c2="#9A7036" data-icon="route">
         <div class="body">
-          <h4><span class="th">OAR — ระบบขออนุมัติปฏิบัติงานนอกสถานที่และคำนวณเบี้ยเลี้ยง</span><span class="en">OAR — Outside Activity Request &amp; Allowance System</span><span class="tag"><span class="th">2569 – ปัจจุบัน</span><span class="en">2026 – Present</span> · HR / Finance</span></h4>
+          <h4><span class="abbr">OAR</span><span class="fname">Outside Activity Request</span><span class="desc th">ระบบขออนุมัติปฏิบัติงานนอกสถานที่และคำนวณเบี้ยเลี้ยง</span><span class="desc en">Off-site work requests and allowance calculation</span><span class="tag"><span class="th">2569 – ปัจจุบัน</span><span class="en">2026 – Present</span> · HR / Finance</span></h4>
           <ul class="pts">
             <li class="th">ออกแบบ<b>ตารางอัตราเบี้ยเลี้ยงแบบอิงวันที่มีผลบังคับใช้</b> คำนวณเบี้ยเลี้ยงรายบุคคลอัตโนมัติ แจ้งเตือนเมื่อเกินวงเงิน และไม่กระทบเอกสารที่อนุมัติแล้วเมื่อปรับอัตรา</li>
             <li class="th">วางแผนบุคลากรและรอบเดินทางไปไซต์ลูกค้า โดยแยกข้อมูลแผนและข้อมูลจริง ทั้งจำนวนวันและจำนวนคน</li>
@@ -420,9 +462,9 @@
         </div>
       </div>
 
-      <div class="proj" data-short="TMS">
+      <div class="proj" data-short="TMS" data-abbr="AtlasTMS" data-c1="#1E1240" data-c2="#5B3FC4" data-icon="cap">
         <div class="body">
-          <h4><span class="th">AtlasTMS — ระบบบริหารจัดการการฝึกอบรมพนักงาน</span><span class="en">AtlasTMS — Training Management System</span><span class="tag"><span class="th">2569 – ปัจจุบัน</span><span class="en">2026 – Present</span> · HR Platform</span></h4>
+          <h4><span class="abbr">AtlasTMS</span><span class="fname">Atlas Training Management System</span><span class="desc th">ระบบบริหารจัดการการฝึกอบรมพนักงาน</span><span class="desc en">Employee training, exams and skill matrix</span><span class="tag"><span class="th">2569 – ปัจจุบัน</span><span class="en">2026 – Present</span> · HR Platform</span></h4>
           <ul class="pts">
             <li class="th">พัฒนาระบบบริหารหลักสูตร รอบอบรม และประวัติการสอบรายบุคคล พร้อม <b>Skill Matrix</b> ระดับองค์กร</li>
             <li class="th">ออกแบบ<b>การควบคุมรุ่นหลักสูตร</b> (Course Revision Control) ตรวจสอบย้อนหลังได้ว่าพนักงานแต่ละคนอบรมหลักสูตรรุ่นใด</li>
@@ -436,9 +478,9 @@
         </div>
       </div>
 
-      <div class="proj extra" data-short="BXI">
+      <div class="proj extra" data-short="BXI" data-abbr="BXI" data-c1="#062C3F" data-c2="#0E7490" data-icon="box">
         <div class="body">
-          <h4><span class="th">BXI — ระบบติดตามกล่องหมุนเวียน</span><span class="en">BXI — Returnable Box Tracking System</span><span class="tag"><span class="th">2568 – 2569</span><span class="en">2025 – 2026</span> · Logistics</span></h4>
+          <h4><span class="abbr">BXI</span><span class="fname">Box Inventory System</span><span class="desc th">ระบบควบคุมและติดตามกล่องหมุนเวียน</span><span class="desc en">Returnable box control and tracking</span><span class="tag"><span class="th">2568 – 2569</span><span class="en">2025 – 2026</span> · Logistics</span></h4>
           <ul class="pts">
             <li class="th">พัฒนาระบบติดตามกล่องหมุนเวียนระหว่างคลังสินค้า สายการผลิต และลูกค้า พร้อมแอปพลิเคชัน <b>LINE LIFF</b> สำหรับบันทึกรายการผ่านมือถือ</li>
             <li class="th">แจ้งเตือนลูกค้าที่มีกล่องค้างส่งคืนอัตโนมัติทุกเดือนด้วย LINE Flex Message</li>
@@ -452,9 +494,9 @@
         </div>
       </div>
 
-      <div class="proj extra" data-short="MVT">
+      <div class="proj extra" data-short="MVT" data-abbr="MVT" data-c1="#0B2E2B" data-c2="#13786E" data-icon="bus">
         <div class="body">
-          <h4><span class="th">Moventra — ระบบจองและเช็กอินรถรับ–ส่งพนักงาน</span><span class="en">Moventra — Employee Shuttle Booking &amp; Check-in System</span><span class="tag"><span class="th">2569</span><span class="en">2026</span> · Operations</span></h4>
+          <h4><span class="abbr">MVT</span><span class="fname">Moventra Employee Shuttle System</span><span class="desc th">ระบบจองและเช็กอินรถรับ–ส่งพนักงาน</span><span class="desc en">Shuttle booking with QR check-in</span><span class="tag"><span class="th">2569</span><span class="en">2026</span> · Operations</span></h4>
           <ul class="pts">
             <li class="th">พัฒนาระบบจองรถและที่นั่งรายรอบ ยืนยันการขึ้นรถจริงด้วย <b>QR Check-in</b> เทียบกับยอดจอง</li>
             <li class="th">แสดงสถานะที่นั่งแบบเรียลไทม์ทุกอุปกรณ์ผ่าน SignalR เพื่อป้องกันการจองซ้อน</li>
@@ -468,9 +510,9 @@
         </div>
       </div>
 
-      <div class="proj extra" data-short="EHS">
+      <div class="proj extra" data-short="EHS" data-abbr="STP" data-c1="#3A0D12" data-c2="#B4232F" data-icon="shield">
         <div class="body">
-          <h4><span class="th">Safety Patrol — ระบบตรวจสอบถังดับเพลิง</span><span class="en">Safety Patrol — Fire Extinguisher Inspection System</span><span class="tag"><span class="th">2568 – 2569</span><span class="en">2025 – 2026</span> · EHS</span></h4>
+          <h4><span class="abbr">STP</span><span class="fname">Safety Patrol System</span><span class="desc th">ระบบตรวจสอบถังดับเพลิง</span><span class="desc en">Fire extinguisher inspection</span><span class="tag"><span class="th">2568 – 2569</span><span class="en">2025 – 2026</span> · EHS</span></h4>
           <ul class="pts">
             <li class="th">ออกแบบโครงสร้างข้อมูลโซน → จุดตรวจ → ถังดับเพลิงรายถัง พร้อมประเภทถังและรอบการตรวจ</li>
             <li class="th">บันทึกผลการตรวจพร้อม<b>ภาพหลักฐานรายจุด</b> ตรวจสอบย้อนหลังได้ว่าตรวจเมื่อใด โดยผู้ใด และอยู่ในสภาพใด</li>
@@ -484,9 +526,9 @@
         </div>
       </div>
 
-      <div class="proj extra" data-short="OT">
+      <div class="proj extra" data-short="OT" data-abbr="OT Kiosk" data-c1="#161B26" data-c2="#4A5568" data-icon="clock">
         <div class="body">
-          <h4><span class="th">OT Kiosk — ระบบบันทึกคำขอทำงานล่วงเวลาผ่านตู้ Kiosk</span><span class="en">OT Kiosk — Overtime Request Kiosk System</span><span class="tag"><span class="th">2569</span><span class="en">2026</span> · HR</span></h4>
+          <h4><span class="abbr">OT Kiosk</span><span class="fname">Overtime Request Kiosk</span><span class="desc th">ระบบบันทึกคำขอทำงานล่วงเวลาผ่านตู้ Kiosk</span><span class="desc en">Shop-floor overtime requests</span><span class="tag"><span class="th">2569</span><span class="en">2026</span> · HR</span></h4>
           <ul class="pts">
             <li class="th">พัฒนาหน้าจอบันทึกคำขอทำงานล่วงเวลาสำหรับ<b>ตู้ Kiosk หน้างาน</b> บันทึกหลายคนในครั้งเดียวด้วยการสแกนรหัส และรองรับภาษาเมียนมา</li>
             <li class="th">ส่งคำขอเข้าสายอนุมัติอัตโนมัติแทนเอกสารกระดาษ และให้ฝ่ายบุคคลปรับการตั้งค่าได้เองโดยไม่ต้องแก้โปรแกรม</li>
@@ -607,18 +649,35 @@
     if (!projs.length) return;
     var ARROW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
-    // build a thumbnail + "open" button for every card
+    var ICONS = {
+      robot:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="8" width="16" height="11" rx="2.5"/><path d="M12 4v4M9 13h.01M15 13h.01M9 16.5h6M2 12v3M22 12v3"/><circle cx="12" cy="3.5" r="1"/></svg>',
+      route:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="5" r="2.5"/><path d="M8.5 19H16a3.5 3.5 0 0 0 0-7H8a3.5 3.5 0 0 1 0-7h7.5"/></svg>',
+      cap:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5M22 9v6"/></svg>',
+      box:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>',
+      bus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="15" rx="3"/><path d="M4 11h16M8 21v-3M16 21v-3"/><circle cx="8" cy="14.5" r=".8"/><circle cx="16" cy="14.5" r=".8"/></svg>',
+      shield:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>',
+      clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
+    };
+    function esc(t){ var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+
+    // build a designed cover + "open" button for every card
     projs.forEach(function(p, i){
       var imgs = p.querySelectorAll('.shots img');
-      var t = document.createElement('div'); t.className = 'thumb';
+      var icon = ICONS[p.getAttribute('data-icon')] || '';
+      var cv = document.createElement('div'); cv.className = 'cover';
+      cv.style.setProperty('--c1', p.getAttribute('data-c1') || '#0E1B33');
+      cv.style.setProperty('--c2', p.getAttribute('data-c2') || '#1A2C4E');
+      var fname = p.querySelector('h4 .fname');
+      var html = '<div class="cv-head"><span class="cv-ico">' + icon + '</span><span class="cv-abbr">' + esc(p.getAttribute('data-abbr') || '') + '</span></div>' +
+                 '<div class="cv-name">' + esc(fname ? fname.textContent : '') + '</div>';
       if (imgs.length){
-        var im = document.createElement('img'); im.src = imgs[0].getAttribute('src'); im.alt = ''; im.loading = 'lazy';
-        t.appendChild(im);
-        if (imgs.length > 1){ var c = document.createElement('span'); c.className = 'count'; c.textContent = imgs.length + ' ภาพ / photos'; t.appendChild(c); }
+        html += '<div class="cv-shot"><div class="bar"><i></i><i></i><i></i></div><img src="' + imgs[0].getAttribute('src') + '" alt="" loading="lazy"></div>';
+        if (imgs.length > 1) html += '<span class="count">' + imgs.length + ' photos</span>';
       } else {
-        var ph = document.createElement('span'); ph.className = 'ph'; ph.textContent = p.getAttribute('data-short') || ''; t.appendChild(ph);
+        html += '<div class="cv-big">' + icon + '</div>';
       }
-      p.insertBefore(t, p.firstChild);
+      cv.innerHTML = html;
+      p.insertBefore(cv, p.firstChild);
       var b = document.createElement('button'); b.type = 'button'; b.className = 'open';
       b.innerHTML = '<span class="th">ดูผลงาน</span><span class="en">View project</span>' + ARROW;
       p.querySelector('.body').appendChild(b);
@@ -633,19 +692,25 @@
     var count = document.getElementById('bk-count');
     var cur = 0, shots = [], shotIdx = 0, lastFocus = null, busy = false;
 
-    function render(i){
+    function shotsOf(i){
+      return Array.prototype.map.call(projs[i].querySelectorAll('.shots figure'), function(f){
+        var im = f.querySelector('img'), cap = f.querySelector('figcaption');
+        return { src: im.getAttribute('src'), alt: im.alt, cap: cap ? cap.innerHTML : '' };
+      });
+    }
+    function fillLeft(box, i){
       var p = projs[i];
       var h4 = p.querySelector('h4').cloneNode(true); h4.className = 'bk-title';
       var ul = p.querySelector('ul.pts').cloneNode(true);
       var st = p.querySelector('.stack'); st = st ? st.cloneNode(true) : null;
-      txt.innerHTML = '';
+      box.innerHTML = '';
       var no = document.createElement('div'); no.className = 'bk-no';
       no.textContent = (i < 9 ? '0' : '') + (i + 1) + ' / ' + (projs.length < 10 ? '0' : '') + projs.length;
-      txt.appendChild(no); txt.appendChild(h4); txt.appendChild(ul); if (st) txt.appendChild(st);
-      shots = Array.prototype.map.call(p.querySelectorAll('.shots figure'), function(f){
-        var im = f.querySelector('img'), cap = f.querySelector('figcaption');
-        return { src: im.getAttribute('src'), alt: im.alt, cap: cap ? cap.innerHTML : '' };
-      });
+      box.appendChild(no); box.appendChild(h4); box.appendChild(ul); if (st) box.appendChild(st);
+      box.scrollTop = 0;
+    }
+    function fillRight(i){
+      shots = shotsOf(i);
       sheet.classList.toggle('single', !shots.length);
       media.hidden = !shots.length;
       thumbs.innerHTML = '';
@@ -657,9 +722,8 @@
       });
       thumbs.hidden = shots.length < 2;
       if (shots.length) showShot(0);
-      count.textContent = (i + 1) + ' / ' + projs.length;
-      txt.scrollTop = 0;
     }
+    function render(i){ fillLeft(txt, i); fillRight(i); count.textContent = (i + 1) + ' / ' + projs.length; }
     function showShot(k){
       shotIdx = k; var s = shots[k];
       vImg.src = s.src; vImg.alt = s.alt; vCap.innerHTML = s.cap;
@@ -676,20 +740,83 @@
       setTimeout(function(){ book.hidden = true; }, 250);
       if (lastFocus) lastFocus.focus();
     }
+    function snapshot(el){
+      var c = el.cloneNode(true);
+      c.removeAttribute('id'); c.hidden = false;
+      Array.prototype.forEach.call(c.querySelectorAll('[id]'), function(n){ n.removeAttribute('id'); });
+      c.style.cssText = 'position:absolute;inset:0;height:100%;width:100%;';
+      return c;
+    }
+    function face(cls, content){
+      var f = document.createElement('div'); f.className = 'face ' + cls;
+      f.appendChild(content);
+      var sh = document.createElement('i');
+      sh.style.cssText = 'position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(' + (cls === 'front' ? '270deg' : '90deg') + ',rgba(0,0,0,.32),rgba(0,0,0,.06) 45%,transparent)';
+      f.appendChild(sh);
+      return { el: f, shade: sh };
+    }
+    var EASE = 'cubic-bezier(.45,.05,.2,1)', DUR = 820;
     function turn(dir){
-      if (busy) return; busy = true;
+      if (busy) return;
       var next = (cur + dir + projs.length) % projs.length;
       var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (reduce){ cur = next; render(cur); busy = false; return; }
-      sheet.classList.add(dir > 0 ? 'turn-out' : 'turn-in');
-      setTimeout(function(){
+      var twoPage = window.innerWidth > 820 && shotsOf(cur).length && shotsOf(next).length && sheet.animate;
+      if (reduce){ cur = next; render(cur); return; }
+      busy = true;
+
+      if (!twoPage){
+        // single-page layouts (phone, or a project without images): slide + fade
         cur = next; render(cur);
-        sheet.classList.remove('turn-out', 'turn-in');
-        sheet.classList.add(dir > 0 ? 'turn-in' : 'turn-out');
-        sheet.getBoundingClientRect();
-        sheet.classList.remove('turn-in', 'turn-out');
-        setTimeout(function(){ busy = false; }, 320);
-      }, 300);
+        [txt, media].forEach(function(el){
+          el.style.setProperty('--dx', (dir > 0 ? 28 : -28) + 'px');
+          el.classList.remove('fade-swap'); void el.offsetWidth; el.classList.add('fade-swap');
+        });
+        setTimeout(function(){ busy = false; }, 380);
+        return;
+      }
+
+      var leaf = document.createElement('div');
+      var front, rear, cover = null;
+      if (dir > 0){
+        // the right-hand page lifts at its outer edge and turns over the spine to the left
+        leaf.className = 'leaf fwd';
+        front = face('front', snapshot(media));
+        fillRight(next);                                // revealed underneath
+        var tmp = document.createElement('div'); tmp.className = 'page-l'; fillLeft(tmp, next);
+        tmp.style.cssText = 'position:absolute;inset:0;';
+        rear = face('rear', tmp);                       // lands on the left
+      } else {
+        // the left-hand page turns back over the spine to the right
+        leaf.className = 'leaf back';
+        front = face('front', snapshot(txt));
+        cover = snapshot(media);                        // keep old right page visible until covered
+        cover.style.cssText += 'left:50%;width:50%;z-index:4;';
+        sheet.appendChild(cover);
+        fillLeft(txt, next);                            // revealed underneath
+        fillRight(next);
+        rear = face('rear', snapshot(media));
+      }
+      leaf.appendChild(front.el); leaf.appendChild(rear.el);
+      sheet.appendChild(leaf);
+      count.textContent = (next + 1) + ' / ' + projs.length;
+
+      var end = dir > 0 ? -180 : 180;
+      var anim = leaf.animate([
+        { transform: 'rotateY(0deg)' },
+        { transform: 'rotateY(' + (end * 0.5) + 'deg) translateZ(18px)', offset: 0.5 },
+        { transform: 'rotateY(' + end + 'deg)' }
+      ], { duration: DUR, easing: EASE });
+      front.shade.animate([{ opacity: 0 }, { opacity: 1, offset: 0.5 }, { opacity: 1 }], { duration: DUR, easing: EASE });
+      rear.shade.animate([{ opacity: 1 }, { opacity: 1, offset: 0.5 }, { opacity: 0 }], { duration: DUR, easing: EASE });
+      var done = false;
+      function finish(){
+        if (done) return; done = true;
+        if (dir > 0) fillLeft(txt, next);
+        leaf.remove(); if (cover) cover.remove();
+        cur = next; busy = false;
+      }
+      anim.onfinish = finish;
+      setTimeout(finish, DUR + 400);   // safety net if the tab is throttled mid-turn
     }
     document.getElementById('bk-prev').addEventListener('click', function(){ turn(-1); });
     document.getElementById('bk-next').addEventListener('click', function(){ turn(1); });
