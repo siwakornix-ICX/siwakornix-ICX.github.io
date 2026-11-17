@@ -187,15 +187,36 @@
       background:linear-gradient(90deg,transparent,rgba(16,24,40,.08) 40%,rgba(16,24,40,.18) 50%,rgba(16,24,40,.08) 60%,transparent)}
   .sheet.single{grid-template-columns:1fr}
   .sheet.single::before{display:none}
-  /* the turning leaf (built in JS for each turn) */
-  .leaf{position:absolute;top:0;bottom:0;width:50%;z-index:5;transform-style:preserve-3d;pointer-events:none;will-change:transform}
-  .leaf.fwd{left:50%;transform-origin:left center}
-  .leaf.back{left:0;transform-origin:right center}
-  .leaf .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;display:flex;flex-direction:column}
-  .leaf .face.rear{transform:rotateY(180deg)}
-  .leaf .face::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:var(--shade,0);
-      background:linear-gradient(90deg,rgba(0,0,0,.28),rgba(0,0,0,.05) 40%,transparent)}
-  .leaf.fwd .face.front::after,.leaf.back .face.rear::after{background:linear-gradient(270deg,rgba(0,0,0,.28),rgba(0,0,0,.05) 40%,transparent)}
+  /* DearFlip-style curled page: a chain of thin strips, each bent a little more than the last */
+  .flip{position:absolute;top:0;bottom:0;left:50%;width:0;z-index:5;transform-style:preserve-3d;pointer-events:none}
+  .flip .strip{position:absolute;top:0;bottom:0;transform-style:preserve-3d}
+  .flip.fwd .strip{left:100%;transform-origin:0 50%}
+  .flip.back .strip{right:100%;transform-origin:100% 50%}
+  .flip.fwd>.strip{left:0}
+  .flip.back>.strip{right:0}
+  .flip .face{position:absolute;top:0;bottom:0;left:0;width:calc(100% + 1px);overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+  .flip.back .face{left:auto;right:0}
+  .flip .face.rear{transform:rotateY(180deg)}
+  .flip .plate{position:absolute;top:0;bottom:0;overflow:hidden}
+  .flip .sh{position:absolute;inset:0;pointer-events:none;background:#000;opacity:0}
+  .cast{position:absolute;top:0;bottom:0;width:50%;z-index:4;pointer-events:none;opacity:0}
+  .cast.l{left:0;background:linear-gradient(270deg,rgba(0,0,0,.42),rgba(0,0,0,.12) 28%,transparent 65%)}
+  .cast.r{left:50%;background:linear-gradient(90deg,rgba(0,0,0,.42),rgba(0,0,0,.12) 28%,transparent 65%)}
+  .endpaper{position:absolute;top:0;bottom:0;left:0;width:50%;z-index:3;background:linear-gradient(140deg,var(--c1),var(--c2))}
+  /* project cover shown full-page inside the book */
+  .bk-cover{position:absolute;inset:0;aspect-ratio:auto!important}
+  .bk-cover .cv-head{left:40px;top:40px;right:40px;gap:16px}
+  .bk-cover .cv-ico{width:56px;height:56px;border-radius:14px}
+  .bk-cover .cv-ico svg{width:28px;height:28px}
+  .bk-cover .cv-abbr{font-size:46px}
+  .bk-cover .cv-name{left:40px;top:120px;max-width:72%;font-size:20px}
+  .bk-cover::after{left:40px;bottom:38px;width:56px;height:3px}
+  .bk-cover .cv-shot{width:80%;right:-10%;bottom:-6%}
+  .bk-cover .cv-big{width:70%}
+  .bk-cover .count{display:none}
+  .sheet.grab{cursor:grab}
+  .sheet img{-webkit-user-drag:none}
+  @media (min-width:821px){ .sheet{touch-action:pan-y;user-select:none;-webkit-user-select:none} }
   .fade-swap{animation:fadeSwap .38s ease}
   @keyframes fadeSwap{from{opacity:0;transform:translateX(var(--dx,24px))}to{opacity:1;transform:none}}
   .page-l{padding:34px 34px 28px;overflow:auto;display:flex;flex-direction:column;gap:14px;background:linear-gradient(90deg,var(--surface) 92%,var(--surface-2))}
@@ -709,10 +730,16 @@
       box.appendChild(no); box.appendChild(h4); box.appendChild(ul); if (st) box.appendChild(st);
       box.scrollTop = 0;
     }
+    var viewer = document.getElementById('bk-viewer');
+    function coverOf(i){
+      var c = projs[i].querySelector('.cover').cloneNode(true);
+      c.classList.add('bk-cover');
+      return c;
+    }
     function fillRight(i){
       shots = shotsOf(i);
-      sheet.classList.toggle('single', !shots.length);
-      media.hidden = !shots.length;
+      var old = media.querySelector('.bk-cover'); if (old) old.remove();
+      viewer.hidden = vCap.hidden = !shots.length;
       thumbs.innerHTML = '';
       shots.forEach(function(s, k){
         var b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', s.alt);
@@ -721,7 +748,7 @@
         thumbs.appendChild(b);
       });
       thumbs.hidden = shots.length < 2;
-      if (shots.length) showShot(0);
+      if (shots.length) showShot(0); else media.appendChild(coverOf(i));   // no screenshots: show the cover
     }
     function render(i){ fillLeft(txt, i); fillRight(i); count.textContent = (i + 1) + ' / ' + projs.length; }
     function showShot(k){
@@ -729,44 +756,131 @@
       vImg.src = s.src; vImg.alt = s.alt; vCap.innerHTML = s.cap;
       Array.prototype.forEach.call(thumbs.children, function(b, j){ b.setAttribute('aria-current', String(j === k)); });
     }
-    function openBook(i){
-      lastFocus = document.activeElement; cur = i; render(i);
-      book.hidden = false; document.body.classList.add('noscroll');
-      requestAnimationFrame(function(){ book.classList.add('show'); });
-      document.getElementById('bk-next').focus();
-    }
-    function closeBook(){
-      book.classList.remove('show'); document.body.classList.remove('noscroll');
-      setTimeout(function(){ book.hidden = true; }, 250);
-      if (lastFocus) lastFocus.focus();
-    }
+
+    /* ---------- DearFlip-style page turn ---------- */
+    var N = 22, DUR = 950, st = null;
+    function reduceMotion(){ return !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches); }
+    function canFlip(){ return window.innerWidth > 820 && !reduceMotion() && !!window.requestAnimationFrame; }
+    function easeInOut(k){ return k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2; }
+    function easeOut(k){ return 1 - Math.pow(1 - k, 3); }
     function snapshot(el){
       var c = el.cloneNode(true);
       c.removeAttribute('id'); c.hidden = false;
       Array.prototype.forEach.call(c.querySelectorAll('[id]'), function(n){ n.removeAttribute('id'); });
-      c.style.cssText = 'position:absolute;inset:0;height:100%;width:100%;';
+      c.style.cssText = 'position:absolute;left:0;right:0;bottom:0;top:' + (-el.scrollTop) + 'px;overflow:hidden;';
       return c;
     }
-    function face(cls, content){
+    function slice(cls, src, off, W){
       var f = document.createElement('div'); f.className = 'face ' + cls;
-      f.appendChild(content);
-      var sh = document.createElement('i');
-      sh.style.cssText = 'position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(' + (cls === 'front' ? '270deg' : '90deg') + ',rgba(0,0,0,.32),rgba(0,0,0,.06) 45%,transparent)';
-      f.appendChild(sh);
-      return { el: f, shade: sh };
+      var pl = document.createElement('div'); pl.className = 'plate';
+      pl.style.left = (-off) + 'px'; pl.style.width = W + 'px';
+      pl.appendChild(src.cloneNode(true));
+      var sh = document.createElement('i'); sh.className = 'sh';
+      f.appendChild(pl); f.appendChild(sh);
+      return { el: f, sh: sh };
     }
-    var EASE = 'cubic-bezier(.45,.05,.2,1)', DUR = 820;
+    // One turning sheet built from N thin strips chained at their edges.
+    // dir 1 = right page turns over to the left, -1 = left page turns back to the right.
+    // hard = rigid (cover board), otherwise the free edge leads and the paper curls.
+    function makeLeaf(dir, frontEl, rearEl, hard){
+      var W = sheet.offsetWidth / 2, w = W / N;
+      var root = document.createElement('div'); root.className = 'flip ' + (dir > 0 ? 'fwd' : 'back');
+      var strips = [], parent = root;
+      for (var i = 0; i < N; i++){
+        var s = document.createElement('div'); s.className = 'strip'; s.style.width = w + 'px';
+        var fo = dir > 0 ? i * w : W - (i + 1) * w, ro = dir > 0 ? W - (i + 1) * w : i * w;
+        var f = slice('front', frontEl, fo, W), b = slice('rear', rearEl, ro, W);
+        s.appendChild(f.el); s.appendChild(b.el);
+        parent.appendChild(s); parent = s;
+        strips.push({ el: s, fs: f.sh, rs: b.sh });
+      }
+      var cast = document.createElement('i'); cast.className = 'cast ' + (dir > 0 ? 'l' : 'r');   // shadow on the landing side
+      var lift = document.createElement('i'); lift.className = 'cast ' + (dir > 0 ? 'r' : 'l');   // shadow on the page being revealed
+      sheet.appendChild(cast); sheet.appendChild(lift); sheet.appendChild(root);
+      var wt = [], sum = 0;
+      for (var k = 1; k < N; k++){ wt[k] = .25 + k / N; sum += wt[k]; }   // bend grows toward the free edge
+      var sg = dir > 0 ? -1 : 1;
+      function set(p){
+        var c = hard ? 0 : Math.sin(Math.PI * p) * 75;
+        var a0 = Math.max(0, 180 * p - c * .5), a1 = Math.min(180, 180 * p + c * .5), abs = a0;
+        for (var i = 0; i < N; i++){
+          var rel = i === 0 ? a0 : (a1 - a0) * wt[i] / sum;
+          if (i) abs += rel;
+          var S = strips[i], cs = Math.cos(abs * Math.PI / 180);
+          S.el.style.transform = 'rotateY(' + (sg * rel).toFixed(3) + 'deg)';
+          S.fs.style.opacity = (.3 * (1 - cs)).toFixed(3);
+          S.rs.style.opacity = (.3 * (1 + cs)).toFixed(3);
+        }
+        var s2 = Math.sin(Math.PI * p);
+        cast.style.opacity = (s2 * .9).toFixed(3);
+        lift.style.opacity = (s2 * .6 * (1 - p)).toFixed(3);
+      }
+      set(0);
+      return { set: set, remove: function(){ root.remove(); cast.remove(); lift.remove(); } };
+    }
+    function wrap(dir, leaf, commit, cancel){
+      var s = { dir: dir, p: 0, tok: 0, mode: '' };
+      s.set = function(p){ s.p = p; leaf.set(p); };
+      s.commit = function(){ leaf.remove(); commit(); };
+      s.cancel = function(){ leaf.remove(); cancel(); };
+      return s;
+    }
+    // prepare a turn to the neighbouring project (nothing moves until set(p) is called)
+    function begin(dir){
+      var next = (cur + dir + projs.length) % projs.length, front, rear, cover = null;
+      if (dir > 0){
+        front = snapshot(media);
+        fillRight(next);                                  // revealed underneath
+        rear = document.createElement('div'); rear.className = 'page-l'; fillLeft(rear, next);
+        rear.style.cssText = 'position:absolute;inset:0;';
+      } else {
+        front = snapshot(txt);
+        cover = snapshot(media); cover.style.left = '50%'; cover.style.zIndex = '4';
+        sheet.appendChild(cover);                         // old right page stays until the leaf lands on it
+        fillLeft(txt, next); fillRight(next);
+        rear = snapshot(media);
+      }
+      var s = wrap(dir, makeLeaf(dir, front, rear, false), function(){
+        if (cover) cover.remove();
+        if (dir > 0) fillLeft(txt, next);
+        cur = next; count.textContent = (cur + 1) + ' / ' + projs.length;
+      }, function(){
+        if (cover) cover.remove();
+        if (dir > 0) fillRight(cur); else render(cur);
+      });
+      s.abort = s.cancel;
+      return s;
+    }
+    function tween(s, to, dur, ease, cb){
+      var tok = ++s.tok, from = s.p, t0 = 0, done = false;
+      function end(){ if (done || tok !== s.tok) return; done = true; s.set(to); if (cb) cb(); }
+      function frame(now){
+        if (done || tok !== s.tok) return;
+        if (!t0) t0 = now;
+        var k = Math.min(1, (now - t0) / dur);
+        s.set(from + (to - from) * ease(k));
+        if (k < 1) requestAnimationFrame(frame); else end();
+      }
+      requestAnimationFrame(frame);
+      setTimeout(end, dur + 500);   // safety net if the tab is throttled mid-turn
+    }
+    function settle(s, to, dur, ease){
+      busy = true;
+      tween(s, to, dur, ease, function(){
+        if (to) s.commit(); else s.cancel();
+        if (st === s) st = null;
+        busy = false;
+      });
+    }
+    function drop(){ if (st){ st.tok++; st.abort(); st = null; } busy = false; }
+
     function turn(dir){
       if (busy) return;
-      var next = (cur + dir + projs.length) % projs.length;
-      var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var twoPage = window.innerWidth > 820 && shotsOf(cur).length && shotsOf(next).length && sheet.animate;
-      if (reduce){ cur = next; render(cur); return; }
-      busy = true;
-
-      if (!twoPage){
-        // single-page layouts (phone, or a project without images): slide + fade
-        cur = next; render(cur);
+      if (!canFlip()){
+        drop();
+        cur = (cur + dir + projs.length) % projs.length; render(cur);
+        if (reduceMotion()) return;
+        busy = true;
         [txt, media].forEach(function(el){
           el.style.setProperty('--dx', (dir > 0 ? 28 : -28) + 'px');
           el.classList.remove('fade-swap'); void el.offsetWidth; el.classList.add('fade-swap');
@@ -774,58 +888,100 @@
         setTimeout(function(){ busy = false; }, 380);
         return;
       }
+      if (st && st.dir !== dir) drop();
+      if (!st) st = begin(dir);
+      st.mode = 'auto';
+      settle(st, 1, Math.round(DUR * (1 - st.p * .6)), easeInOut);
+    }
 
-      var leaf = document.createElement('div');
-      var front, rear, cover = null;
-      if (dir > 0){
-        // the right-hand page lifts at its outer edge and turns over the spine to the left
-        leaf.className = 'leaf fwd';
-        front = face('front', snapshot(media));
-        fillRight(next);                                // revealed underneath
-        var tmp = document.createElement('div'); tmp.className = 'page-l'; fillLeft(tmp, next);
-        tmp.style.cssText = 'position:absolute;inset:0;';
-        rear = face('rear', tmp);                       // lands on the left
-      } else {
-        // the left-hand page turns back over the spine to the right
-        leaf.className = 'leaf back';
-        front = face('front', snapshot(txt));
-        cover = snapshot(media);                        // keep old right page visible until covered
-        cover.style.cssText += 'left:50%;width:50%;z-index:4;';
-        sheet.appendChild(cover);
-        fillLeft(txt, next);                            // revealed underneath
-        fillRight(next);
-        rear = face('rear', snapshot(media));
-      }
-      leaf.appendChild(front.el); leaf.appendChild(rear.el);
-      sheet.appendChild(leaf);
-      count.textContent = (next + 1) + ' / ' + projs.length;
-
-      var end = dir > 0 ? -180 : 180;
-      var anim = leaf.animate([
-        { transform: 'rotateY(0deg)' },
-        { transform: 'rotateY(' + (end * 0.5) + 'deg) translateZ(18px)', offset: 0.5 },
-        { transform: 'rotateY(' + end + 'deg)' }
-      ], { duration: DUR, easing: EASE });
-      front.shade.animate([{ opacity: 0 }, { opacity: 1, offset: 0.5 }, { opacity: 1 }], { duration: DUR, easing: EASE });
-      rear.shade.animate([{ opacity: 1 }, { opacity: 1, offset: 0.5 }, { opacity: 0 }], { duration: DUR, easing: EASE });
-      var done = false;
-      function finish(){
-        if (done) return; done = true;
-        if (dir > 0) fillLeft(txt, next);
-        leaf.remove(); if (cover) cover.remove();
-        cur = next; busy = false;
-      }
-      anim.onfinish = finish;
-      setTimeout(finish, DUR + 400);   // safety net if the tab is throttled mid-turn
+    // the closed cover swings open over the spine like a hard-cover book
+    function openCover(i){
+      var p = projs[i];
+      var ep = document.createElement('div'); ep.className = 'endpaper';
+      ep.style.setProperty('--c1', p.getAttribute('data-c1') || '#0E1B33');
+      ep.style.setProperty('--c2', p.getAttribute('data-c2') || '#1A2C4E');
+      sheet.appendChild(ep);
+      var s = wrap(1, makeLeaf(1, coverOf(i), snapshot(txt), true), function(){ ep.remove(); }, function(){ ep.remove(); });
+      s.abort = s.commit; s.mode = 'open';
+      st = s; busy = true;
+      setTimeout(function(){ if (st === s) settle(s, 1, 1150, easeInOut); }, 300);
+    }
+    function openBook(i){
+      lastFocus = document.activeElement; drop(); cur = i; render(i);
+      book.hidden = false; document.body.classList.add('noscroll');
+      requestAnimationFrame(function(){ book.classList.add('show'); });
+      document.getElementById('bk-next').focus();
+      if (canFlip()) openCover(i);
+    }
+    function closeBook(){
+      drop();
+      book.classList.remove('show'); document.body.classList.remove('noscroll');
+      setTimeout(function(){ book.hidden = true; }, 250);
+      if (lastFocus) lastFocus.focus();
     }
     document.getElementById('bk-prev').addEventListener('click', function(){ turn(-1); });
     document.getElementById('bk-next').addEventListener('click', function(){ turn(1); });
     document.getElementById('bk-close').addEventListener('click', closeBook);
     book.addEventListener('click', function(e){ if (e.target === book) closeBook(); });
 
-    // swipe on touch screens
+    // mouse / pen / tablet: hover an outer edge to lift the corner, drag it to turn, or click it
+    var drag = null, eatClick = false;
+    function zoneAt(x){
+      var r = sheet.getBoundingClientRect(), e = 64;
+      return x > r.right - e ? 1 : x < r.left + e ? -1 : 0;
+    }
+    function dragMove(e){
+      var dx = e.clientX - drag.x0;
+      if (!drag.on){
+        if (Math.abs(dx) < 10 || (dx < 0 ? 1 : -1) !== drag.dir) return;
+        drag.on = true;
+        try { sheet.setPointerCapture(drag.id); } catch (er) {}
+        if (st && st.dir !== drag.dir) drop();
+        if (!st) st = begin(drag.dir);
+        st.tok++; st.mode = 'drag'; drag.p0 = st.p;
+      }
+      st.set(Math.max(0, Math.min(1, drag.p0 + Math.abs(dx) / (drag.w * .8))));
+    }
+    sheet.addEventListener('pointermove', function(e){
+      if (!canFlip()) return;
+      if (drag){ dragMove(e); return; }
+      if (e.pointerType !== 'mouse' || busy) return;
+      var z = zoneAt(e.clientX);
+      sheet.classList.toggle('grab', !!z);
+      if (z && !st){ st = begin(z); st.mode = 'peek'; tween(st, .07, 280, easeOut); }
+      else if (!z && st && st.mode === 'peek') settle(st, 0, 220, easeOut);
+    });
+    sheet.addEventListener('pointerleave', function(){
+      sheet.classList.remove('grab');
+      if (!drag && !busy && st && st.mode === 'peek') settle(st, 0, 220, easeOut);
+    });
+    sheet.addEventListener('pointerdown', function(e){
+      eatClick = false;
+      if (!canFlip() || busy || e.button !== 0) return;
+      var r = sheet.getBoundingClientRect();
+      drag = { id: e.pointerId, x0: e.clientX, dir: e.clientX > r.left + r.width / 2 ? 1 : -1, zone: zoneAt(e.clientX), on: false, w: r.width };
+    });
+    sheet.addEventListener('pointerup', function(e){
+      var d = drag; drag = null;
+      if (!d) return;
+      if (d.on && st){
+        eatClick = true;
+        var to = st.p > .3 ? 1 : 0;
+        settle(st, to, Math.round(220 + 650 * Math.abs(to - st.p)), easeOut);
+      } else if (d.zone && d.zone === d.dir && Math.abs(e.clientX - d.x0) < 10){
+        eatClick = true; turn(d.zone);
+      }
+    });
+    sheet.addEventListener('pointercancel', function(){
+      if (drag && drag.on && st) settle(st, 0, 250, easeOut);
+      drag = null;
+    });
+    sheet.addEventListener('click', function(e){ if (eatClick){ eatClick = false; e.stopPropagation(); e.preventDefault(); } }, true);
+    sheet.addEventListener('dragstart', function(e){ e.preventDefault(); });
+
+    // phones: swipe left / right
     var sx = null;
-    sheet.addEventListener('touchstart', function(e){ sx = e.touches[0].clientX; }, { passive: true });
+    sheet.addEventListener('touchstart', function(e){ sx = canFlip() ? null : e.touches[0].clientX; }, { passive: true });
     sheet.addEventListener('touchend', function(e){
       if (sx === null) return; var dx = e.changedTouches[0].clientX - sx; sx = null;
       if (Math.abs(dx) > 60) turn(dx < 0 ? 1 : -1);
