@@ -246,15 +246,32 @@
   .bk-count{position:absolute;left:50%;bottom:-38px;transform:translateX(-50%);font-family:var(--mono);font-size:13px;color:#fff;opacity:.85}
   @media (max-width:820px){
     .book{padding:0}
-    .book-frame{width:100%;height:100%}
-    .sheet{border-radius:0;grid-template-columns:1fr;grid-template-rows:auto minmax(220px,42vh);overflow:auto}
+    .book-frame{width:100%;height:100%;height:100dvh}
+    .sheet{border-radius:0;display:block;overflow:hidden;perspective:1600px;touch-action:pan-y}
     .sheet::before{display:none}
-    .page-l{order:2;padding:22px 20px 80px;overflow:visible}
-    .page-r{order:1}
-    .bk-prev,.bk-next{top:auto;bottom:16px;margin:0}
-    .bk-prev{left:16px} .bk-next{right:16px}
+    .page-l,.page-r{position:absolute;inset:0}
+    .page-l{padding:24px 20px 84px;overflow:auto;background:var(--surface)}
+    .page-r{padding-bottom:64px}
+    .page-r .viewer{padding:56px 12px 8px}
+    .sheet:not(.m-text)>.page-l:not(.snap),.sheet.m-text>.page-r:not(.snap){visibility:hidden}
+    .bk-prev,.bk-next{top:auto;bottom:14px;margin:0}
+    .bk-prev{left:14px} .bk-next{right:14px}
     .bk-close{right:12px;top:12px}
-    .bk-count{bottom:28px}
+    .bk-count{bottom:24px;z-index:3;background:rgba(14,27,51,.86);padding:5px 12px;border-radius:999px;opacity:1}
+    .bk-count .pd{display:inline-block;width:6px;height:6px;border-radius:50%;background:#fff;opacity:.35;margin-left:6px;vertical-align:middle}
+    .bk-count .pd.on{opacity:1}
+    .bk-cover .cv-head{left:24px;top:64px}
+    .bk-cover .cv-name{left:24px;top:144px}
+    .bk-cover::after{left:24px;bottom:96px}
+  }
+  .cast.full{left:0;width:100%;background:linear-gradient(90deg,rgba(0,0,0,.38),rgba(0,0,0,.1) 40%,transparent 80%)}
+  /* phones: project cards become a swipeable row instead of a long column */
+  .swipe-hint{display:none}
+  @media screen and (max-width:560px){
+    .projects{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin-inline:-18px;padding:2px 18px 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+    .projects::-webkit-scrollbar{display:none}
+    .projects .proj{flex:0 0 84%;scroll-snap-align:center}
+    .swipe-hint{display:block;margin:2px 0 0;text-align:center;font-family:var(--mono);font-size:12px;color:var(--ink-3)}
   }
 
   /* lightbox */
@@ -707,6 +724,9 @@
       p.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openBook(i); } });
     });
 
+    var hint = document.createElement('p'); hint.className = 'swipe-hint';
+    hint.innerHTML = '<span class="th">← ปัดเพื่อดูโปรเจกต์อื่น →</span><span class="en">← swipe for more projects →</span>';
+    projs[0].parentNode.parentNode.insertBefore(hint, projs[0].parentNode.nextSibling);
     var book = document.getElementById('book'), sheet = document.getElementById('sheet');
     var txt = document.getElementById('bk-text'), media = document.getElementById('bk-media');
     var vImg = document.getElementById('bk-img'), vCap = document.getElementById('bk-cap'), thumbs = document.getElementById('bk-thumbs');
@@ -750,7 +770,14 @@
       thumbs.hidden = shots.length < 2;
       if (shots.length) showShot(0); else media.appendChild(coverOf(i));   // no screenshots: show the cover
     }
-    function render(i){ fillLeft(txt, i); fillRight(i); count.textContent = (i + 1) + ' / ' + projs.length; }
+    var mside = 0;   // phone: 0 = picture page, 1 = details page
+    function portrait(){ return window.innerWidth <= 820; }
+    function updateCount(){
+      count.innerHTML = (cur + 1) + ' / ' + projs.length +
+        (portrait() ? ' <i class="pd' + (mside ? '' : ' on') + '"></i><i class="pd' + (mside ? ' on' : '') + '"></i>' : '');
+    }
+    function setSide(s){ mside = s; sheet.classList.toggle('m-text', s === 1); txt.scrollTop = 0; updateCount(); }
+    function render(i){ fillLeft(txt, i); fillRight(i); updateCount(); }
     function showShot(k){
       shotIdx = k; var s = shots[k];
       vImg.src = s.src; vImg.alt = s.alt; vCap.innerHTML = s.cap;
@@ -765,7 +792,7 @@
     function easeOut(k){ return 1 - Math.pow(1 - k, 3); }
     function snapshot(el){
       var c = el.cloneNode(true);
-      c.removeAttribute('id'); c.hidden = false;
+      c.removeAttribute('id'); c.hidden = false; c.classList.remove('fade-swap'); c.classList.add('snap');
       Array.prototype.forEach.call(c.querySelectorAll('[id]'), function(n){ n.removeAttribute('id'); });
       c.style.cssText = 'position:absolute;left:0;right:0;bottom:0;top:' + (-el.scrollTop) + 'px;overflow:hidden;';
       return c;
@@ -782,9 +809,11 @@
     // One turning sheet built from N thin strips chained at their edges.
     // dir 1 = right page turns over to the left, -1 = left page turns back to the right.
     // hard = rigid (cover board), otherwise the free edge leads and the paper curls.
-    function makeLeaf(dir, frontEl, rearEl, hard){
-      var W = sheet.offsetWidth / 2, w = W / N;
+    // portrait = phone: one page, hinged at the left edge of the screen
+    function makeLeaf(dir, frontEl, rearEl, hard, portrait){
+      var W = portrait ? sheet.offsetWidth : sheet.offsetWidth / 2, w = W / N;
       var root = document.createElement('div'); root.className = 'flip ' + (dir > 0 ? 'fwd' : 'back');
+      if (portrait) root.style.left = '0px';
       var strips = [], parent = root;
       for (var i = 0; i < N; i++){
         var s = document.createElement('div'); s.className = 'strip'; s.style.width = w + 'px';
@@ -796,7 +825,8 @@
       }
       var cast = document.createElement('i'); cast.className = 'cast ' + (dir > 0 ? 'l' : 'r');   // shadow on the landing side
       var lift = document.createElement('i'); lift.className = 'cast ' + (dir > 0 ? 'r' : 'l');   // shadow on the page being revealed
-      sheet.appendChild(cast); sheet.appendChild(lift); sheet.appendChild(root);
+      if (portrait){ cast = null; lift.className = 'cast full'; } else sheet.appendChild(cast);
+      sheet.appendChild(lift); sheet.appendChild(root);
       var wt = [], sum = 0;
       for (var k = 1; k < N; k++){ wt[k] = .25 + k / N; sum += wt[k]; }   // bend grows toward the free edge
       var sg = dir > 0 ? -1 : 1;
@@ -812,11 +842,11 @@
           S.rs.style.opacity = (.3 * (1 + cs)).toFixed(3);
         }
         var s2 = Math.sin(Math.PI * p);
-        cast.style.opacity = (s2 * .9).toFixed(3);
+        if (cast) cast.style.opacity = (s2 * .9).toFixed(3);
         lift.style.opacity = (s2 * .6 * (1 - p)).toFixed(3);
       }
       set(0);
-      return { set: set, remove: function(){ root.remove(); cast.remove(); lift.remove(); } };
+      return { set: set, remove: function(){ root.remove(); if (cast) cast.remove(); lift.remove(); } };
     }
     function wrap(dir, leaf, commit, cancel){
       var s = { dir: dir, p: 0, tok: 0, mode: '' };
@@ -843,7 +873,7 @@
       var s = wrap(dir, makeLeaf(dir, front, rear, false), function(){
         if (cover) cover.remove();
         if (dir > 0) fillLeft(txt, next);
-        cur = next; count.textContent = (cur + 1) + ' / ' + projs.length;
+        cur = next; updateCount();
       }, function(){
         if (cover) cover.remove();
         if (dir > 0) fillRight(cur); else render(cur);
@@ -876,42 +906,62 @@
 
     function turn(dir){
       if (busy) return;
-      if (!canFlip()){
-        drop();
-        cur = (cur + dir + projs.length) % projs.length; render(cur);
-        if (reduceMotion()) return;
-        busy = true;
-        [txt, media].forEach(function(el){
-          el.style.setProperty('--dx', (dir > 0 ? 28 : -28) + 'px');
-          el.classList.remove('fade-swap'); void el.offsetWidth; el.classList.add('fade-swap');
-        });
-        setTimeout(function(){ busy = false; }, 380);
-        return;
-      }
+      if (portrait()){ turnPhone(dir); return; }
+      if (!canFlip()){ drop(); cur = (cur + dir + projs.length) % projs.length; render(cur); return; }
       if (st && st.dir !== dir) drop();
       if (!st) st = begin(dir);
       st.mode = 'auto';
       settle(st, 1, Math.round(DUR * (1 - st.p * .6)), easeInOut);
     }
+    function blankPaper(){ var d = document.createElement('div'); d.style.cssText = 'position:absolute;inset:0;background:var(--surface-2)'; return d; }
+    // phone: picture page -> details page -> next project's picture page, one sheet at a time
+    function turnPhone(dir){
+      drop();
+      var n = projs.length, i = cur, s = mside + dir;
+      if (s > 1){ s = 0; i = (cur + 1) % n; } else if (s < 0){ s = 1; i = (cur - 1 + n) % n; }
+      var anim = !reduceMotion() && !!window.requestAnimationFrame;
+      var old = anim ? snapshot(mside ? txt : media) : null;
+      if (i !== cur){ cur = i; render(i); }
+      setSide(s);
+      if (!anim) return;
+      var t;
+      if (dir > 0){
+        // the page on top lifts from its right edge and turns away over the left edge
+        t = wrap(1, makeLeaf(1, old, blankPaper(), false, true), function(){}, function(){});
+      } else {
+        // the previous page swings back in from the left and lands on top
+        old.style.zIndex = '4'; sheet.appendChild(old);
+        t = wrap(1, makeLeaf(1, snapshot(s ? txt : media), blankPaper(), false, true), function(){ old.remove(); }, function(){ old.remove(); });
+        t.set(1);
+      }
+      t.abort = t.commit;
+      st = t;
+      settle(t, dir > 0 ? 1 : 0, 780, easeInOut);
+    }
 
     // the closed cover swings open over the spine like a hard-cover book
-    function openCover(i){
-      var p = projs[i];
-      var ep = document.createElement('div'); ep.className = 'endpaper';
-      ep.style.setProperty('--c1', p.getAttribute('data-c1') || '#0E1B33');
-      ep.style.setProperty('--c2', p.getAttribute('data-c2') || '#1A2C4E');
-      sheet.appendChild(ep);
-      var s = wrap(1, makeLeaf(1, coverOf(i), snapshot(txt), true), function(){ ep.remove(); }, function(){ ep.remove(); });
+    function openCover(i, phone){
+      var p = projs[i], ep = null;
+      if (!phone){
+        ep = document.createElement('div'); ep.className = 'endpaper';
+        ep.style.setProperty('--c1', p.getAttribute('data-c1') || '#0E1B33');
+        ep.style.setProperty('--c2', p.getAttribute('data-c2') || '#1A2C4E');
+        sheet.appendChild(ep);
+      }
+      function done(){ if (ep) ep.remove(); }
+      var s = wrap(1, makeLeaf(1, coverOf(i), phone ? blankPaper() : snapshot(txt), true, phone), done, done);
       s.abort = s.commit; s.mode = 'open';
       st = s; busy = true;
       setTimeout(function(){ if (st === s) settle(s, 1, 1150, easeInOut); }, 300);
     }
     function openBook(i){
-      lastFocus = document.activeElement; drop(); cur = i; render(i);
+      lastFocus = document.activeElement; drop(); cur = i;
+      mside = 0; sheet.classList.remove('m-text'); render(i);
       book.hidden = false; document.body.classList.add('noscroll');
       requestAnimationFrame(function(){ book.classList.add('show'); });
       document.getElementById('bk-next').focus();
-      if (canFlip()) openCover(i);
+      if (portrait()){ if (!reduceMotion() && shots.length) openCover(i, true); }
+      else if (canFlip()) openCover(i, false);
     }
     function closeBook(){
       drop();
@@ -981,10 +1031,12 @@
 
     // phones: swipe left / right
     var sx = null;
-    sheet.addEventListener('touchstart', function(e){ sx = canFlip() ? null : e.touches[0].clientX; }, { passive: true });
+    var sy = null;
+    sheet.addEventListener('touchstart', function(e){ sx = canFlip() ? null : e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
     sheet.addEventListener('touchend', function(e){
-      if (sx === null) return; var dx = e.changedTouches[0].clientX - sx; sx = null;
-      if (Math.abs(dx) > 60) turn(dx < 0 ? 1 : -1);
+      if (sx === null) return;
+      var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; sx = null;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.4) turn(dx < 0 ? 1 : -1);
     });
 
     /* lightbox */
