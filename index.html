@@ -188,6 +188,45 @@
   .coop .tagc{display:inline-block;margin-right:8px;padding:1px 10px;border-radius:999px;font-size:12.5px;font-weight:600;color:var(--gold-ink);border:1px solid rgba(201,164,106,.6);vertical-align:2px}
   .coop ul.pts{margin-top:8px}
 
+
+  /* ---------- designed PDF edition (?design=1, printed with screen styles) ---------- */
+  .qr-cta{display:none}
+  body.design{background:#fff;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .design .toolbar,.design .book,.design .lb,.design .swipe-hint,.design .subhead small,.design .hero::after{display:none!important}
+  .design .reveal,.design .js .reveal{opacity:1!important;transform:none!important}
+  .design .hero{border-radius:16px;overflow:hidden}
+  .design .hero .wrap{padding-top:30px;padding-bottom:30px}
+  .design main{padding-block:4px 0}
+  .design section{margin-top:16px}
+  .design .card{padding:16px 20px}
+  .design .chips{gap:5px}
+  .design .chips li{font-size:11.5px;padding:2px 7px}
+  .design .skill h3{margin-bottom:8px;font-size:15px}
+  .design .summary{font-size:16px;line-height:1.7}
+  .design .motto{font-size:15px}
+  .design ul.pts li{font-size:15px}
+  .design .card{box-shadow:none}
+  .design .sechead{break-after:avoid}
+  .design .card.skill,.design .proj,.design .edu,.design .qr-cta,.design ul.pts li,.design .job-top{break-inside:avoid}
+  .design .skills{grid-template-columns:repeat(3,1fr)}
+  /* projects become compact name cards; details live on the website */
+  .design .projects{grid-template-columns:repeat(3,1fr);gap:10px}
+  .design .proj{border-left:5px solid var(--pc);border-radius:12px;transform:none!important;box-shadow:none!important}
+  .design .proj .cover,.design .proj .open,.design .proj ul.pts,.design .proj .stack,.design .proj .shots{display:none!important}
+  .design .proj .body{padding:12px 14px;gap:3px}
+  .design .proj h4 .abbr{display:inline-block;align-self:flex-start;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.06em;color:#fff;background:var(--pc);border-radius:6px;padding:1px 8px;margin-bottom:3px}
+  .design .proj h4 .fname{font-size:15px}
+  .design .proj h4 .desc{font-size:13px}
+  .design .proj h4 .tag{font-size:11.5px}
+  .design .qr-cta{grid-column:span 2;display:flex;align-items:center;gap:18px;padding:14px 18px;border-radius:14px;color:#fff;
+      background:linear-gradient(120deg,#0E1B33,#1A2C4E 70%,#23396A)}
+  .design .qr-cta .qr{flex:none;display:block;width:104px;height:104px;padding:8px;background:#fff;border-radius:10px}
+  .design .qr-cta .qr svg{display:block;width:100%;height:100%}
+  .design .qr-h{margin:0;font-size:17px;font-weight:700;line-height:1.4}
+  .design .qr-s{margin:3px 0 7px;font-size:13.5px;color:#C7D0E0}
+  .design .qr-link{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,164,106,.6)}
+  .design .other{margin-top:16px}
+
   /* ---------- book viewer ---------- */
   .book{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:rgba(6,12,24,.72);backdrop-filter:blur(6px);
       opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s}
@@ -406,7 +445,7 @@
       <button id="btn-th" type="button" aria-pressed="true" onclick="setLang('th')">ไทย</button>
       <button id="btn-en" type="button" aria-pressed="false" onclick="setLang('en')">English</button>
       <button id="btn-theme" class="theme" type="button" aria-label="Light / dark mode" title="Light / dark mode" onclick="toggleTheme()"></button>
-      <a class="dl" href="Siwakorn-C-Resume.pdf" download><span class="th">↓ ดาวน์โหลด PDF</span><span class="en">↓ Download PDF</span></a>
+      <a class="dl th" href="Siwakorn-C-Resume-TH.pdf" download>↓ ดาวน์โหลด PDF</a><a class="dl en" href="Siwakorn-C-Resume-EN.pdf" download>↓ Download PDF</a>
     </div>
     <div class="id">
       <div class="photo"><img src="img/photo.webp" alt="Siwakorn Chansomboon" onerror="this.closest('.photo').remove()"></div>
@@ -526,7 +565,7 @@
         <li class="en">Took part in <b>deployment and infrastructure</b> work: configured IIS websites and application pools per service, maintained CI/CD pipelines on Azure DevOps with automated code-quality checks, and helped analyse and resolve production issues.</li>
       </ul>
 
-      <p class="subhead"><span class="th">โครงการสำคัญ</span><span class="en">Key Projects</span> <small class="th">· กดที่การ์ดเพื่อเปิดดูผลงาน</small><small class="en">· click a card to open</small></p>
+      <p class="subhead" id="projects"><span class="th">โครงการสำคัญ</span><span class="en">Key Projects</span> <small class="th">· กดที่การ์ดเพื่อเปิดดูผลงาน</small><small class="en">· click a card to open</small></p>
       <div class="projects">
 
       <div class="proj" data-short="SWMS" data-abbr="SWMS" data-c1="#0B1A33" data-c2="#1E4FB8" data-icon="robot">
@@ -667,6 +706,15 @@
         </div>
       </div>
 
+      <div class="qr-cta">
+        <a class="qr th" href="https://siwakornix-icx.github.io/?lang=th#projects" aria-label="QR"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 33" shape-rendering="crispEdges"><path fill="#FFFFFF" d="M0 0h33v33H0z"/><path stroke="#0E1B33" d="M0 0.5h7m2 0h3m1 0h1m3 0h1m1 0h2m2 0h1m2 0h7M0 1.5h1m5 0h1m2 0h3m1 0h3m1 0h1m2 0h1m1 0h1m3 0h1m5 0h1M0 2.5h1m1 0h3m1 0h1m1 0h1m1 0h2m1 0h1m3 0h3m1 0h4m1 0h1m1 0h3m1 0h1M0 3.5h1m1 0h3m1 0h1m1 0h1m2 0h1m2 0h3m3 0h1m1 0h3m1 0h1m1 0h3m1 0h1M0 4.5h1m1 0h3m1 0h1m1 0h3m1 0h2m1 0h1m1 0h2m4 0h1m2 0h1m1 0h3m1 0h1M0 5.5h1m5 0h1m1 0h2m2 0h5m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m5 0h1M0 6.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M8 7.5h1m1 0h2m3 0h1m2 0h1m2 0h4M0 8.5h1m1 0h5m3 0h6m1 0h2m3 0h1m1 0h1m1 0h5M2 9.5h1m1 0h2m3 0h1m2 0h1m3 0h1m1 0h3m1 0h2m2 0h2m1 0h4M0 10.5h2m1 0h4m2 0h1m5 0h2m1 0h1m1 0h1m4 0h2m1 0h1m1 0h1M2 11.5h1m1 0h2m1 0h1m1 0h4m1 0h3m4 0h1m2 0h2m2 0h5M1 12.5h2m2 0h2m1 0h1m1 0h3m2 0h1m2 0h2m2 0h1m2 0h1m2 0h2m1 0h2M3 13.5h3m2 0h3m2 0h5m2 0h2m1 0h1m1 0h3m1 0h1m1 0h2M0 14.5h1m1 0h1m1 0h6m1 0h1m1 0h2m2 0h1m1 0h1m4 0h3m1 0h2m1 0h1M0 15.5h2m2 0h1m4 0h2m1 0h1m1 0h1m1 0h1m1 0h4m2 0h3m2 0h2M3 16.5h4m1 0h2m3 0h2m1 0h2m1 0h1m2 0h1m1 0h2m1 0h2m3 0h1M2 17.5h2m3 0h1m2 0h1m1 0h1m3 0h6m1 0h1m1 0h3m1 0h2m1 0h1M0 18.5h1m2 0h1m2 0h1m1 0h3m1 0h1m2 0h1m1 0h1m2 0h3m2 0h1m1 0h2m1 0h1M0 19.5h3m1 0h1m2 0h1m1 0h7m1 0h2m1 0h4m3 0h6M3 20.5h2m1 0h1m3 0h1m2 0h2m1 0h1m2 0h1m2 0h1m2 0h1m1 0h3m1 0h2M0 21.5h1m2 0h1m3 0h3m1 0h2m1 0h2m2 0h1m4 0h1m2 0h1m2 0h1m2 0h1M0 22.5h1m1 0h2m1 0h2m4 0h2m1 0h4m2 0h1m1 0h1m4 0h2m1 0h2M0 23.5h1m4 0h1m4 0h1m1 0h4m3 0h1m1 0h1m1 0h4m1 0h3m1 0h1M0 24.5h1m1 0h1m1 0h1m1 0h2m2 0h2m3 0h1m1 0h1m4 0h1m1 0h5M8 25.5h4m4 0h1m1 0h2m1 0h1m1 0h2m3 0h1m1 0h1m1 0h1M0 26.5h7m4 0h2m2 0h1m2 0h1m4 0h2m1 0h1m1 0h1m1 0h2M0 27.5h1m5 0h1m1 0h1m2 0h2m2 0h2m4 0h4m3 0h4M0 28.5h1m1 0h3m1 0h1m1 0h1m1 0h6m2 0h3m1 0h1m1 0h6m2 0h1M0 29.5h1m1 0h3m1 0h1m1 0h1m1 0h1m2 0h1m1 0h3m1 0h2m1 0h4m2 0h1m1 0h3M0 30.5h1m1 0h3m1 0h1m1 0h4m1 0h1m4 0h1m2 0h1m4 0h2m1 0h2M0 31.5h1m5 0h1m2 0h1m2 0h1m3 0h1m3 0h3m3 0h1m1 0h3M0 32.5h7m1 0h1m7 0h2m2 0h1m1 0h1m1 0h1m2 0h1m3 0h1"/></svg></a><a class="qr en" href="https://siwakornix-icx.github.io/?lang=en#projects" aria-label="QR"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 33" shape-rendering="crispEdges"><path fill="#FFFFFF" d="M0 0h33v33H0z"/><path stroke="#0E1B33" d="M0 0.5h7m3 0h2m1 0h1m3 0h1m1 0h2m2 0h1m2 0h7M0 1.5h1m5 0h1m2 0h1m1 0h1m1 0h3m1 0h1m2 0h1m1 0h1m3 0h1m5 0h1M0 2.5h1m1 0h3m1 0h1m1 0h1m2 0h1m1 0h1m3 0h3m1 0h4m1 0h1m1 0h3m1 0h1M0 3.5h1m1 0h3m1 0h1m1 0h1m1 0h3m1 0h3m3 0h1m1 0h3m1 0h1m1 0h3m1 0h1M0 4.5h1m1 0h3m1 0h1m1 0h2m1 0h3m1 0h1m1 0h2m4 0h1m2 0h1m1 0h3m1 0h1M0 5.5h1m5 0h1m1 0h2m3 0h4m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m5 0h1M0 6.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M8 7.5h1m1 0h3m2 0h1m2 0h1m2 0h4M0 8.5h1m1 0h5m3 0h6m1 0h2m3 0h1m1 0h1m1 0h5M2 9.5h1m1 0h2m3 0h1m2 0h1m3 0h1m1 0h3m1 0h2m2 0h2m1 0h4M0 10.5h2m1 0h1m1 0h2m8 0h2m1 0h1m1 0h1m4 0h2m1 0h1m1 0h1M2 11.5h1m1 0h1m2 0h1m3 0h2m1 0h3m4 0h1m2 0h2m2 0h5M2 12.5h1m3 0h1m1 0h2m1 0h2m2 0h1m2 0h2m2 0h1m2 0h1m2 0h2m1 0h2M1 13.5h2m1 0h2m1 0h3m1 0h1m1 0h5m2 0h2m1 0h1m2 0h2m1 0h1m1 0h2M0 14.5h1m3 0h6m1 0h1m1 0h2m2 0h1m1 0h1m4 0h3m1 0h2m1 0h1M0 15.5h2m1 0h2m2 0h1m1 0h3m2 0h1m1 0h1m1 0h4m2 0h3m2 0h2M2 16.5h8m3 0h2m1 0h2m1 0h1m2 0h1m1 0h2m1 0h2m3 0h1M0 17.5h1m1 0h2m3 0h1m2 0h1m1 0h1m3 0h6m1 0h1m1 0h3m1 0h2m1 0h1M0 18.5h1m2 0h1m2 0h1m1 0h2m2 0h2m1 0h1m1 0h1m2 0h3m2 0h1m1 0h2m1 0h1M0 19.5h3m2 0h1m1 0h1m3 0h2m2 0h1m1 0h2m1 0h4m1 0h1m1 0h6M3 20.5h1m1 0h2m1 0h3m1 0h1m3 0h1m2 0h1m2 0h1m2 0h1m1 0h3m1 0h2M0 21.5h2m6 0h4m2 0h2m2 0h1m4 0h1m2 0h1m2 0h1m2 0h1M0 22.5h1m1 0h2m1 0h2m5 0h1m1 0h4m2 0h1m1 0h1m4 0h2m1 0h2M0 23.5h1m1 0h1m2 0h1m1 0h1m2 0h1m2 0h3m3 0h1m1 0h1m1 0h4m1 0h3m1 0h1M0 24.5h1m1 0h1m1 0h1m1 0h2m2 0h2m3 0h1m1 0h1m4 0h1m1 0h5M8 25.5h1m1 0h2m4 0h1m1 0h2m1 0h1m1 0h2m3 0h1m1 0h1m1 0h1M0 26.5h7m4 0h5m2 0h1m4 0h2m1 0h1m1 0h1m1 0h2M0 27.5h1m5 0h1m1 0h1m1 0h7m4 0h4m3 0h4M0 28.5h1m1 0h3m1 0h1m1 0h4m1 0h3m2 0h3m1 0h1m1 0h6m2 0h1M0 29.5h1m1 0h3m1 0h1m1 0h1m1 0h1m1 0h2m1 0h3m1 0h2m1 0h4m2 0h1m1 0h3M0 30.5h1m1 0h3m1 0h1m1 0h3m2 0h1m4 0h1m2 0h1m4 0h2m1 0h2M0 31.5h1m5 0h1m2 0h1m1 0h2m3 0h1m3 0h3m2 0h2m1 0h3M0 32.5h7m1 0h1m2 0h1m4 0h2m2 0h1m1 0h1m1 0h1m1 0h2m3 0h1"/></svg></a>
+        <div class="qr-txt">
+          <p class="qr-h"><span class="th">ดูรายละเอียดและภาพหน้าจอของทุกโครงการได้ที่เว็บไซต์</span><span class="en">See every project in detail, with screenshots, on my website</span></p>
+          <p class="qr-s"><span class="th">สแกน QR Code ด้วยมือถือ หรือคลิกลิงก์ด้านล่าง</span><span class="en">Scan the QR code with your phone, or click the link below</span></p>
+          <a class="qr-link th" href="https://siwakornix-icx.github.io/?lang=th#projects">siwakornix-icx.github.io</a><a class="qr-link en" href="https://siwakornix-icx.github.io/?lang=en#projects">siwakornix-icx.github.io</a>
+        </div>
+      </div>
+
       </div>
 
       <div class="other proj-plain extra-wrap">
@@ -726,6 +774,7 @@
     var l = (q === 'en' || q === 'th') ? q : saved;
     if (l === 'en' || l === 'th') setLang(l);
     try { if (new URLSearchParams(location.search).get('onepage')) document.body.classList.add('onepage'); } catch (e) {}
+    try { if (new URLSearchParams(location.search).get('design')) document.body.classList.add('design'); } catch (e) {}
   })();
 
   /* ---------- theme (light by default) ---------- */
@@ -786,6 +835,7 @@
       b.innerHTML = '<span class="th">ดูผลงาน</span><span class="en">View project</span>' + ARROW;
       p.querySelector('.body').appendChild(b);
       p.setAttribute('tabindex', '0'); p.setAttribute('role', 'button');
+      p.style.setProperty('--pc', p.getAttribute('data-c2') || '#2A5BD7');
       p.addEventListener('click', function(){ openBook(i); });
       p.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openBook(i); } });
     });
