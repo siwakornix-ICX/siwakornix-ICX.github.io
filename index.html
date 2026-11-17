@@ -109,7 +109,10 @@
 
   /* experience */
   .job + .job{margin-top:16px}
-  .job-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+  .job-top{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px}
+  .job-top .logo{flex:none;width:54px;height:54px;object-fit:contain;padding:6px;background:#fff;border:1px solid var(--rule);border-radius:12px;box-shadow:0 1px 2px rgba(16,24,40,.06)}
+  .job-top .logo.wide{width:84px}
+  .job-top .ttl{flex:1;min-width:0}
   .job h3{margin:0;font-size:20px;font-weight:700;line-height:1.35}
   .job .org{font-weight:500;color:var(--ink-2)}
   .when{margin-left:auto;font-family:var(--mono);font-size:13px;color:var(--ink-3);white-space:nowrap}
@@ -173,6 +176,7 @@
 
   /* education */
   .edu .job-sum{margin-bottom:0}
+  @media screen and (min-width:561px){ .edu .job-sum{margin-left:66px} }
 
   /* ---------- book viewer ---------- */
   .book{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:rgba(6,12,24,.72);backdrop-filter:blur(6px);
@@ -298,7 +302,7 @@
 
   /* ---------- print: plain single-column A4, ATS-friendly ---------- */
   @media print{
-    @page{size:A4;margin:12mm 13mm}
+    @page{size:A4;margin:10mm 13mm}
     :root,:root[data-theme="dark"]{--bg:#fff;--surface:#fff;--surface-2:#fff;--ink:#000;--ink-2:#222;--ink-3:#444;--rule:#bbb;--rule-soft:#ddd;--chip:#fff;--chip-ink:#222;--accent:#1A2C4E;--gold-ink:#1A2C4E}
     body{background:#fff;font-size:9.3pt;line-height:1.4}
     .toolbar,.book,.lb,.thumb,.open,.shots,.hero::after{display:none!important}
@@ -331,6 +335,7 @@
     .chips li:not(:last-child)::after{content:", "}
     ul.pts{gap:1px}
     .job h3{font-size:10.5pt}
+    .job-top .logo{display:none!important}
     .when{font-size:8.5pt}
     .job-sum{margin:1px 0 3px}
     .subhead{margin:6px 0 2px;font-size:9.5pt}
@@ -352,6 +357,9 @@
     .js .proj .stack{display:block}
     .stack{font-size:8.3pt}
     a{color:inherit;text-decoration:none}
+    /* print keeps the two main bullets per project; the book on screen shows all three */
+    .proj ul.pts li:nth-child(3),.proj ul.pts li:nth-child(6){display:none!important}
+    .proj .stack{display:none!important}
     /* one-page edition (?onepage=1) */
     .onepage .proj.extra,.onepage .stack,.onepage .exp-sum,.onepage .subhead{display:none!important}
     .onepage .summary,.onepage ul.pts li{font-size:8.6pt;line-height:1.34}
@@ -361,7 +369,7 @@
     .onepage .summary,.onepage ul.pts li,.onepage .chips li,.onepage .skill h3,.onepage .job-sum{font-size:8.3pt!important;line-height:1.3}
     .onepage .job h3{font-size:9.8pt}
     .onepage .proj h4{font-size:9pt}
-    .onepage .proj ul.pts li:nth-child(2),.onepage .proj ul.pts li:nth-child(4){display:none!important}
+    .onepage .proj ul.pts li.th ~ li.th,.onepage .proj ul.pts li.en ~ li.en{display:none!important}
     .onepage .job + .job ul.pts{display:none}
     .onepage .photo{width:56px}
     .onepage .name{font-size:17pt}
@@ -416,7 +424,32 @@
   </section>
 
   <section>
-    <div class="sechead"><span class="idx">02</span><h2 class="th">ความเชี่ยวชาญ</h2><h2 class="en">Core Competencies</h2></div>
+    <div class="sechead"><span class="idx">02</span><h2 class="th">การศึกษาและการฝึกงาน</h2><h2 class="en">Education &amp; Internship</h2></div>
+    <article class="card job edu">
+      <div class="job-top">
+        <img class="logo" src="img/logos/silpakorn.webp" alt="Silpakorn University logo" width="54" height="54">
+        <h3 class="ttl"><span class="th">ปริญญาตรี คณะเทคโนโลยีสารสนเทศและการสื่อสาร</span><span class="en">Bachelor's Degree, Faculty of Information and Communication Technology</span></h3>
+        <span class="when"><span class="th">2563 – 2567</span><span class="en">2020 – 2024</span></span>
+      </div>
+      <p class="job-sum th">มหาวิทยาลัยศิลปากร · เกียรตินิยมอันดับสอง</p>
+      <p class="job-sum en">Silpakorn University · Second-Class Honours</p>
+    </article>
+
+    <article class="card job">
+      <div class="job-top">
+        <img class="logo wide" src="img/logos/umeda.webp" alt="Umeda logo" width="54" height="54">
+        <h3 class="ttl"><span class="th">UX/UI Designer (สหกิจศึกษา)</span><span class="en">UX/UI Designer (Cooperative Education)</span> <span class="org">· Umeda Company Limited</span></h3>
+        <span class="when"><span class="th">พ.ย. 2566 – มี.ค. 2567</span><span class="en">Nov 2023 – Mar 2024</span></span>
+      </div>
+      <ul class="pts">
+        <li class="th">ออกแบบเว็บไซต์ Med4U ซึ่งรวบรวมบทความสุขภาพ ข้อมูลโรงพยาบาลและคลินิก โปรโมชัน และรีวิวผลิตภัณฑ์ โดยจัดวางข้อมูลทางการแพทย์ปริมาณมากให้ค้นหาและอ่านได้ง่าย</li>
+        <li class="en">Designed Med4U, a health information website covering articles, hospital and clinic listings, promotions and product reviews, organising dense medical content to be easy to navigate and read.</li>
+      </ul>
+    </article>
+  </section>
+
+  <section>
+    <div class="sechead"><span class="idx">03</span><h2 class="th">ความเชี่ยวชาญ</h2><h2 class="en">Core Competencies</h2></div>
     <div class="skills">
       <div class="card skill">
         <h3><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M17.5 14v7M14 17.5h7"/></svg></i><span class="th">สถาปัตยกรรมและการออกแบบระบบ</span><span class="en">Architecture &amp; System Design</span></h3>
@@ -450,11 +483,12 @@
   </section>
 
   <section>
-    <div class="sechead"><span class="idx">03</span><h2 class="th">ประสบการณ์ทำงาน</h2><h2 class="en">Work Experience</h2></div>
+    <div class="sechead"><span class="idx">04</span><h2 class="th">ประสบการณ์ทำงาน</h2><h2 class="en">Work Experience</h2></div>
 
     <article class="card job">
       <div class="job-top">
-        <h3>Software Developer <span class="org">· PJW Plastic</span></h3>
+        <img class="logo wide" src="img/logos/pjw.webp" alt="PJW Plastic logo" width="84" height="54">
+        <h3 class="ttl">Software Developer <span class="org">· PJW Plastic</span></h3>
         <span class="when"><span class="th">ส.ค. 2567 – ปัจจุบัน</span><span class="en">Aug 2024 – Present</span></span>
       </div>
       <p class="job-sum exp-sum th">พัฒนาและดูแลแพลตฟอร์ม microservices ขององค์กร (.NET 8 + Vue 3) ตั้งแต่ออกแบบฐานข้อมูล ส่วนติดต่อผู้ใช้ การติดตั้งระบบ จนถึงการสนับสนุนผู้ใช้งานหน้างาน</p>
@@ -475,12 +509,14 @@
 
       <div class="proj" data-short="SWMS" data-abbr="SWMS" data-c1="#0B1A33" data-c2="#1E4FB8" data-icon="robot">
         <div class="body">
-          <h4><span class="abbr">SWMS</span><span class="fname">Smart Warehouse Management System</span><span class="desc th">ระบบบริหารคลังสินค้าอัจฉริยะร่วมกับหุ่นยนต์ AMR</span><span class="desc en">Warehouse automation with AMR robots</span><span class="tag"><span class="th">2568 – 2569</span><span class="en">2025 – 2026</span> · Robotics / IoT</span></h4>
+          <h4><span class="abbr">SWMS</span><span class="fname">Smart Warehouse Management System</span><span class="desc th">ระบบบริหารคลังสินค้าอัตโนมัติ ผสานหุ่นยนต์ AMR ลิฟต์ขนสินค้า และประตูอัตโนมัติ</span><span class="desc en">Warehouse automation orchestrating AMR robots, a goods lift and automatic doors</span><span class="tag"><span class="th">2568 – 2569</span><span class="en">2025 – 2026</span> · Robotics / IoT</span></h4>
           <ul class="pts">
-            <li class="th">พัฒนาระบบเบิก หยิบ และจัดเรียงพาเลท โดย<b>สั่งงานหุ่นยนต์ AMR ผ่านระบบคิว</b>ทีละรายการ ป้องกันการสั่งงานซ้ำและงานค้าง</li>
-            <li class="th">เชื่อมต่ออุปกรณ์หน้างานผ่าน Modbus TCP และ MQTT รวมถึงควบคุมประตูอัตโนมัติให้หุ่นยนต์ผ่าน และแสดงสถานะงานแบบเรียลไทม์</li>
-            <li class="en">Built stock issue, picking and pallet arrangement that <b>dispatches AMR robots through a one-at-a-time queue</b>, preventing double dispatch and stuck jobs.</li>
-            <li class="en">Integrated floor hardware over Modbus TCP and MQTT, including automatic door control for the robots, with live task status.</li>
+            <li class="th">พัฒนา<b>การสั่งงานแบบผสาน (Orchestration)</b> ระหว่างหุ่นยนต์ AMR ลิฟต์ขนสินค้า และประตูคลังสินค้า ผู้ใช้เพียงเลือกพาเลทที่ต้องการจากชั้นล่าง ระบบจะสั่งหุ่นยนต์หยิบพาเลทจากชั้นบน นำเข้าลิฟต์ และส่งลงมายังชั้นล่างให้อัตโนมัติ</li>
+            <li class="th">การจัดเก็บทำงานในทิศทางกลับกัน เมื่อวางพาเลทที่ชั้นล่าง ลิฟต์จะยกขึ้นชั้นบน และหุ่นยนต์รับพาเลทไปจัดเก็บยังตำแหน่งในคลังโดยอัตโนมัติ</li>
+            <li class="th">ควบคุม<b>ประตูอัตโนมัติ</b>ให้เปิด–ปิดเองเมื่อหุ่นยนต์เข้าระยะ เชื่อมต่ออุปกรณ์ผ่าน Modbus TCP และ MQTT และสั่งงานผ่านระบบคิวทีละรายการ ป้องกันงานซ้ำหรืองานค้าง พร้อมแสดงสถานะแบบเรียลไทม์</li>
+            <li class="en">Built <b>end-to-end orchestration</b> of AMR robots, a goods lift and warehouse doors: the operator only selects a pallet from the ground floor, and the system sends a robot to pick it from upper-floor storage, load it into the lift and bring it down automatically.</li>
+            <li class="en">Put-away runs in reverse: a pallet placed on the ground floor is lifted to the upper floor, where a robot collects it and stores it at its rack location.</li>
+            <li class="en">Opened and closed <b>automatic doors</b> as robots come within range, integrated devices over Modbus TCP and MQTT, and dispatched tasks through a one-at-a-time queue that prevents duplicate or stuck jobs, with live status.</li>
           </ul>
           <p class="stack"><b>Stack:</b> .NET 8, Quartz.NET, SignalR, Modbus TCP, MQTT, RCS-2000 API, Vue 3 + TypeScript</p>
           <!--shots--><div class="shots">
@@ -493,28 +529,39 @@
 
       <div class="proj" data-short="OAR" data-abbr="OAR" data-c1="#2A1F12" data-c2="#9A7036" data-icon="route">
         <div class="body">
-          <h4><span class="abbr">OAR</span><span class="fname">Outside Activity Request</span><span class="desc th">ระบบขออนุมัติปฏิบัติงานนอกสถานที่และคำนวณเบี้ยเลี้ยง</span><span class="desc en">Off-site work requests and allowance calculation</span><span class="tag"><span class="th">2569 – ปัจจุบัน</span><span class="en">2026 – Present</span> · HR / Finance</span></h4>
+          <h4><span class="abbr">OAR</span><span class="fname">Outside Activity Request</span><span class="desc th">ระบบขออนุมัติปฏิบัติงานนอกสถานที่แบบครบวงจรในแอปพลิเคชันเดียว</span><span class="desc en">All-in-one off-site work request in a single application</span><span class="tag"><span class="th">2569 – ปัจจุบัน</span><span class="en">2026 – Present</span> · HR / Finance</span></h4>
           <ul class="pts">
-            <li class="th">ออกแบบ<b>ตารางอัตราเบี้ยเลี้ยงแบบอิงวันที่มีผลบังคับใช้</b> คำนวณเบี้ยเลี้ยงรายบุคคลอัตโนมัติ แจ้งเตือนเมื่อเกินวงเงิน และไม่กระทบเอกสารที่อนุมัติแล้วเมื่อปรับอัตรา</li>
-            <li class="th">วางแผนบุคลากรและรอบเดินทางไปไซต์ลูกค้า โดยแยกข้อมูลแผนและข้อมูลจริง ทั้งจำนวนวันและจำนวนคน</li>
-            <li class="en">Designed an <b>effective-dated allowance rate table</b> that calculates each person's allowance automatically, flags over-limit lines and leaves approved documents unchanged when rates change.</li>
-            <li class="en">Planned staff and trips to customer sites, tracking planned and actual days and headcount separately.</li>
+            <li class="th">รวม<b>งาน 4 ส่วนที่เดิมต้องบันทึกแยกระบบ</b> ได้แก่ ใบปฏิบัติงานนอกสถานที่ ใบจองรถ ใบเบิกเงินและเบี้ยเลี้ยง และการทำงานล่วงเวลา ให้บันทึกได้ครั้งเดียวในแอปพลิเคชันเดียว</li>
+            <li class="th">เมื่ออนุมัติปิดงาน ระบบ<b>สร้างเอกสารในระบบเดิมให้อัตโนมัติ</b> (ใบปฏิบัติงานนอกสถานที่ 1 ใบต่อรอบ ใบเบิกเงิน 1 ใบต่อคน และ OT 1 รายการต่อคนต่อวัน) ผู้ใช้ไม่ต้องกรอกเอกสารแต่ละใบเอง และตรวจสอบเอกสารซ้ำก่อนสร้างทุกครั้ง</li>
+            <li class="th">คำนวณเบี้ยเลี้ยงจาก<b>ตารางอัตราแบบอิงวันที่มีผลบังคับใช้</b> แยกข้อมูลแผนและข้อมูลจริง และอนุมัติได้ทั้งบนเว็บและแอปพลิเคชันมือถือ พร้อมแจ้งเตือนแบบเรียลไทม์</li>
+            <li class="en">Combined <b>four tasks that used to be keyed into separate systems</b> (off-site work orders, vehicle bookings, expense and allowance claims, and overtime) into one entry in a single application.</li>
+            <li class="en">Once closing is approved, the system <b>generates the legacy documents automatically</b> (one work order per trip, one claim per person, one overtime record per person per day), so users no longer fill in each form, and every document is checked for duplicates first.</li>
+            <li class="en">Calculated allowances from an <b>effective-dated rate table</b>, kept planned and actual data separate, and supported approval on both web and mobile with real-time notifications.</li>
           </ul>
-          <p class="stack"><b>Stack:</b> .NET 8, EF Core 8, SQL Server, Vue 3 + TypeScript</p>
+          <p class="stack"><b>Stack:</b> .NET 8, EF Core 8, SignalR, n8n, SQL Server, Vue 3 + TypeScript</p>
+          <!--shots--><div class="shots">
+            <figure><img src="img/projects/oar-close.webp" alt="Close-out summary: plan vs actual by department, with claims and overtime (sample data)" loading="lazy"><figcaption><span class="th">สรุปการปฏิบัติงานก่อนปิดงาน เทียบแผนกับจริงรายแผนก พร้อมยอดเบิกและ OT (ข้อมูลตัวอย่าง)</span><span class="en">Close-out summary: plan vs actual by department, with claims and overtime (sample data)</span></figcaption></figure>
+            <figure><img src="img/projects/oar-gendocs.webp" alt="Legacy documents generated automatically after closing (vehicle, work order, claims, OT) (sample data)" loading="lazy"><figcaption><span class="th">เอกสารในระบบเดิมที่ระบบสร้างให้อัตโนมัติหลังปิดงาน (จองรถ / WK / เบิกเงิน / OT) (ข้อมูลตัวอย่าง)</span><span class="en">Legacy documents generated automatically after closing (vehicle, work order, claims, OT) (sample data)</span></figcaption></figure>
+            <figure><img src="img/projects/oar-list.webp" alt="Request and approval tracking by status (sample data)" loading="lazy"><figcaption><span class="th">หน้าติดตามคำขอและการอนุมัติแยกตามสถานะ (ข้อมูลตัวอย่าง)</span><span class="en">Request and approval tracking by status (sample data)</span></figcaption></figure>
+          </div><!--/shots-->
         </div>
       </div>
 
       <div class="proj" data-short="TMS" data-abbr="AtlasTMS" data-c1="#1E1240" data-c2="#5B3FC4" data-icon="cap">
         <div class="body">
-          <h4><span class="abbr">AtlasTMS</span><span class="fname">Atlas Training Management System</span><span class="desc th">ระบบบริหารจัดการการฝึกอบรมพนักงาน</span><span class="desc en">Employee training, exams and skill matrix</span><span class="tag"><span class="th">2569 – ปัจจุบัน</span><span class="en">2026 – Present</span> · HR Platform</span></h4>
+          <h4><span class="abbr">AtlasTMS</span><span class="fname">Atlas Training Management System</span><span class="desc th">ระบบบริหารการฝึกอบรมและระดับทักษะพนักงาน</span><span class="desc en">Employee training, exams and skill levels</span><span class="tag"><span class="th">2569 – ปัจจุบัน</span><span class="en">2026 – Present</span> · HR Platform</span></h4>
           <ul class="pts">
-            <li class="th">พัฒนาระบบบริหารหลักสูตร รอบอบรม และประวัติการสอบรายบุคคล พร้อม <b>Skill Matrix</b> ระดับองค์กร</li>
-            <li class="th">ออกแบบ<b>การควบคุมรุ่นหลักสูตร</b> (Course Revision Control) ตรวจสอบย้อนหลังได้ว่าพนักงานแต่ละคนอบรมหลักสูตรรุ่นใด</li>
-            <li class="en">Built course, session and per-person exam history management with an organisation-wide <b>skill matrix</b>.</li>
-            <li class="en">Designed <b>course revision control</b> that shows which revision each employee was trained on.</li>
+            <li class="th">จัดเก็บประวัติการฝึกอบรมและ<b>ระดับทักษะ (Skill Level)</b> ของพนักงานแต่ละคน และแสดงผลเป็น Skill Matrix ระดับองค์กร</li>
+            <li class="th">ออกแบบ<b>ชุดข้อสอบและแบบประเมิน</b> และจัดการสอบให้พนักงานหลังการอบรม เพื่อระบุได้ว่าพนักงานแต่ละคนมีทักษะอยู่ในระดับใด</li>
+            <li class="th">ออกแบบการควบคุมรุ่นหลักสูตร (Course Revision Control) ตรวจสอบย้อนหลังได้ว่าพนักงานแต่ละคนอบรมหลักสูตรรุ่นใด</li>
+            <li class="en">Recorded each employee's training history and <b>skill levels</b>, shown as an organisation-wide skill matrix.</li>
+            <li class="en">Designed <b>exam and assessment sets</b> and ran post-training exams to establish the skill level of every employee.</li>
+            <li class="en">Designed course revision control that shows which revision of a course each employee was trained on.</li>
           </ul>
           <p class="stack"><b>Stack:</b> .NET 8, EF Core 8, Vue 3, Pinia, Element Plus, SSRS</p>
           <!--shots--><div class="shots">
+            <figure><img src="img/projects/tms-course.webp" alt="Trainee skill levels per course (Level 1–4)" loading="lazy"><figcaption><span class="th">ระดับทักษะของผู้อบรมรายหลักสูตร (Level 1–4)</span><span class="en">Trainee skill levels per course (Level 1–4)</span></figcaption></figure>
+            <figure><img src="img/projects/tms-assign.webp" alt="Exam sets with question count, time limit and pass rate" loading="lazy"><figcaption><span class="th">ชุดข้อสอบพร้อมจำนวนข้อ เวลาสอบ และเกณฑ์ผ่าน</span><span class="en">Exam sets with question count, time limit and pass rate</span></figcaption></figure>
             <figure><img src="img/projects/atlastms.png" alt="Assessment templates with revision control" loading="lazy"><figcaption><span class="th">รายการชุดข้อสอบและแบบประเมิน พร้อมการควบคุมรุ่น (Rev.)</span><span class="en">Assessment templates with revision control</span></figcaption></figure>
           </div><!--/shots-->
         </div>
@@ -524,10 +571,12 @@
         <div class="body">
           <h4><span class="abbr">BXI</span><span class="fname">Box Inventory System</span><span class="desc th">ระบบควบคุมและติดตามกล่องหมุนเวียน</span><span class="desc en">Returnable box control and tracking</span><span class="tag"><span class="th">2568 – 2569</span><span class="en">2025 – 2026</span> · Logistics</span></h4>
           <ul class="pts">
-            <li class="th">พัฒนาระบบติดตามกล่องหมุนเวียนระหว่างคลังสินค้า สายการผลิต และลูกค้า พร้อมแอปพลิเคชัน <b>LINE LIFF</b> สำหรับบันทึกรายการผ่านมือถือ</li>
+            <li class="th">ติดตาม<b>กล่องหมุนเวียน (Returnable Box)</b> ภายในโรงงานว่าใช้งานที่จุดใด จัดเก็บที่ใด และอยู่กับลูกค้ารายใดจำนวนเท่าใด เพื่อให้ทราบได้ทันทีเมื่อกล่องชำรุดหรือสูญหาย</li>
+            <li class="th">พัฒนาแอปพลิเคชัน <b>LINE LIFF</b> ให้พนักงานบันทึกการรับ–ส่งกล่องผ่านมือถือได้ทันทีที่หน้างาน</li>
             <li class="th">แจ้งเตือนลูกค้าที่มีกล่องค้างส่งคืนอัตโนมัติทุกเดือนด้วย LINE Flex Message</li>
-            <li class="en">Built returnable box tracking across warehouse, production and customers, with a <b>LINE LIFF</b> app for recording movements by phone.</li>
-            <li class="en">Sends automatic monthly LINE Flex Message reminders for unreturned boxes.</li>
+            <li class="en">Tracked <b>returnable boxes</b> across the plant: where each box is used, where it is stored and how many each customer is holding, so damaged or missing boxes are spotted immediately.</li>
+            <li class="en">Built a <b>LINE LIFF</b> app so staff record box movements by phone on the spot.</li>
+            <li class="en">Sends automatic monthly LINE Flex Message reminders to customers with unreturned boxes.</li>
           </ul>
           <p class="stack"><b>Stack:</b> .NET 8, LINE LIFF, LINE Messaging API, Flex Message, Quartz.NET, Vue 3, SQL Server</p>
           <!--shots--><div class="shots">
@@ -538,15 +587,19 @@
 
       <div class="proj extra" data-short="MVT" data-abbr="MVT" data-c1="#0B2E2B" data-c2="#13786E" data-icon="bus">
         <div class="body">
-          <h4><span class="abbr">MVT</span><span class="fname">Moventra Employee Shuttle System</span><span class="desc th">ระบบจองและเช็กอินรถรับ–ส่งพนักงาน</span><span class="desc en">Shuttle booking with QR check-in</span><span class="tag"><span class="th">2569</span><span class="en">2026</span> · Operations</span></h4>
+          <h4><span class="abbr">MVT</span><span class="fname">Moventra Employee Shuttle System</span><span class="desc th">ระบบสวัสดิการรถรับ–ส่งพนักงาน</span><span class="desc en">Employee shuttle booking and boarding check</span><span class="tag"><span class="th">2569</span><span class="en">2026</span> · Operations</span></h4>
           <ul class="pts">
-            <li class="th">พัฒนาระบบจองรถและที่นั่งรายรอบ ยืนยันการขึ้นรถจริงด้วย <b>QR Check-in</b> เทียบกับยอดจอง</li>
+            <li class="th">พัฒนาระบบสวัสดิการให้พนักงาน<b>จองรถรับ–ส่งล่วงหน้า</b>ว่าจะใช้บริการรอบใด และยืนยันการขึ้นรถจริงด้วย QR Check-in</li>
+            <li class="th">เปรียบเทียบยอดจองกับยอดขึ้นรถจริงรายวัน เพื่อให้ฝ่ายจัดรถวาง<b>จำนวนรถให้เพียงพอ</b>ต่อพนักงาน ไม่ขาดหรือเกินความต้องการ</li>
             <li class="th">แสดงสถานะที่นั่งแบบเรียลไทม์ทุกอุปกรณ์ผ่าน SignalR เพื่อป้องกันการจองซ้อน</li>
-            <li class="en">Built per-trip vehicle and seat booking with <b>QR check-in</b> to confirm actual boarding.</li>
+            <li class="en">Built a staff welfare system where employees <b>book the shuttle in advance</b> for each trip and confirm actual boarding with a QR check-in.</li>
+            <li class="en">Compared bookings with actual boardings every day so the transport team can <b>plan enough vehicles</b>, avoiding shortages and empty seats.</li>
             <li class="en">Kept seat availability live on every device over SignalR to prevent double booking.</li>
           </ul>
           <p class="stack"><b>Stack:</b> .NET 8, SignalR, Vue 3, Leaflet, html5-qrcode</p>
           <!--shots--><div class="shots">
+            <figure><img src="img/projects/mvt-booking.webp" alt="Employees book morning and evening trips in advance" loading="lazy"><figcaption><span class="th">พนักงานจองรอบรถขามาและขากลับล่วงหน้า</span><span class="en">Employees book morning and evening trips in advance</span></figcaption></figure>
+            <figure><img src="img/projects/mvt-monitor.webp" alt="Boarded vs not boarded per route" loading="lazy"><figcaption><span class="th">ติดตามยอดขึ้นรถ / ไม่ขึ้นรถรายสาย</span><span class="en">Boarded vs not boarded per route</span></figcaption></figure>
             <figure><img src="img/projects/moventra.png" alt="Daily shuttle check-ins by route" loading="lazy"><figcaption><span class="th">แดชบอร์ดการเช็กอินรถรับ–ส่งรายวันแยกตามสาย</span><span class="en">Daily shuttle check-ins by route</span></figcaption></figure>
           </div><!--/shots-->
         </div>
@@ -554,12 +607,14 @@
 
       <div class="proj extra" data-short="EHS" data-abbr="STP" data-c1="#3A0D12" data-c2="#B4232F" data-icon="shield">
         <div class="body">
-          <h4><span class="abbr">STP</span><span class="fname">Safety Patrol System</span><span class="desc th">ระบบตรวจสอบถังดับเพลิง</span><span class="desc en">Fire extinguisher inspection</span><span class="tag"><span class="th">2568 – 2569</span><span class="en">2025 – 2026</span> · EHS</span></h4>
+          <h4><span class="abbr">STP</span><span class="fname">Safety Patrol System</span><span class="desc th">ระบบตรวจสอบอุปกรณ์ความปลอดภัย</span><span class="desc en">Safety equipment inspection</span><span class="tag"><span class="th">2568 – 2569</span><span class="en">2025 – 2026</span> · EHS</span></h4>
           <ul class="pts">
-            <li class="th">ออกแบบโครงสร้างข้อมูลโซน → จุดตรวจ → ถังดับเพลิงรายถัง พร้อมประเภทถังและรอบการตรวจ</li>
-            <li class="th">บันทึกผลการตรวจพร้อม<b>ภาพหลักฐานรายจุด</b> ตรวจสอบย้อนหลังได้ว่าตรวจเมื่อใด โดยผู้ใด และอยู่ในสภาพใด</li>
-            <li class="en">Designed a zone → inspection point → extinguisher data model with unit types and inspection rounds.</li>
-            <li class="en">Recorded each inspection with <b>per-point photo evidence</b>, traceable by date, inspector and condition.</li>
+            <li class="th">ต่อยอดจากระบบตรวจสอบถังดับเพลิง เป็นการตรวจสอบ<b>อุปกรณ์ความปลอดภัยทุกประเภท</b>ที่เจ้าหน้าที่ความปลอดภัย (จป.) ต้องตรวจเป็นประจำทุกเดือน</li>
+            <li class="th">สแกน QR Code ที่อุปกรณ์เพื่อบันทึกผลตามแบบตรวจ (Checklist) ของอุปกรณ์แต่ละประเภท พร้อม<b>ภาพหลักฐาน</b> ตรวจสอบย้อนหลังได้ว่าตรวจเมื่อใด โดยผู้ใด และอยู่ในสภาพใด</li>
+            <li class="th">แสดงตำแหน่งและผลการตรวจบนผังอาคาร<b>แบบเรียลไทม์</b> ให้ จป. และผู้บริหารติดตามสถานะได้ทันที</li>
+            <li class="en">Extended a fire extinguisher inspection system to <b>every type of safety equipment</b> that the safety officers inspect each month.</li>
+            <li class="en">Inspectors scan a QR code on the equipment and record results against a checklist for that equipment type, with <b>photo evidence</b> traceable by date, inspector and condition.</li>
+            <li class="en">Showed equipment locations and inspection results on the building floor plan <b>in real time</b>, so safety officers and management can follow status at once.</li>
           </ul>
           <p class="stack"><b>Stack:</b> .NET 8, EF Core 8, Vue 3, SSRS</p>
           <!--shots--><div class="shots">
@@ -570,16 +625,20 @@
 
       <div class="proj extra" data-short="OT" data-abbr="OT Kiosk" data-c1="#161B26" data-c2="#4A5568" data-icon="clock">
         <div class="body">
-          <h4><span class="abbr">OT Kiosk</span><span class="fname">Overtime Request Kiosk</span><span class="desc th">ระบบบันทึกคำขอทำงานล่วงเวลาผ่านตู้ Kiosk</span><span class="desc en">Shop-floor overtime requests</span><span class="tag"><span class="th">2569</span><span class="en">2026</span> · HR</span></h4>
+          <h4><span class="abbr">OT Kiosk</span><span class="fname">Overtime Request Kiosk</span><span class="desc th">ระบบบันทึกคำขอทำงานล่วงเวลาด้วยตนเองสำหรับพนักงานต่างชาติ</span><span class="desc en">Self-service overtime requests for migrant workers</span><span class="tag"><span class="th">2569</span><span class="en">2026</span> · HR</span></h4>
           <ul class="pts">
-            <li class="th">พัฒนาหน้าจอบันทึกคำขอทำงานล่วงเวลาสำหรับ<b>ตู้ Kiosk หน้างาน</b> บันทึกหลายคนในครั้งเดียวด้วยการสแกนรหัส และรองรับภาษาเมียนมา</li>
-            <li class="th">ส่งคำขอเข้าสายอนุมัติอัตโนมัติแทนเอกสารกระดาษ และให้ฝ่ายบุคคลปรับการตั้งค่าได้เองโดยไม่ต้องแก้โปรแกรม</li>
-            <li class="en">Built an overtime request screen for <b>shop-floor kiosks</b>: record several employees at once by scanning codes, with a Burmese option.</li>
-            <li class="en">Requests route to approval automatically instead of paper forms, and HR maintains settings without code changes.</li>
+            <li class="th">เปิดให้<b>พนักงานชาวเมียนมาบันทึกคำขอทำงานล่วงเวลาได้ด้วยตนเอง</b>ผ่านตู้ Kiosk หน้างาน รองรับภาษาเมียนมา แทนแบบฟอร์มกระดาษที่กรอกยาก</li>
+            <li class="th">ลดภาระฝ่ายธุรการที่เดิมต้องกรอกเอกสารแทนจนไม่ทัน บันทึกได้หลายคนในครั้งเดียวด้วยการสแกนรหัส และส่งเข้าสายอนุมัติอัตโนมัติ</li>
+            <li class="th">ให้ฝ่ายบุคคลปรับการตั้งค่าได้เองโดยไม่ต้องแก้ไขโปรแกรม</li>
+            <li class="en">Let <b>Myanmar workers submit their own overtime requests</b> at shop-floor kiosks, in Burmese, replacing paper forms that were hard to fill in.</li>
+            <li class="en">Removed the backlog of forms the admin team used to key in on their behalf: several employees can be recorded at once by scanning codes, and requests route to approval automatically.</li>
+            <li class="en">HR maintains the settings without code changes.</li>
           </ul>
           <p class="stack"><b>Stack:</b> .NET 8, n8n, Vue 3, vee-validate + Yup, FullCalendar</p>
           <!--shots--><div class="shots">
-            <figure><img src="img/projects/ot-kiosk.png" alt="Overtime request screen on the kiosk" loading="lazy"><figcaption><span class="th">หน้าจอบันทึกคำขอทำงานล่วงเวลาบนตู้ Kiosk</span><span class="en">Overtime request screen on the kiosk</span></figcaption></figure>
+            <figure><img src="img/projects/ot-kiosk-th.webp" alt="Overtime entry screen on the kiosk" loading="lazy"><figcaption><span class="th">หน้าบันทึก OT บนตู้ Kiosk</span><span class="en">Overtime entry screen on the kiosk</span></figcaption></figure>
+            <figure><img src="img/projects/ot-kiosk-mm.webp" alt="The same screen in Burmese" loading="lazy"><figcaption><span class="th">หน้าเดียวกันในภาษาเมียนมา</span><span class="en">The same screen in Burmese</span></figcaption></figure>
+            <figure><img src="img/projects/ot-setting.webp" alt="HR configures overtime rules without code changes" loading="lazy"><figcaption><span class="th">ฝ่ายบุคคลตั้งค่าเงื่อนไข OT ได้เองโดยไม่ต้องแก้ไขโปรแกรม</span><span class="en">HR configures overtime rules without code changes</span></figcaption></figure>
           </div><!--/shots-->
         </div>
       </div>
@@ -595,29 +654,8 @@
       </div>
     </article>
 
-    <article class="card job">
-      <div class="job-top">
-        <h3><span class="th">UX/UI Designer (สหกิจศึกษา)</span><span class="en">UX/UI Designer (Cooperative Education)</span> <span class="org">· Umeda Company Limited</span></h3>
-        <span class="when"><span class="th">พ.ย. 2566 – มี.ค. 2567</span><span class="en">Nov 2023 – Mar 2024</span></span>
-      </div>
-      <ul class="pts">
-        <li class="th">ออกแบบเว็บไซต์ Med4U ซึ่งรวบรวมบทความสุขภาพ ข้อมูลโรงพยาบาลและคลินิก โปรโมชัน และรีวิวผลิตภัณฑ์ โดยจัดวางข้อมูลทางการแพทย์ปริมาณมากให้ค้นหาและอ่านได้ง่าย</li>
-        <li class="en">Designed Med4U, a health information website covering articles, hospital and clinic listings, promotions and product reviews, organising dense medical content to be easy to navigate and read.</li>
-      </ul>
-    </article>
   </section>
 
-  <section>
-    <div class="sechead"><span class="idx">04</span><h2 class="th">การศึกษา</h2><h2 class="en">Education</h2></div>
-    <article class="card job edu">
-      <div class="job-top">
-        <h3><span class="th">ปริญญาตรี คณะเทคโนโลยีสารสนเทศและการสื่อสาร</span><span class="en">Bachelor's Degree, Faculty of Information and Communication Technology</span></h3>
-        <span class="when"><span class="th">2563 – 2567</span><span class="en">2020 – 2024</span></span>
-      </div>
-      <p class="job-sum th">มหาวิทยาลัยศิลปากร · เกียรตินิยมอันดับสอง</p>
-      <p class="job-sum en">Silpakorn University · Second-Class Honours</p>
-    </article>
-  </section>
 
 </main>
 
