@@ -250,9 +250,9 @@
 
   /* ---------- career timeline (draws as you scroll) ---------- */
   .tl{position:relative;margin:2px 0 22px;--p:0}
-  .tl-track{position:absolute;left:10%;right:10%;top:17px;height:3px;border-radius:3px;background:var(--rule)}
+  .tl-track{position:absolute;left:16.6%;right:16.6%;top:17px;height:3px;border-radius:3px;background:var(--rule)}
   .tl-fill{position:absolute;inset:0;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--accent));transform-origin:left center;transform:scaleX(var(--p))}
-  .tl-nodes{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:0;padding:0;list-style:none}
+  .tl-nodes{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0;padding:0;list-style:none}
   .tl-node{text-align:center;opacity:.3;transform:translateY(8px);transition:opacity .45s ease,transform .45s ease}
   .tl-node.on{opacity:1;transform:none}
   .tl-dot{width:36px;height:36px;margin:0 auto 10px;border-radius:50%;background:var(--surface);border:3px solid var(--rule);display:grid;place-items:center;overflow:hidden;transition:border-color .45s}
@@ -597,11 +597,9 @@
     <div class="tl" aria-label="Career timeline">
       <div class="tl-track"><div class="tl-fill"></div></div>
       <ol class="tl-nodes">
-        <li class="tl-node"><span class="tl-dot"><img src="img/logos/silpakorn.webp" alt=""></span><span class="tl-when"><span class="th">2563</span><span class="en">2020</span></span><span class="tl-what"><span class="th">เริ่มเรียนปริญญาตรี</span><span class="en">Started degree</span></span><span class="tl-where"><span class="th">ICT · ม.ศิลปากร</span><span class="en">ICT · Silpakorn University</span></span></li>
-        <li class="tl-node"><span class="tl-dot"><img src="img/logos/umeda.webp" alt=""></span><span class="tl-when"><span class="th">พ.ย. 2566</span><span class="en">Nov 2023</span></span><span class="tl-what"><span class="th">สหกิจศึกษา UX/UI</span><span class="en">UX/UI co-op</span></span><span class="tl-where"><span class="th">Umeda Company Limited</span><span class="en">Umeda Company Limited</span></span></li>
-        <li class="tl-node"><span class="tl-dot"><img src="img/logos/silpakorn.webp" alt=""></span><span class="tl-when"><span class="th">2567</span><span class="en">2024</span></span><span class="tl-what"><span class="th">จบการศึกษา</span><span class="en">Graduated</span></span><span class="tl-where"><span class="th">เกียรตินิยมอันดับสอง</span><span class="en">Second-Class Honours</span></span></li>
-        <li class="tl-node"><span class="tl-dot"><img src="img/logos/pjw.webp" alt=""></span><span class="tl-when"><span class="th">ส.ค. 2567</span><span class="en">Aug 2024</span></span><span class="tl-what"><span class="th">Software Developer</span><span class="en">Software Developer</span></span><span class="tl-where"><span class="th">PJW Plastic</span><span class="en">PJW Plastic</span></span></li>
-        <li class="tl-node now"><span class="tl-dot"><i></i></span><span class="tl-when"><span class="th">ปัจจุบัน</span><span class="en">Now</span></span><span class="tl-what"><span class="th">พัฒนาระบบให้ 3 สาขา</span><span class="en">Building systems for 3 branches</span></span><span class="tl-where"><span class="th">ทั้ง Frontend และ Backend</span><span class="en">Front end and back end</span></span></li>
+        <li class="tl-node"><span class="tl-dot"><img src="img/logos/silpakorn.webp" alt=""></span><span class="tl-when"><span class="th">2563 – 2567</span><span class="en">2020 – 2024</span></span><span class="tl-what"><span class="th">ปริญญาตรี ICT · ม.ศิลปากร</span><span class="en">B.Sc. ICT · Silpakorn University</span></span><span class="tl-where"><span class="th">เกียรตินิยมอันดับสอง</span><span class="en">Second-Class Honours</span></span></li>
+        <li class="tl-node"><span class="tl-dot"><img src="img/logos/umeda.webp" alt=""></span><span class="tl-when"><span class="th">พ.ย. 2566 – มี.ค. 2567</span><span class="en">Nov 2023 – Mar 2024</span></span><span class="tl-what"><span class="th">สหกิจศึกษา UX/UI Designer</span><span class="en">UX/UI Designer co-op</span></span><span class="tl-where"><span class="th">Umeda Company Limited</span><span class="en">Umeda Company Limited</span></span></li>
+        <li class="tl-node now"><span class="tl-dot"><img src="img/logos/pjw.webp" alt=""></span><span class="tl-when"><span class="th">ส.ค. 2567 – ปัจจุบัน</span><span class="en">Aug 2024 – Present</span></span><span class="tl-what"><span class="th">Software Developer</span><span class="en">Software Developer</span></span><span class="tl-where"><span class="th">PJW Plastic · สาขาสมุทรสาคร</span><span class="en">PJW Plastic · Samut Sakhon</span></span></li>
       </ol>
     </div>
 
@@ -609,7 +607,7 @@
     <article class="card job">
       <div class="job-top">
         <img class="logo wide" src="img/logos/pjw.webp" alt="PJW Plastic logo" width="84" height="54">
-        <h3 class="ttl">Software Developer <span class="org">· PJW Plastic</span></h3>
+        <h3 class="ttl">Software Developer <span class="org">· PJW Plastic <span class="th">(สาขาสมุทรสาคร)</span><span class="en">(Samut Sakhon)</span></span></h3>
         <span class="when"><span class="th">ส.ค. 2567 – ปัจจุบัน</span><span class="en">Aug 2024 – Present</span></span>
       </div>
       <p class="job-sum exp-sum th">พัฒนาและดูแลแพลตฟอร์มระบบงานองค์กรในรูปแบบ Microservices ด้วย .NET และ Vue.js ครอบคลุมตั้งแต่การออกแบบฐานข้อมูล พัฒนาระบบ ติดตั้งใช้งาน ไปจนถึงการดูแลและสนับสนุนผู้ใช้งาน</p>
