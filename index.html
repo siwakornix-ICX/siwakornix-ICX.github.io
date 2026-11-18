@@ -232,6 +232,48 @@
   .design .qr-link{font-family:var(--mono);font-size:15px;font-weight:600;color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(201,164,106,.6)}
   .design .other{margin-top:16px}
 
+
+  /* ---------- skill -> project highlight ---------- */
+  .chips li.has-proj{cursor:help;transition:background .15s,color .15s,border-color .15s}
+  .chips li.has-proj:hover,.chips li.has-proj.act{background:var(--accent);border-color:var(--accent);color:#fff}
+  .sk-pop{position:absolute;z-index:40;width:max-content;max-width:300px;padding:10px 12px;border-radius:12px;background:var(--surface);
+      border:1px solid var(--rule);box-shadow:var(--shadow-lg);opacity:0;transform:translateY(4px);transition:opacity .15s,transform .15s}
+  .sk-pop.show{opacity:1;transform:none}
+  .sk-pop .h{margin:0 0 7px;font-size:12.5px;font-weight:600;color:var(--ink-2)}
+  .sk-pop .ps{display:flex;flex-wrap:wrap;gap:6px}
+  .sk-pop button{font:600 12px var(--mono);letter-spacing:.04em;color:#fff;background:var(--pc);border:0;border-radius:6px;padding:3px 9px;cursor:pointer}
+  .sk-pop button:hover{filter:brightness(1.15)}
+  .sk-pop .t{margin:8px 0 0;font-size:11.5px;color:var(--ink-3)}
+  .proj.hl{border-color:var(--pc)!important;box-shadow:0 0 0 2px var(--pc)!important}
+  .projects.hl-on .proj:not(.hl){opacity:.35;filter:saturate(.4)}
+  .projects .proj{transition:transform .2s,box-shadow .2s,border-color .2s,opacity .25s,filter .25s}
+
+  /* ---------- career timeline (draws as you scroll) ---------- */
+  .tl{position:relative;margin:2px 0 22px;--p:0}
+  .tl-track{position:absolute;left:10%;right:10%;top:17px;height:3px;border-radius:3px;background:var(--rule)}
+  .tl-fill{position:absolute;inset:0;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--accent));transform-origin:left center;transform:scaleX(var(--p))}
+  .tl-nodes{position:relative;display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:0;padding:0;list-style:none}
+  .tl-node{text-align:center;opacity:.3;transform:translateY(8px);transition:opacity .45s ease,transform .45s ease}
+  .tl-node.on{opacity:1;transform:none}
+  .tl-dot{width:36px;height:36px;margin:0 auto 10px;border-radius:50%;background:var(--surface);border:3px solid var(--rule);display:grid;place-items:center;overflow:hidden;transition:border-color .45s}
+  .tl-node.on .tl-dot{border-color:var(--gold)}
+  .tl-dot img{width:24px;height:24px;object-fit:contain}
+  .tl-dot i{width:12px;height:12px;border-radius:50%;background:var(--accent)}
+  .tl-node.now.on .tl-dot{animation:tlPulse 2.2s ease-out infinite}
+  @keyframes tlPulse{0%{box-shadow:0 0 0 0 rgba(201,164,106,.55)}100%{box-shadow:0 0 0 12px rgba(201,164,106,0)}}
+  .tl-when{display:block;font-family:var(--mono);font-size:12px;font-weight:600;color:var(--gold-ink);letter-spacing:.04em}
+  .tl-what{display:block;margin-top:3px;font-size:14.5px;font-weight:700;line-height:1.35}
+  .tl-where{display:block;font-size:13px;color:var(--ink-3);line-height:1.4}
+  @media (max-width:640px){
+    .tl-track{left:17px;right:auto;top:18px;bottom:18px;width:3px;height:auto}
+    .tl-fill{transform-origin:center top;transform:scaleY(var(--p))}
+    .tl-nodes{grid-template-columns:1fr;gap:16px}
+    .tl-node{display:grid;grid-template-columns:36px 1fr;column-gap:14px;align-items:center;text-align:left;transform:translateX(8px)}
+    .tl-dot{margin:0;grid-row:span 3}
+  }
+  @media (prefers-reduced-motion:reduce){ .tl-node{transition:none} .tl-node.now.on .tl-dot{animation:none} }
+  .design .tl,.design .sk-pop{display:none!important}
+
   /* ---------- book viewer ---------- */
   .book{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:16px;background:rgba(6,12,24,.72);backdrop-filter:blur(6px);
       opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s}
@@ -367,7 +409,7 @@
     @page{size:A4;margin:13mm 14mm}
     :root,:root[data-theme="dark"]{--bg:#fff;--surface:#fff;--surface-2:#fff;--ink:#000;--ink-2:#222;--ink-3:#444;--rule:#bbb;--rule-soft:#ddd;--chip:#fff;--chip-ink:#222;--accent:#1A2C4E;--gold-ink:#1A2C4E}
     body{background:#fff;font-size:9.3pt;line-height:1.4}
-    .toolbar,.book,.lb,.thumb,.open,.shots,.hero::after{display:none!important}
+    .toolbar,.book,.lb,.thumb,.open,.shots,.hero::after,.tl,.sk-pop{display:none!important}
     .js .reveal{opacity:1!important;transform:none!important}
     .wrap{max-width:none;padding:0}
     .hero{background:none!important;color:#000;border-bottom:1.5px solid #000}
@@ -552,6 +594,17 @@
 
   <section>
     <div class="sechead"><span class="idx">04</span><h2 class="th">ประสบการณ์ทำงาน</h2><h2 class="en">Work Experience</h2></div>
+    <div class="tl" aria-label="Career timeline">
+      <div class="tl-track"><div class="tl-fill"></div></div>
+      <ol class="tl-nodes">
+        <li class="tl-node"><span class="tl-dot"><img src="img/logos/silpakorn.webp" alt=""></span><span class="tl-when"><span class="th">2563</span><span class="en">2020</span></span><span class="tl-what"><span class="th">เริ่มเรียนปริญญาตรี</span><span class="en">Started degree</span></span><span class="tl-where"><span class="th">ICT · ม.ศิลปากร</span><span class="en">ICT · Silpakorn University</span></span></li>
+        <li class="tl-node"><span class="tl-dot"><img src="img/logos/umeda.webp" alt=""></span><span class="tl-when"><span class="th">พ.ย. 2566</span><span class="en">Nov 2023</span></span><span class="tl-what"><span class="th">สหกิจศึกษา UX/UI</span><span class="en">UX/UI co-op</span></span><span class="tl-where"><span class="th">Umeda Company Limited</span><span class="en">Umeda Company Limited</span></span></li>
+        <li class="tl-node"><span class="tl-dot"><img src="img/logos/silpakorn.webp" alt=""></span><span class="tl-when"><span class="th">2567</span><span class="en">2024</span></span><span class="tl-what"><span class="th">จบการศึกษา</span><span class="en">Graduated</span></span><span class="tl-where"><span class="th">เกียรตินิยมอันดับสอง</span><span class="en">Second-Class Honours</span></span></li>
+        <li class="tl-node"><span class="tl-dot"><img src="img/logos/pjw.webp" alt=""></span><span class="tl-when"><span class="th">ส.ค. 2567</span><span class="en">Aug 2024</span></span><span class="tl-what"><span class="th">Software Developer</span><span class="en">Software Developer</span></span><span class="tl-where"><span class="th">PJW Plastic</span><span class="en">PJW Plastic</span></span></li>
+        <li class="tl-node now"><span class="tl-dot"><i></i></span><span class="tl-when"><span class="th">ปัจจุบัน</span><span class="en">Now</span></span><span class="tl-what"><span class="th">พัฒนาระบบให้ 3 สาขา</span><span class="en">Building systems for 3 branches</span></span><span class="tl-where"><span class="th">ทั้ง Frontend และ Backend</span><span class="en">Front end and back end</span></span></li>
+      </ol>
+    </div>
+
 
     <article class="card job">
       <div class="job-top">
@@ -1189,6 +1242,102 @@
       var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; sx = null;
       if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.4) turn(dx < 0 ? 1 : -1);
     });
+
+
+    /* ---------- skill chips -> projects that use them ---------- */
+    (function(){
+      var ALL = '*';
+      // only skills that the project write-ups / stacks back up; anything else gets no popover
+      var MAP = {
+        'Microservices': ALL, 'REST API Design': ALL, 'Clean Architecture': ALL, 'Role-Based Access Control': ALL,
+        'Domain & Data Modelling': 'OAR AtlasTMS BXI STP',
+        'C#': ALL, '.NET': ALL, 'ASP.NET Core Web API': ALL, 'Entity Framework Core': 'OAR AtlasTMS STP',
+        'OAuth 2.0 / JWT / SSO': ALL, 'SignalR': 'SWMS OAR MVT', 'Hangfire / Quartz.NET': 'SWMS BXI',
+        'Vue.js (Composition API)': ALL, 'TypeScript': ALL, 'Pinia': 'AtlasTMS', 'Vue Router': ALL, 'Vite': ALL, 'Element Plus': 'AtlasTMS',
+        'SQL Server': ALL, 'T-SQL / Stored Procedures': 'OAR BXI', 'Relational Modelling': ALL, 'SSRS': 'AtlasTMS STP',
+        'LINE Messaging API': 'BXI', 'LINE LIFF': 'BXI', 'Webhooks': 'BXI', 'n8n': 'OAR OT Kiosk',
+        'Modbus TCP': 'SWMS', 'AMR Robot Control': 'SWMS',
+        'Azure DevOps (CI/CD)': ALL, 'Git / Git Flow': ALL, 'IIS / Windows Server': ALL, 'Swagger / OpenAPI': ALL
+      };
+      var byAbbr = {};
+      projs.forEach(function(p, i){ byAbbr[p.getAttribute('data-abbr')] = i; });
+      function listFor(skill){
+        var v = MAP[skill]; if (!v) return null;
+        if (v === ALL) return projs.map(function(_, i){ return i; });
+        // abbreviations may contain spaces ("OT Kiosk"): match against the known list
+        return Object.keys(byAbbr).filter(function(a){ return (' ' + v + ' ').indexOf(' ' + a + ' ') >= 0; }).map(function(a){ return byAbbr[a]; });
+      }
+      var grid = document.querySelector('.projects');
+      var pop = document.createElement('div'); pop.className = 'sk-pop'; pop.hidden = true; document.body.appendChild(pop);
+      var hideT = null, cur = null;
+      function lang(){ return document.getElementById('cv').getAttribute('data-lang') === 'en' ? 'en' : 'th'; }
+      function show(li){
+        clearTimeout(hideT);
+        var ids = listFor(li.textContent.trim()); if (!ids) return;
+        if (cur && cur !== li) cur.classList.remove('act');
+        cur = li; li.classList.add('act');
+        var en = lang() === 'en', all = ids.length === projs.length;
+        pop.innerHTML = '<p class="h">' + (all ? (en ? 'Used across all my projects' : 'ใช้กับทุกโครงการ') : (en ? 'Used in' : 'ใช้ในโครงการ')) + '</p><div class="ps"></div>' +
+          '<p class="t">' + (en ? 'Click a project to open it' : 'กดชื่อโครงการเพื่อเปิดดู') + '</p>';
+        var ps = pop.querySelector('.ps');
+        ids.forEach(function(i){
+          var b = document.createElement('button'); b.type = 'button';
+          b.textContent = projs[i].getAttribute('data-abbr');
+          b.style.setProperty('--pc', projs[i].getAttribute('data-c2') || '#2A5BD7');
+          b.addEventListener('click', function(){ hideNow(); openBook(i); });
+          ps.appendChild(b);
+        });
+        projs.forEach(function(p, i){ p.classList.toggle('hl', ids.indexOf(i) >= 0); });
+        grid.classList.add('hl-on');
+        pop.hidden = false;
+        var r = li.getBoundingClientRect(), pw = Math.min(300, pop.offsetWidth);
+        var left = Math.max(8, Math.min(r.left + scrollX, scrollX + document.documentElement.clientWidth - pw - 8));
+        pop.style.left = left + 'px'; pop.style.top = (r.bottom + scrollY + 8) + 'px';
+        requestAnimationFrame(function(){ pop.classList.add('show'); });
+      }
+      function hideNow(){
+        pop.classList.remove('show'); pop.hidden = true;
+        if (cur) cur.classList.remove('act'); cur = null;
+        grid.classList.remove('hl-on'); projs.forEach(function(p){ p.classList.remove('hl'); });
+      }
+      function hideSoon(){ clearTimeout(hideT); hideT = setTimeout(hideNow, 220); }
+      document.querySelectorAll('.skills .chips li').forEach(function(li){
+        if (!listFor(li.textContent.trim())) return;
+        li.classList.add('has-proj'); li.tabIndex = 0;
+        li.addEventListener('mouseenter', function(){ show(li); });
+        li.addEventListener('mouseleave', hideSoon);
+        li.addEventListener('focus', function(){ show(li); });
+        li.addEventListener('blur', hideSoon);
+        li.addEventListener('click', function(e){ e.stopPropagation(); if (cur === li && !pop.hidden) hideNow(); else show(li); });  // tap on phones
+      });
+      pop.addEventListener('mouseenter', function(){ clearTimeout(hideT); });
+      pop.addEventListener('mouseleave', hideSoon);
+      document.addEventListener('click', function(e){ if (!pop.hidden && !pop.contains(e.target)) hideNow(); });
+      window.addEventListener('resize', hideNow);
+    })();
+
+    /* ---------- career timeline draws itself as it scrolls into view ---------- */
+    (function(){
+      var tl = document.querySelector('.tl'); if (!tl) return;
+      var nodes = tl.querySelectorAll('.tl-node');
+      function paint(p){
+        tl.style.setProperty('--p', p.toFixed(3));
+        nodes.forEach(function(n, i){ n.classList.toggle('on', p >= (nodes.length === 1 ? 0 : i / (nodes.length - 1)) - 0.02); });
+      }
+      if (reduceMotion()){ paint(1); return; }
+      var ticking = false;
+      function update(){
+        ticking = false;
+        var r = tl.getBoundingClientRect(), vh = window.innerHeight;
+        // starts when the timeline enters the lower part of the screen, complete by mid-screen
+        var p = (vh * 0.9 - r.top) / (vh * 0.45 + r.height * 0.5);
+        paint(Math.max(0, Math.min(1, p)));
+      }
+      window.addEventListener('scroll', function(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }, { passive: true });
+      window.addEventListener('resize', update);
+      window.addEventListener('beforeprint', function(){ paint(1); });
+      update();
+    })();
 
     /* lightbox */
     var lb = document.getElementById('lb'), lbImg = document.getElementById('lb-img');
