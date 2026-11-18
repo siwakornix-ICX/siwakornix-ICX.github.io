@@ -80,6 +80,11 @@
   .name-alt{font-size:17px;color:rgba(255,255,255,.72);margin:6px 0 0}
   .contact{margin:16px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:8px}
   .contact li{display:flex}
+  @media (max-width:560px){
+    .id{flex-direction:column;text-align:center;gap:18px}
+    .who{flex:none;width:100%}
+    .contact{justify-content:center}
+  }
   .contact a,.contact span.pill{display:inline-flex;align-items:center;gap:7px;font-size:14.5px;color:#fff;text-decoration:none;
       padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);transition:background .15s}
   .contact a:hover{background:rgba(255,255,255,.18)}
@@ -306,6 +311,8 @@
   .bk-prev{left:-22px;top:50%;margin-top:-22px}
   .bk-next{right:-22px;top:50%;margin-top:-22px}
   .bk-close{right:-14px;top:-14px;width:38px;height:38px}
+  .bk-next.is-end svg{display:none}
+  .bk-next.is-end::before{content:"\2715";font-size:18px;font-weight:700;line-height:1}
   .bk-count{position:absolute;left:50%;bottom:-38px;transform:translateX(-50%);font-family:var(--mono);font-size:13px;color:#fff;opacity:.85}
   @media (max-width:820px){
     .book{padding:0}
@@ -889,9 +896,17 @@
     var mside = 0;   // phone: 0 = picture page, 1 = details page
     function portrait(){ return window.innerWidth <= 820; }
     function updateCount(){
-      count.innerHTML = (cur + 1) + ' / ' + projs.length +
-        (portrait() ? ' <i class="pd' + (mside ? '' : ' on') + '"></i><i class="pd' + (mside ? ' on' : '') + '"></i>' : '');
+      var n = projs.length;
+      count.textContent = portrait() ? (cur * 2 + mside + 1) + ' / ' + (n * 2) : (cur + 1) + ' / ' + n;
+      // the book has a first and a last page: no going back from the first, the last "next" closes it
+      var atStart = cur === 0 && (!portrait() || mside === 0);
+      var atEnd = cur === n - 1 && (!portrait() || mside === 1);
+      var pv = document.getElementById('bk-prev'), nx = document.getElementById('bk-next');
+      if (pv) pv.hidden = atStart;
+      if (nx){ nx.classList.toggle('is-end', atEnd); nx.setAttribute('aria-label', atEnd ? 'Close' : 'Next project'); }
     }
+    function atLastPage(){ return cur === projs.length - 1 && (!portrait() || mside === 1); }
+    function atFirstPage(){ return cur === 0 && (!portrait() || mside === 0); }
     function setSide(s){ mside = s; sheet.classList.toggle('m-text', s === 1); txt.scrollTop = 0; updateCount(); }
     function render(i){ fillLeft(txt, i); fillRight(i); updateCount(); }
     var SLIDE_MS = 5000, slideT = null;
@@ -905,11 +920,11 @@
     // a project with several images plays them in turn, 5 s each
     function queueSlide(){
       clearTimeout(slideT); slideT = null;
-      if (shots.length < 2 || book.hidden || reduceMotion()) return;
+      if (shots.length < 2 || book.hidden || reduceMotion() || shotIdx >= shots.length - 1) return;
       slideT = setTimeout(function(){
         var lbEl = document.getElementById('lb');
         if (busy || (lbEl && !lbEl.hidden)) { queueSlide(); return; }
-        showShot((shotIdx + 1) % shots.length);
+        showShot(shotIdx + 1);
       }, SLIDE_MS);
     }
 
@@ -986,7 +1001,8 @@
     }
     // prepare a turn to the neighbouring project (nothing moves until set(p) is called)
     function begin(dir){
-      var next = (cur + dir + projs.length) % projs.length, front, rear, cover = null;
+      var next = cur + dir, front, rear, cover = null;
+      if (next < 0 || next >= projs.length) return null;     // no page beyond the covers
       if (dir > 0){
         front = snapshot(media);
         fillRight(next);                                  // revealed underneath
@@ -1035,10 +1051,13 @@
 
     function turn(dir){
       if (busy) return;
+      if (dir > 0 && atLastPage()){ closeBook(); return; }
+      if (dir < 0 && atFirstPage()) return;
       if (portrait()){ turnPhone(dir); return; }
       if (!canFlip()){ drop(); cur = (cur + dir + projs.length) % projs.length; render(cur); return; }
       if (st && st.dir !== dir) drop();
       if (!st) st = begin(dir);
+      if (!st) return;
       st.mode = 'auto';
       settle(st, 1, Math.round(DUR * (1 - st.p * .6)), easeInOut);
     }
@@ -1047,7 +1066,8 @@
     function turnPhone(dir){
       drop();
       var n = projs.length, i = cur, s = mside + dir;
-      if (s > 1){ s = 0; i = (cur + 1) % n; } else if (s < 0){ s = 1; i = (cur - 1 + n) % n; }
+      if (s > 1){ s = 0; i = cur + 1; } else if (s < 0){ s = 1; i = cur - 1; }
+      if (i < 0 || i >= n) return;
       var anim = !reduceMotion() && !!window.requestAnimationFrame;
       var old = anim ? snapshot(mside ? txt : media) : null;
       if (i !== cur){ cur = i; render(i); }
@@ -1118,6 +1138,7 @@
         try { sheet.setPointerCapture(drag.id); } catch (er) {}
         if (st && st.dir !== drag.dir) drop();
         if (!st) st = begin(drag.dir);
+        if (!st){ drag = null; return; }
         st.tok++; st.mode = 'drag'; drag.p0 = st.p;
       }
       st.set(Math.max(0, Math.min(1, drag.p0 + Math.abs(dx) / (drag.w * .8))));
@@ -1128,7 +1149,7 @@
       if (e.pointerType !== 'mouse' || busy) return;
       var z = zoneAt(e.clientX);
       sheet.classList.toggle('grab', !!z);
-      if (z && !st){ st = begin(z); st.mode = 'peek'; tween(st, .07, 280, easeOut); }
+      if (z && !st){ st = begin(z); if (st){ st.mode = 'peek'; tween(st, .07, 280, easeOut); } }
       else if (!z && st && st.mode === 'peek') settle(st, 0, 220, easeOut);
     });
     sheet.addEventListener('pointerleave', function(){
