@@ -528,7 +528,7 @@
       </div>
       <div class="card skill">
         <h3><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3v4M15 3v4M9 17v4M15 17v4M3 9h4M3 15h4M17 9h4M17 15h4"/><rect x="7" y="7" width="10" height="10" rx="2"/></svg></i><span class="th">การเชื่อมต่อระบบและ IoT</span><span class="en">Integration &amp; IoT</span></h3>
-        <ul class="chips"><li>LINE Messaging API</li><li>LINE LIFF</li><li>Webhooks</li><li>n8n</li><li>Modbus TCP</li><li>MQTT</li><li>AMR Robot Control</li></ul>
+        <ul class="chips"><li>LINE Messaging API</li><li>LINE LIFF</li><li>Webhooks</li><li>n8n</li><li>Modbus TCP</li><li>AMR Robot Control</li></ul>
       </div>
       <div class="card skill">
         <h3><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="12" r="2.5"/><path d="M6 8.5v7M8.3 7.2l7.4 3.6"/></svg></i><span class="th">DevOps และคุณภาพโค้ด</span><span class="en">DevOps &amp; Quality</span></h3>
@@ -574,12 +574,12 @@
           <ul class="pts">
             <li class="th">พัฒนา<b>การสั่งงานแบบผสาน (Orchestration)</b> ระหว่างหุ่นยนต์ AMR ลิฟต์ขนสินค้า และประตูคลังสินค้า ผู้ใช้เพียงเลือกพาเลทที่ต้องการจากชั้นล่าง ระบบจะสั่งหุ่นยนต์หยิบพาเลทจากชั้นบน นำเข้าลิฟต์ และส่งลงมายังชั้นล่างให้อัตโนมัติ</li>
             <li class="th">การจัดเก็บทำงานในทิศทางกลับกัน เมื่อวางพาเลทที่ชั้นล่าง ลิฟต์จะยกขึ้นชั้นบน และหุ่นยนต์รับพาเลทไปจัดเก็บยังตำแหน่งในคลังโดยอัตโนมัติ</li>
-            <li class="th">ควบคุม<b>ประตูอัตโนมัติ</b>ให้เปิด–ปิดเองเมื่อหุ่นยนต์เข้าระยะ เชื่อมต่ออุปกรณ์ผ่าน Modbus TCP และ MQTT และสั่งงานผ่านระบบคิวทีละรายการ ป้องกันงานซ้ำหรืองานค้าง พร้อมแสดงสถานะแบบเรียลไทม์</li>
+            <li class="th">ควบคุม<b>ประตูอัตโนมัติ</b>ให้เปิด–ปิดเองเมื่อหุ่นยนต์เข้าระยะ เชื่อมต่ออุปกรณ์ผ่าน Modbus TCP และสั่งงานผ่านระบบคิวทีละรายการ ป้องกันงานซ้ำหรืองานค้าง พร้อมแสดงสถานะแบบเรียลไทม์</li>
             <li class="en">Built <b>end-to-end orchestration</b> of AMR robots, a goods lift and warehouse doors: the operator only selects a pallet from the ground floor, and the system sends a robot to pick it from upper-floor storage, load it into the lift and bring it down automatically.</li>
             <li class="en">Put-away runs in reverse: a pallet placed on the ground floor is lifted to the upper floor, where a robot collects it and stores it at its rack location.</li>
-            <li class="en">Opened and closed <b>automatic doors</b> as robots come within range, integrated devices over Modbus TCP and MQTT, and dispatched tasks through a one-at-a-time queue that prevents duplicate or stuck jobs, with live status.</li>
+            <li class="en">Opened and closed <b>automatic doors</b> as robots come within range, integrated devices over Modbus TCP, and dispatched tasks through a one-at-a-time queue that prevents duplicate or stuck jobs, with live status.</li>
           </ul>
-          <p class="stack"><b>Stack:</b> .NET, Quartz.NET, SignalR, Modbus TCP, MQTT, RCS-2000 API, Vue.js + TypeScript</p>
+          <p class="stack"><b>Stack:</b> .NET, Quartz.NET, SignalR, Modbus TCP, RCS-2000 API, Vue.js + TypeScript</p>
           <!--shots--><div class="shots">
             <figure><img src="img/projects/swms-picking.png" alt="Location-based picking screen" loading="lazy"><figcaption><span class="th">หน้าจอเบิกสินค้าตามตำแหน่งพาเลท</span><span class="en">Location-based picking screen</span></figcaption></figure>
             <figure><img src="img/projects/swms-amr.webp" alt="AMR robot working with the system" loading="lazy"><figcaption><span class="th">หุ่นยนต์ AMR ที่ทำงานร่วมกับระบบ</span><span class="en">AMR robot working with the system</span></figcaption></figure>
